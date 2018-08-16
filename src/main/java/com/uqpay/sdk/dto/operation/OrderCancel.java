@@ -1,58 +1,8 @@
 package com.uqpay.sdk.dto.operation;
 
-import com.uqpay.sdk.utils.UqpayTradeType;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Date;
-
-public class OrderCancel implements Serializable {
-  private static final long serialVersionUID = -507058964789962290L;
-  /**
-   * is required
-   */
-  @NotEmpty
-  private String orderId; // your order id
-  @NotNull
-  private UqpayTradeType tradeType;
-  @NotNull
-  private Date date; // this request generate date
-
-  /**
-   * not required
-   */
-  private String extendInfo;
-
-  public String getOrderId() {
-    return orderId;
-  }
-
-  public void setOrderId(String orderId) {
-    this.orderId = orderId;
-  }
-
-  public UqpayTradeType getTradeType() {
-    return tradeType;
-  }
-
-  public void setTradeType(UqpayTradeType tradeType) {
-    this.tradeType = tradeType;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
-  }
-
-  public String getExtendInfo() {
-    return extendInfo;
-  }
-
-  public void setExtendInfo(String extendInfo) {
-    this.extendInfo = extendInfo;
-  }
+/**
+ * for moment is the same as order refund
+ */
+public class OrderCancel extends OrderRefund {
+  private static final long serialVersionUID = 1745908006537736324L;
 }

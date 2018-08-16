@@ -9,6 +9,12 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+/**
+ * <p>RSAUtil class.</p>
+ *
+ * @author zhengwei
+ * @version $Id: $Id
+ */
 public class RSAUtil {
   private static final String KEY_FACTORY_ALGORITHM = "RSA";
   private static final String SIGN_SHA1_WITH_RSA = "SHA1WithRSA";
@@ -42,10 +48,11 @@ public class RSAUtil {
 
   /**
    * load private key
-   * @param privateKey
-   * @param isPath
-   * @return
-   * @throws Exception
+   *
+   * @param privateKey a {@link java.lang.String} object.
+   * @param isPath a boolean.
+   * @throws com.uqpay.sdk.exception.UqpayRSAException
+   * @return a {@link java.security.PrivateKey} object.
    */
   public static PrivateKey loadPrivateKey(String privateKey, boolean isPath) throws UqpayRSAException {
     try {
@@ -70,10 +77,11 @@ public class RSAUtil {
 
   /**
    * load public key
-   * @param publicKey
-   * @param isPath
-   * @return
-   * @throws Exception
+   *
+   * @param publicKey a {@link java.lang.String} object.
+   * @param isPath a boolean.
+   * @throws com.uqpay.sdk.exception.UqpayRSAException
+   * @return a {@link java.security.PublicKey} object.
    */
   public static PublicKey loadPublicKey(String publicKey, boolean isPath) throws UqpayRSAException {
     try {
@@ -113,6 +121,14 @@ public class RSAUtil {
     return result;
   }
 
+  /**
+   * <p>sign.</p>
+   *
+   * @param content a {@link java.lang.String} object.
+   * @param privateKey a {@link java.security.PrivateKey} object.
+   * @return a {@link java.lang.String} object.
+   * @throws com.uqpay.sdk.exception.UqpayRSAException if any.
+   */
   public static String sign(String content, PrivateKey privateKey) throws UqpayRSAException {
     if (privateKey == null) {
       throw new UqpayRSAException("Key is empty");
@@ -135,6 +151,15 @@ public class RSAUtil {
     }
   }
 
+  /**
+   * <p>verify.</p>
+   *
+   * @param content a {@link java.lang.String} object.
+   * @param sign a {@link java.lang.String} object.
+   * @param publicKey a {@link java.security.PublicKey} object.
+   * @return a boolean.
+   * @throws com.uqpay.sdk.exception.UqpayRSAException if any.
+   */
   public static boolean verify(String content, String sign, PublicKey publicKey) throws UqpayRSAException {
     try {
       Signature signature = Signature.getInstance(SIGN_SHA1_WITH_RSA);

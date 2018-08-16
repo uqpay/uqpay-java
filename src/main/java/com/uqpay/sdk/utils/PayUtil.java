@@ -1,110 +1,151 @@
 package com.uqpay.sdk.utils;
 
+import com.uqpay.sdk.dto.ParamLink;
+import com.uqpay.sdk.dto.PaygateParams;
+import com.uqpay.sdk.dto.result.BaseResult;
+import com.uqpay.sdk.exception.UqpayPayFailException;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import com.uqpay.sdk.config.CashierConfig;
-import com.uqpay.sdk.config.MerchantConfig;
 import com.uqpay.sdk.config.PaygateConfig;
-import com.uqpay.sdk.dto.operation.OrderCancel;
-import com.uqpay.sdk.dto.operation.OrderQuery;
-import com.uqpay.sdk.dto.operation.OrderRefund;
-import com.uqpay.sdk.dto.payment.CreditCard;
-import com.uqpay.sdk.dto.payment.PayData;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 import com.uqpay.sdk.vo.UqpayCashier;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class PayUtil {
-  public static OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS).build();
+  public static OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(0, TimeUnit.SECONDS).build();
 
-  public static Map<String, String> generateDefPayParams(PayData payData, MerchantConfig config) {
+  public static Map<String, String> params2Map(PaygateParams... params) {
     Map<String, String> paramsMap = new HashMap<>();
-    paramsMap.put(Constants.AUTH_MERCHANT_ID, String.valueOf(config.getId()));
-    paramsMap.put(Constants.ORDER_ID, payData.getOrderId());
-    paramsMap.put(Constants.ORDER_AMOUNT, String.valueOf(payData.getAmount()));
-    paramsMap.put(Constants.ORDER_CURRENCY, payData.getCurrency());
-    paramsMap.put(Constants.ORDER_TRANS_NAME, payData.getTransName());
-    paramsMap.put(Constants.ORDER_DATE, String.valueOf(payData.getDate().getTime()));
-    if (payData.getQuantity() != 0) {
-      paramsMap.put(Constants.ORDER_QUANTITY, String.valueOf(payData.getQuantity()));
-    }
-    if (payData.getStoreId() != 0) {
-      paramsMap.put(Constants.ORDER_STORE_ID, String.valueOf(payData.getStoreId()));
-    }
-    if (payData.getSeller() != 0) {
-      paramsMap.put(Constants.ORDER_SELLER, String.valueOf(payData.getSeller()));
-    }
-    if (payData.getChannelInfo() != null && !payData.getChannelInfo().equals("")) {
-      paramsMap.put(Constants.ORDER_CHANNEL_INFO, payData.getChannelInfo());
-    }
-    if (payData.getExtendInfo() != null && !payData.getExtendInfo().equals("")) {
-      paramsMap.put(Constants.ORDER_EXTEND_INFO, payData.getExtendInfo());
-    }
-    paramsMap.put(Constants.PAY_OPTIONS_METHOD_ID, String.valueOf(payData.getMethodId()));
-    paramsMap.put(Constants.PAY_OPTIONS_TRADE_TYPE, payData.getTradeType().name());
-    paramsMap.put(Constants.PAY_OPTIONS_ASYNC_NOTICE_URL, payData.getCallbackUrl());
+    Arrays.asList(params).forEach(paygateParams -> {
+      params2Map(paramsMap, paygateParams);
+    });
     return paramsMap;
   }
 
-  public static Map<String, String> generateCreditCardPayParams(CreditCard creditCard) {
-    Map<String, String> paramsMap = new HashMap<>();
-    paramsMap.put(Constants.CREDIT_CARD_FIRST_NAME, creditCard.getFirstName());
-    paramsMap.put(Constants.CREDIT_CARD_LAST_NAME, creditCard.getLastName());
-    paramsMap.put(Constants.CREDIT_CARD_CARD_NUM, creditCard.getCardNum());
-    paramsMap.put(Constants.CREDIT_CARD_CVV, creditCard.getCvv());
-    paramsMap.put(Constants.CREDIT_CARD_EXPIRE_MONTH, creditCard.getExpireMonth());
-    paramsMap.put(Constants.CREDIT_CARD_EXPIRE_YEAR, creditCard.getExpireYear());
-    paramsMap.put(Constants.CREDIT_CARD_ADDRESS_COUNTRY, creditCard.getAddressCountry());
-    paramsMap.put(Constants.CREDIT_CARD_ADDRESS_STATE, creditCard.getAddressState());
-    paramsMap.put(Constants.CREDIT_CARD_ADDRESS_CITY, creditCard.getAddressCity());
-    paramsMap.put(Constants.CREDIT_CARD_ADDRESS, creditCard.getAddress());
-    paramsMap.put(Constants.CREDIT_CARD_PHONE, creditCard.getPhone());
-    paramsMap.put(Constants.CREDIT_CARD_EMAIL, creditCard.getEmail());
-    paramsMap.put(Constants.CREDIT_CARD_ZIP, creditCard.getZip());
-    return paramsMap;
-  }
-
-  public static Map<String, String> generateRefundParams(OrderRefund refund, MerchantConfig config) {
-    Map<String, String> paramsMap = new HashMap<>();
-    paramsMap.put(Constants.AUTH_MERCHANT_ID, String.valueOf(config.getId()));
-    paramsMap.put(Constants.ORDER_ID, refund.getOrderId());
-    paramsMap.put(Constants.ORDER_AMOUNT, String.valueOf(refund.getAmount()));
-    paramsMap.put(Constants.ORDER_DATE, String.valueOf(refund.getDate().getTime()));
-    if (refund.getExtendInfo() != null && !refund.getExtendInfo().equals("")) {
-      paramsMap.put(Constants.ORDER_EXTEND_INFO, refund.getExtendInfo());
+  public static void params2Map(Map<String, String> target, PaygateParams params) {
+    Field[] fields = Tools.getAllFields(params.getClass());
+    for (int i = 0; i < fields.length; i++) {
+      Field field = fields[i];
+      ParamLink paramLink = field.getAnnotation(ParamLink.class);
+      if (paramLink == null) continue;
+      String name = Tools.capitalize(field.getName());
+      Object realValue = null;
+      try {
+        Method getValue = params.getClass().getMethod("get" + name);
+        Object value = getValue.invoke(params);
+        String targetType = paramLink.targetType();
+        if (value instanceof HasValue) {
+          realValue = ((HasValue) value).getValue();
+        } else if (!targetType.equals("")) {
+          switch (paramLink.targetType()) {
+            case "JSON":
+              realValue = Tools.mapToJson((Map) value);
+              break;
+            default:
+              realValue = value;
+          }
+        } else {
+          switch (field.getType().getName()) {
+            case "java.lang.Integer":
+            case "int":
+            case "java.lang.Double":
+            case "double":
+            case "java.lang.Long":
+            case "long":
+              if (!value.toString().equals("0")) {
+                realValue = value;
+              }
+              break;
+            case "java.util.Date":
+              realValue = ((Date) value).getTime();
+              break;
+            case "java.util.Currency":
+              realValue = ((Currency) value).getCurrencyCode();
+              break;
+            default:
+              realValue = value;
+          }
+        }
+      } catch (Exception ex) {
+        // no need care no method exception
+      }
+      if (realValue != null) {
+        String valueKey = paramLink.value();
+        target.put(valueKey, realValue.toString());
+      }
     }
-    paramsMap.put(Constants.PAY_OPTIONS_TRADE_TYPE, refund.getTradeType().name());
-    paramsMap.put(Constants.PAY_OPTIONS_ASYNC_NOTICE_URL, refund.getCallbackUrl());
-    return paramsMap;
   }
 
-  public static Map<String, String> generateCancelParams(OrderCancel cancel, MerchantConfig config) {
-    Map<String, String> paramsMap = new HashMap<>();
-    paramsMap.put(Constants.AUTH_MERCHANT_ID, String.valueOf(config.getId()));
-    paramsMap.put(Constants.ORDER_ID, cancel.getOrderId());
-    paramsMap.put(Constants.ORDER_DATE, String.valueOf(cancel.getDate().getTime()));
-    if (cancel.getExtendInfo() != null && !cancel.getExtendInfo().equals("")) {
-      paramsMap.put(Constants.ORDER_EXTEND_INFO, cancel.getExtendInfo());
+  public static <T> T map2Params(Class<T> clazz, Map<String, String> source) {
+    Field[] fields = Tools.getAllFields(clazz);
+    try {
+      T target = clazz.newInstance();
+      for (int i = 0; i < fields.length; i++) {
+        Field field = fields[i];
+        ParamLink paramLink = field.getAnnotation(ParamLink.class);
+        if (paramLink == null) continue;
+        Object value = source.get(paramLink.value());
+        if (value == null || value.equals("")) continue;
+        String name = Tools.capitalize(field.getName());
+        Method setValue = clazz.getMethod("set" + name, field.getType());
+        Object realValue;
+        String targetType = paramLink.targetType();
+        if (!targetType.equals("")) {
+          switch (targetType) {
+            case "JSON":
+              realValue = Tools.json2map(value.toString());
+              break;
+            default:
+              realValue = value;
+          }
+        } else if (field.getType().isEnum()) {
+          if (field.getType().getInterfaces().length > 0 && field.getType().getInterfaces()[0].equals(HasValue.class)) {
+            realValue = Tools.enumValueOf(field.getType(), Short.valueOf(value.toString()));
+          } else {
+            realValue = value; // to fix
+          }
+        } else {
+          switch (field.getType().getName()) {
+            case "java.lang.Integer":
+            case "int":
+              realValue = Integer.valueOf(value.toString());
+              break;
+            case "java.lang.Double":
+            case "double":
+              realValue = Double.valueOf(value.toString());
+              break;
+            case "java.lang.Long":
+            case "long":
+              realValue = Long.valueOf(value.toString());
+              break;
+            case "java.util.Date":
+              Calendar calendar = Calendar.getInstance();
+              calendar.setTimeInMillis(Long.valueOf(value.toString()));
+              realValue = calendar.getTime();
+              break;
+            case "java.util.Currency":
+              realValue = Currency.getInstance(value.toString());
+              break;
+            default:
+              realValue = value;
+          }
+        }
+        setValue.invoke(target, realValue);
+      }
+      return target;
+    } catch (Exception ex) {
+      return null;
     }
-    paramsMap.put(Constants.PAY_OPTIONS_TRADE_TYPE, cancel.getTradeType().name());
-    return paramsMap;
-  }
-
-  public static Map<String, String> generateQueryParams(OrderQuery query, MerchantConfig config) {
-    Map<String, String> paramsMap = new HashMap<>();
-    paramsMap.put(Constants.AUTH_MERCHANT_ID, String.valueOf(config.getId()));
-    paramsMap.put(Constants.ORDER_ID, query.getOrderId());
-    paramsMap.put(Constants.ORDER_DATE, String.valueOf(query.getDate().getTime()));
-    paramsMap.put(Constants.PAY_OPTIONS_TRADE_TYPE, query.getTradeType().name());
-    return paramsMap;
   }
 
   public static String generateCashierLink(UqpayCashier cashier, CashierConfig config)
@@ -125,7 +166,7 @@ public class PayUtil {
     return paramsMap;
   }
 
-  public static void verifyUqpayNotice(Map<String, Object> paramsMap, PaygateConfig config)
+  public static void verifyUqpayNotice(Map<String, String> paramsMap, PaygateConfig config)
       throws UnsupportedEncodingException, UqpayRSAException, UqpayResultVerifyException {
     if (paramsMap.get(Constants.AUTH_SIGN) == null)
       throw new UqpayResultVerifyException("The payment result is not a valid uqpay result, sign data is missing", paramsMap);
@@ -137,7 +178,8 @@ public class PayUtil {
     });
     String paramsQuery = Tools.stringify(needVerifyParams, false);
     boolean verify = RSAUtil.verify(paramsQuery, paramsMap.get(Constants.AUTH_SIGN).toString(), config.getUqpayPublicKey().getPublicKey());
-    if (!verify) throw new UqpayResultVerifyException("The payment result is invalid, be sure is from the UQPAY server", paramsMap);
+    if (!verify)
+      throw new UqpayResultVerifyException("The payment result is invalid, be sure is from the UQPAY server", paramsMap);
   }
 
   public static Request generateRequest(Map<String, String> paramsMap, String url) {
@@ -150,11 +192,13 @@ public class PayUtil {
     return request;
   }
 
-  public static Response doSyncFormRequest(Request request) throws IOException {
+  public static Response doSyncFormRequest(Request request) throws IOException, UqpayPayFailException {
     Response response = httpClient.newCall(request).execute();
     if (response.isSuccessful()) {
       return response;
     }
-    throw new IOException("request uqpay service fail: " + response);
+    Map<String, String> resultMap = Tools.json2map(response.body().string());
+    BaseResult result = PayUtil.map2Params(BaseResult.class, resultMap);
+    throw new UqpayPayFailException(result.getCode(), result.getMessage());
   }
 }

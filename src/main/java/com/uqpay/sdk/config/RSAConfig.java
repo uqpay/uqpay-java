@@ -8,6 +8,12 @@ import java.io.Serializable;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+/**
+ * <p>RSAConfig class.</p>
+ *
+ * @author zhengwei
+ * @version $Id: $Id
+ */
 public class RSAConfig implements Serializable {
   private static final long serialVersionUID = -7014284669389490818L;
 
@@ -31,6 +37,12 @@ public class RSAConfig implements Serializable {
 
   private PublicKey publicKey;
 
+  /**
+   * <p>Getter for the field <code>privateKey</code>.</p>
+   *
+   * @return a {@link java.security.PrivateKey} object.
+   * @throws com.uqpay.sdk.exception.UqpayRSAException if any.
+   */
   public PrivateKey getPrivateKey() throws UqpayRSAException {
     if (privateKey != null) {
       return privateKey;
@@ -46,6 +58,12 @@ public class RSAConfig implements Serializable {
     return privateKey;
   }
 
+  /**
+   * <p>Getter for the field <code>publicKey</code>.</p>
+   *
+   * @return a {@link java.security.PublicKey} object.
+   * @throws com.uqpay.sdk.exception.UqpayRSAException if any.
+   */
   public PublicKey getPublicKey() throws UqpayRSAException {
     if (publicKey != null) {
       return publicKey;
@@ -61,34 +79,74 @@ public class RSAConfig implements Serializable {
     return publicKey;
   }
 
+  /**
+   * <p>Getter for the field <code>publicKeyStr</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getPublicKeyStr() {
     return publicKeyStr;
   }
 
+  /**
+   * <p>Setter for the field <code>publicKeyStr</code>.</p>
+   *
+   * @param publicKeyStr a {@link java.lang.String} object.
+   */
   public void setPublicKeyStr(String publicKeyStr) {
     this.publicKeyStr = publicKeyStr;
   }
 
+  /**
+   * <p>Getter for the field <code>publicKeyPath</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getPublicKeyPath() {
     return publicKeyPath;
   }
 
+  /**
+   * <p>Setter for the field <code>publicKeyPath</code>.</p>
+   *
+   * @param publicKeyPath a {@link java.lang.String} object.
+   */
   public void setPublicKeyPath(String publicKeyPath) {
     this.publicKeyPath = publicKeyPath;
   }
 
+  /**
+   * <p>Getter for the field <code>privateKeyStr</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getPrivateKeyStr() {
     return privateKeyStr;
   }
 
+  /**
+   * <p>Setter for the field <code>privateKeyStr</code>.</p>
+   *
+   * @param privateKeyStr a {@link java.lang.String} object.
+   */
   public void setPrivateKeyStr(String privateKeyStr) {
     this.privateKeyStr = privateKeyStr;
   }
 
+  /**
+   * <p>Getter for the field <code>privateKeyPath</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getPrivateKeyPath() {
     return privateKeyPath;
   }
 
+  /**
+   * <p>Setter for the field <code>privateKeyPath</code>.</p>
+   *
+   * @param privateKeyPath a {@link java.lang.String} object.
+   */
   public void setPrivateKeyPath(String privateKeyPath) {
     this.privateKeyPath = privateKeyPath;
   }

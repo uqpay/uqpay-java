@@ -1,47 +1,42 @@
 package com.uqpay.sdk.dto.result;
 
+import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.UqpayTradeType;
-
-import java.io.Serializable;
+import java.util.Currency;
 import java.util.Date;
 import java.util.Map;
 
-public class TransResult implements Serializable {
-  private static final long serialVersionUID = -4038448421853606000L;
-  protected String sign;
-  protected int merchantId;
-  protected UqpayTradeType tradeType;
-  protected String code;
-  protected String message;
-  protected Date date;
-  protected String orderId;
-  protected long uqOrderId;
-  protected int methodId;
-  protected double amount;
-  protected String currency;
-  protected String state;
-  protected String channelInfo;
-  protected String extendInfo;
+public class TransResult extends BaseResult {
+  @ParamLink(Constants.AUTH_SIGN)
+  private String sign;
+  @ParamLink(Constants.AUTH_MERCHANT_ID)
+  private int merchantId;
+  @ParamLink(Constants.AUTH_AGENT_ID)
+  private int agentId;
+  @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
+  private UqpayTradeType tradeType;
+  @ParamLink(Constants.PAY_OPTIONS_METHOD_ID)
+  private int methodId;
+  @ParamLink(Constants.ORDER_DATE)
+  private Date date;
+  @ParamLink(Constants.ORDER_ID)
+  private String orderId;
+  @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
+  private long uqOrderId; // this order id generate by uqpay
+  @ParamLink(Constants.ORDER_AMOUNT)
+  private double amount;
+  @ParamLink(value = Constants.ORDER_CURRENCY)
+  private Currency currency;
+  @ParamLink(value = Constants.RESULT_STATE)
+  private String state; // order state
+
+  @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
+  private Map<String,String> channelInfo;
+  @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
+  private Map<String,String> extendInfo;
 
   public TransResult() {}
-
-  public TransResult(Map<String, Object> mapResult) {
-    this.code = (String) mapResult.get(Constants.RESULT_CODE);
-    this.sign = (String) mapResult.get(Constants.AUTH_SIGN);
-    this.merchantId = Integer.valueOf(mapResult.get(Constants.AUTH_MERCHANT_ID).toString());
-    this.tradeType = UqpayTradeType.valueOf((String) mapResult.get(Constants.PAY_OPTIONS_TRADE_TYPE));
-    this.message = (String) mapResult.get(Constants.RESULT_MESSAGE);
-    this.date = new Date(Long.valueOf(mapResult.get(Constants.ORDER_DATE).toString()));
-    this.orderId = (String) mapResult.get(Constants.ORDER_ID);
-    this.uqOrderId = Long.valueOf(mapResult.get(Constants.RESULT_UQPAY_ORDER_ID).toString());
-    this.methodId = Integer.valueOf(mapResult.get(Constants.PAY_OPTIONS_METHOD_ID).toString());
-    this.amount = Double.valueOf(mapResult.get(Constants.ORDER_AMOUNT).toString());
-    this.currency = (String) mapResult.get(Constants.ORDER_CURRENCY);
-    this.state = (String) mapResult.get(Constants.RESULT_STATE);
-    this.channelInfo = (String) mapResult.get(Constants.ORDER_CHANNEL_INFO);
-    this.extendInfo = (String) mapResult.get(Constants.ORDER_EXTEND_INFO);
-  }
 
   public String getSign() {
     return sign;
@@ -59,6 +54,14 @@ public class TransResult implements Serializable {
     this.merchantId = merchantId;
   }
 
+  public int getAgentId() {
+    return agentId;
+  }
+
+  public void setAgentId(int agentId) {
+    this.agentId = agentId;
+  }
+
   public UqpayTradeType getTradeType() {
     return tradeType;
   }
@@ -67,20 +70,12 @@ public class TransResult implements Serializable {
     this.tradeType = tradeType;
   }
 
-  public String getCode() {
-    return code;
+  public int getMethodId() {
+    return methodId;
   }
 
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
+  public void setMethodId(int methodId) {
+    this.methodId = methodId;
   }
 
   public Date getDate() {
@@ -107,14 +102,6 @@ public class TransResult implements Serializable {
     this.uqOrderId = uqOrderId;
   }
 
-  public int getMethodId() {
-    return methodId;
-  }
-
-  public void setMethodId(int methodId) {
-    this.methodId = methodId;
-  }
-
   public double getAmount() {
     return amount;
   }
@@ -123,11 +110,11 @@ public class TransResult implements Serializable {
     this.amount = amount;
   }
 
-  public String getCurrency() {
+  public Currency getCurrency() {
     return currency;
   }
 
-  public void setCurrency(String currency) {
+  public void setCurrency(Currency currency) {
     this.currency = currency;
   }
 
@@ -139,19 +126,19 @@ public class TransResult implements Serializable {
     this.state = state;
   }
 
-  public String getChannelInfo() {
+  public Map<String, String> getChannelInfo() {
     return channelInfo;
   }
 
-  public void setChannelInfo(String channelInfo) {
+  public void setChannelInfo(Map<String, String> channelInfo) {
     this.channelInfo = channelInfo;
   }
 
-  public String getExtendInfo() {
+  public Map<String, String> getExtendInfo() {
     return extendInfo;
   }
 
-  public void setExtendInfo(String extendInfo) {
+  public void setExtendInfo(Map<String, String> extendInfo) {
     this.extendInfo = extendInfo;
   }
 }

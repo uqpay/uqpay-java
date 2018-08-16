@@ -12,6 +12,8 @@ public class MerchantConfig implements Serializable {
    */
   private int id;
 
+  private int agentId;
+
   public MerchantConfig() {}
 
   public int getId() {
@@ -20,5 +22,13 @@ public class MerchantConfig implements Serializable {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public int getAgentId() {
+    return agentId;
+  }
+
+  public void setAgentId(int agentId) {
+    this.agentId = agentId;
   }
 }

@@ -1,19 +1,15 @@
 package com.uqpay.sdk.dto.result;
 
+import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.utils.Constants;
 
-import java.util.Map;
-
 public class CardResult extends TransResult {
+  @ParamLink(Constants.RESULT_CHANNEL_CODE)
   private String channelCode;
+  @ParamLink(Constants.RESULT_CHANNEL_MESSAGE)
   private String channelMsg;
 
   public CardResult() {super();}
-  public CardResult(Map<String, Object> mapResult) {
-    super(mapResult);
-    this.channelCode = mapResult.get(Constants.RESULT_CHANNEL_CODE).toString();
-    this.channelMsg = mapResult.get(Constants.RESULT_CHANNEL_MESSAGE).toString();
-  }
 
   public String getChannelCode() {
     return channelCode;

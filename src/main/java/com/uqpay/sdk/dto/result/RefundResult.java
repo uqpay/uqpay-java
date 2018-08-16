@@ -1,5 +1,6 @@
 package com.uqpay.sdk.dto.result;
 
+import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.UqpayTradeType;
 
@@ -7,36 +8,32 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-public class RefundResult implements Serializable{
-  private static final long serialVersionUID = -6320236770349138351L;
-  private String sign;		    //签名（参见3.签名与传参）
+public class RefundResult extends BaseResult{
+  private static final long serialVersionUID = 226207824956162475L;
+  @ParamLink(Constants.AUTH_SIGN)
+  private String sign;
+  @ParamLink(Constants.AUTH_MERCHANT_ID)
   private int merchantId;
-  private UqpayTradeType tradeType;		//交易类型，详见附录1
-  private String code;		    //结果码
-  private String message;		//结果描述
-  private Date date;		    //请求的时间，使用Unix时间戳
+  @ParamLink(Constants.AUTH_AGENT_ID)
+  private int agentId;
+  @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
+  private UqpayTradeType tradeType;
+  @ParamLink(Constants.ORDER_DATE)
+  private Date date;
 
-  private String orderId;		//商户订单ID，在商户端唯一
-  private long uqOrderId;	    //UQPAY端的订单ID
-  private double amount;		//订单金额
-  private String state;			//订单状态
-  private String extendInfo;	//商户订单传入的Json编码的扩展信息
+  @ParamLink(Constants.ORDER_ID)
+  private String orderId;
+  @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
+  private long uqOrderId;
+  @ParamLink(Constants.ORDER_AMOUNT)
+  private double amount;
+  @ParamLink(Constants.RESULT_STATE)
+  private String state;
+
+  @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
+  private Map<String,String> extendInfo;
 
   public RefundResult() {}
-
-  public RefundResult(Map<String, Object> mapResult) {
-    this.code = (String) mapResult.get(Constants.RESULT_CODE);
-    this.sign = (String) mapResult.get(Constants.AUTH_SIGN);
-    this.merchantId = Integer.valueOf(mapResult.get(Constants.AUTH_MERCHANT_ID).toString());
-    this.tradeType = UqpayTradeType.valueOf((String) mapResult.get(Constants.PAY_OPTIONS_TRADE_TYPE));
-    this.message = (String) mapResult.get(Constants.RESULT_MESSAGE);
-    this.date = new Date(Long.valueOf(mapResult.get(Constants.ORDER_DATE).toString()));
-    this.orderId = (String) mapResult.get(Constants.ORDER_ID);
-    this.uqOrderId = Long.valueOf(mapResult.get(Constants.RESULT_UQPAY_ORDER_ID).toString());
-    this.amount = Double.valueOf(mapResult.get(Constants.ORDER_AMOUNT).toString());
-    this.state = (String) mapResult.get(Constants.RESULT_STATE);
-    this.extendInfo = (String) mapResult.get(Constants.ORDER_EXTEND_INFO);
-  }
 
   public String getSign() {
     return sign;
@@ -54,28 +51,20 @@ public class RefundResult implements Serializable{
     this.merchantId = merchantId;
   }
 
+  public int getAgentId() {
+    return agentId;
+  }
+
+  public void setAgentId(int agentId) {
+    this.agentId = agentId;
+  }
+
   public UqpayTradeType getTradeType() {
     return tradeType;
   }
 
   public void setTradeType(UqpayTradeType tradeType) {
     this.tradeType = tradeType;
-  }
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
   }
 
   public Date getDate() {
@@ -118,11 +107,11 @@ public class RefundResult implements Serializable{
     this.state = state;
   }
 
-  public String getExtendInfo() {
+  public Map<String, String> getExtendInfo() {
     return extendInfo;
   }
 
-  public void setExtendInfo(String extendInfo) {
+  public void setExtendInfo(Map<String, String> extendInfo) {
     this.extendInfo = extendInfo;
   }
 }

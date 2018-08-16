@@ -1,11 +1,17 @@
 package com.uqpay.sdk.utils;
 
+/**
+ * <p>PayMethodEnum class.</p>
+ *
+ * @author zhengwei
+ * @version $Id: $Id
+ */
 public enum PayMethodEnum {
   UnionPayQR(PayMethod.UnionPayQR, ScenesEnum.QRCode),
   AlipayQR(PayMethod.AlipayQR, ScenesEnum.QRCode),
   WeChatQR(PayMethod.WeChatQR, ScenesEnum.QRCode),
-  WeChatH5(PayMethod.WeChatH5, ScenesEnum.OnlinePay),
-  UnionPayOnline(PayMethod.UnionPayOnline, ScenesEnum.OnlinePay),
+  WeChat_WebBased_InApp(PayMethod.Wechat_WebBased_InApp, ScenesEnum.RedirectPay),
+  UnionPayOnline(PayMethod.UnionPayOnline, ScenesEnum.RedirectPay),
   VISA(PayMethod.VISA, ScenesEnum.CreditCard),
   VISA3D(PayMethod.VISA3D, ScenesEnum.ThreeDCreditCard),
   Master(PayMethod.Master, ScenesEnum.CreditCard),
@@ -14,11 +20,13 @@ public enum PayMethodEnum {
   AMEX(PayMethod.AMEX, ScenesEnum.CreditCard),
   JCB(PayMethod.JCB, ScenesEnum.CreditCard),
   PayPal(PayMethod.PayPal, ScenesEnum.CreditCard),
-  Alipay(PayMethod.Alipay, ScenesEnum.OnlinePay),
-  AlipayWap(PayMethod.AlipayWap, ScenesEnum.OnlinePay),
+  Alipay(PayMethod.Alipay, ScenesEnum.RedirectPay),
+  AlipayWap(PayMethod.AlipayWap, ScenesEnum.RedirectPay),
   Wechat_InAPP(PayMethod.Wechat_InAPP, ScenesEnum.InApp),
   UnionPay_InAPP(PayMethod.UnionPay_InAPP, ScenesEnum.InApp),
-  ApplePay(PayMethod.ApplePay, ScenesEnum.OnlinePay);
+  UnionPay_Online_InAPP(PayMethod.UnionPay_Online_InAPP, ScenesEnum.InApp),
+  ApplePay(PayMethod.ApplePay, ScenesEnum.RedirectPay),
+  UnionPay_Merchant_Host(PayMethod.Union_Merchant_Host, ScenesEnum.MerchantHost);
 
   private int value;
   private ScenesEnum scenes;
@@ -28,6 +36,12 @@ public enum PayMethodEnum {
     this.scenes = scenes;
   }
 
+  /**
+   * <p>valueOf.</p>
+   *
+   * @param value a int.
+   * @return a {@link com.uqpay.sdk.utils.PayMethodEnum} object.
+   */
   public static PayMethodEnum valueOf(int value) {
     for (PayMethodEnum val : PayMethodEnum.values()) {
       if (value == val.getValue()) {
@@ -37,10 +51,20 @@ public enum PayMethodEnum {
     return null;
   }
 
+  /**
+   * <p>Getter for the field <code>value</code>.</p>
+   *
+   * @return a int.
+   */
   public int getValue() {
     return value;
   }
 
+  /**
+   * <p>Getter for the field <code>scenes</code>.</p>
+   *
+   * @return a {@link com.uqpay.sdk.utils.ScenesEnum} object.
+   */
   public ScenesEnum getScenes() {
     return scenes;
   }
