@@ -1,5 +1,11 @@
 package com.uqpay.sdk.utils;
 
+/**
+ * <p>ScenesEnum class.</p>
+ *
+ * @author zhengwei
+ * @version $Id: $Id
+ */
 public enum ScenesEnum {
   Global, //全局
   Unknown, //未知

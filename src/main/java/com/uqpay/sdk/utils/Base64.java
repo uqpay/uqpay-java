@@ -4,6 +4,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
+/**
+ * <p>Base64 class.</p>
+ *
+ * @author zhengwei
+ * @version $Id: $Id
+ */
 public class Base64 {
 
     private static char[] base64EncodeChars = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
@@ -26,6 +32,12 @@ public class Base64 {
     private Base64() {
     }
 
+    /**
+     * <p>encode.</p>
+     *
+     * @param data an array of {@link byte} objects.
+     * @return a {@link java.lang.String} object.
+     */
     public static synchronized String encode(byte[] data) {
         int len = data.length;
         int i = 0;
@@ -57,6 +69,12 @@ public class Base64 {
         return sb.toString();
     }
 
+    /**
+     * <p>decode.</p>
+     *
+     * @param str a {@link java.lang.String} object.
+     * @return an array of {@link byte} objects.
+     */
     public static synchronized byte[] decode(String str) {
         byte[] data = str.getBytes();
         int len = data.length;
@@ -112,6 +130,13 @@ public class Base64 {
         return buf.toByteArray();
     }
 
+    /**
+     * <p>encode.</p>
+     *
+     * @param file a {@link java.io.File} object.
+     * @return a {@link java.lang.String} object.
+     * @throws java.lang.Exception if any.
+     */
     public static String encode(File file)throws Exception {
         FileInputStream inputFile = new FileInputStream(file);
         try{

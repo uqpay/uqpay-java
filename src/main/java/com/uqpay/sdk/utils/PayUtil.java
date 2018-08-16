@@ -22,9 +22,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * <p>PayUtil class.</p>
+ *
+ * @author zhengwei
+ * @version $Id: $Id
+ */
 public class PayUtil {
+  /** Constant <code>httpClient</code> */
   public static OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS).build();
 
+  /**
+   * <p>generateDefPayParams.</p>
+   *
+   * @param payData a {@link com.uqpay.sdk.dto.payment.PayData} object.
+   * @param config a {@link com.uqpay.sdk.config.MerchantConfig} object.
+   * @return a {@link java.util.Map} object.
+   */
   public static Map<String, String> generateDefPayParams(PayData payData, MerchantConfig config) {
     Map<String, String> paramsMap = new HashMap<>();
     paramsMap.put(Constants.AUTH_MERCHANT_ID, String.valueOf(config.getId()));
@@ -54,6 +68,12 @@ public class PayUtil {
     return paramsMap;
   }
 
+  /**
+   * <p>generateCreditCardPayParams.</p>
+   *
+   * @param creditCard a {@link com.uqpay.sdk.dto.payment.CreditCard} object.
+   * @return a {@link java.util.Map} object.
+   */
   public static Map<String, String> generateCreditCardPayParams(CreditCard creditCard) {
     Map<String, String> paramsMap = new HashMap<>();
     paramsMap.put(Constants.CREDIT_CARD_FIRST_NAME, creditCard.getFirstName());
@@ -72,6 +92,13 @@ public class PayUtil {
     return paramsMap;
   }
 
+  /**
+   * <p>generateRefundParams.</p>
+   *
+   * @param refund a {@link com.uqpay.sdk.dto.operation.OrderRefund} object.
+   * @param config a {@link com.uqpay.sdk.config.MerchantConfig} object.
+   * @return a {@link java.util.Map} object.
+   */
   public static Map<String, String> generateRefundParams(OrderRefund refund, MerchantConfig config) {
     Map<String, String> paramsMap = new HashMap<>();
     paramsMap.put(Constants.AUTH_MERCHANT_ID, String.valueOf(config.getId()));
@@ -86,6 +113,13 @@ public class PayUtil {
     return paramsMap;
   }
 
+  /**
+   * <p>generateCancelParams.</p>
+   *
+   * @param cancel a {@link com.uqpay.sdk.dto.operation.OrderCancel} object.
+   * @param config a {@link com.uqpay.sdk.config.MerchantConfig} object.
+   * @return a {@link java.util.Map} object.
+   */
   public static Map<String, String> generateCancelParams(OrderCancel cancel, MerchantConfig config) {
     Map<String, String> paramsMap = new HashMap<>();
     paramsMap.put(Constants.AUTH_MERCHANT_ID, String.valueOf(config.getId()));
@@ -98,6 +132,13 @@ public class PayUtil {
     return paramsMap;
   }
 
+  /**
+   * <p>generateQueryParams.</p>
+   *
+   * @param query a {@link com.uqpay.sdk.dto.operation.OrderQuery} object.
+   * @param config a {@link com.uqpay.sdk.config.MerchantConfig} object.
+   * @return a {@link java.util.Map} object.
+   */
   public static Map<String, String> generateQueryParams(OrderQuery query, MerchantConfig config) {
     Map<String, String> paramsMap = new HashMap<>();
     paramsMap.put(Constants.AUTH_MERCHANT_ID, String.valueOf(config.getId()));
@@ -107,6 +148,15 @@ public class PayUtil {
     return paramsMap;
   }
 
+  /**
+   * <p>generateCashierLink.</p>
+   *
+   * @param cashier a {@link com.uqpay.sdk.vo.UqpayCashier} object.
+   * @param config a {@link com.uqpay.sdk.config.CashierConfig} object.
+   * @return a {@link java.lang.String} object.
+   * @throws java.io.UnsupportedEncodingException if any.
+   * @throws com.uqpay.sdk.exception.UqpayRSAException if any.
+   */
   public static String generateCashierLink(UqpayCashier cashier, CashierConfig config)
       throws UnsupportedEncodingException, UqpayRSAException {
     Map<String, String> paramsMap = new HashMap<>();
@@ -117,6 +167,15 @@ public class PayUtil {
     return config.getApiRoot() + "?" + Tools.stringify(paramsMap, true);
   }
 
+  /**
+   * <p>signParams.</p>
+   *
+   * @param paramsMap a {@link java.util.Map} object.
+   * @param config a {@link com.uqpay.sdk.config.PaygateConfig} object.
+   * @return a {@link java.util.Map} object.
+   * @throws java.io.UnsupportedEncodingException if any.
+   * @throws com.uqpay.sdk.exception.UqpayRSAException if any.
+   */
   public static Map<String, String> signParams(Map<String, String> paramsMap, PaygateConfig config)
       throws UnsupportedEncodingException, UqpayRSAException {
     String paramsQuery = Tools.stringify(paramsMap, false);
@@ -125,6 +184,15 @@ public class PayUtil {
     return paramsMap;
   }
 
+  /**
+   * <p>verifyUqpayNotice.</p>
+   *
+   * @param paramsMap a {@link java.util.Map} object.
+   * @param config a {@link com.uqpay.sdk.config.PaygateConfig} object.
+   * @throws java.io.UnsupportedEncodingException if any.
+   * @throws com.uqpay.sdk.exception.UqpayRSAException if any.
+   * @throws com.uqpay.sdk.exception.UqpayResultVerifyException if any.
+   */
   public static void verifyUqpayNotice(Map<String, Object> paramsMap, PaygateConfig config)
       throws UnsupportedEncodingException, UqpayRSAException, UqpayResultVerifyException {
     if (paramsMap.get(Constants.AUTH_SIGN) == null)
@@ -140,6 +208,13 @@ public class PayUtil {
     if (!verify) throw new UqpayResultVerifyException("The payment result is invalid, be sure is from the UQPAY server", paramsMap);
   }
 
+  /**
+   * <p>generateRequest.</p>
+   *
+   * @param paramsMap a {@link java.util.Map} object.
+   * @param url a {@link java.lang.String} object.
+   * @return a {@link okhttp3.Request} object.
+   */
   public static Request generateRequest(Map<String, String> paramsMap, String url) {
     FormBody.Builder formBody = new FormBody.Builder();
     paramsMap.forEach((key, value) -> formBody.add(key, value));
@@ -150,6 +225,13 @@ public class PayUtil {
     return request;
   }
 
+  /**
+   * <p>doSyncFormRequest.</p>
+   *
+   * @param request a {@link okhttp3.Request} object.
+   * @return a {@link okhttp3.Response} object.
+   * @throws java.io.IOException if any.
+   */
   public static Response doSyncFormRequest(Request request) throws IOException {
     Response response = httpClient.newCall(request).execute();
     if (response.isSuccessful()) {

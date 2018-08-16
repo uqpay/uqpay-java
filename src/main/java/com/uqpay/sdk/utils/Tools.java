@@ -10,8 +10,23 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>Tools class.</p>
+ *
+ * @author zhengwei
+ * @version $Id: $Id
+ */
 public class Tools {
+  /** Constant <code>mapper</code> */
   public static ObjectMapper mapper = new ObjectMapper();
+  /**
+   * <p>stringify.</p>
+   *
+   * @param paramsMap a {@link java.util.Map} object.
+   * @param urlEncode a boolean.
+   * @return a {@link java.lang.String} object.
+   * @throws java.io.UnsupportedEncodingException if any.
+   */
   public static String stringify(Map<String, String> paramsMap, boolean urlEncode) throws UnsupportedEncodingException {
     List<String> keys = new ArrayList<>(paramsMap.keySet());
     Collections.sort(keys);
@@ -28,6 +43,13 @@ public class Tools {
     return queryString;
   }
 
+  /**
+   * <p>json2map.</p>
+   *
+   * @param jsonStr a {@link java.lang.String} object.
+   * @return a {@link java.util.Map} object.
+   * @throws java.io.IOException if any.
+   */
   public static Map<String, Object> json2map(String jsonStr) throws IOException {
     return mapper.readValue(jsonStr, Map.class);
   }

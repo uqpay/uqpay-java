@@ -1,5 +1,11 @@
 package com.uqpay.sdk.utils;
 
+/**
+ * <p>PayMethodEnum class.</p>
+ *
+ * @author zhengwei
+ * @version $Id: $Id
+ */
 public enum PayMethodEnum {
   UnionPayQR(1001, ScenesEnum.QRCode),
   AlipayQR(1002, ScenesEnum.QRCode),
@@ -28,6 +34,12 @@ public enum PayMethodEnum {
     this.scenes = scenes;
   }
 
+  /**
+   * <p>valueOf.</p>
+   *
+   * @param value a int.
+   * @return a {@link com.uqpay.sdk.utils.PayMethodEnum} object.
+   */
   public static PayMethodEnum valueOf(int value) {
     for (PayMethodEnum val : PayMethodEnum.values()) {
       if (value == val.getValue()) {
@@ -37,10 +49,20 @@ public enum PayMethodEnum {
     return null;
   }
 
+  /**
+   * <p>Getter for the field <code>value</code>.</p>
+   *
+   * @return a int.
+   */
   public int getValue() {
     return value;
   }
 
+  /**
+   * <p>Getter for the field <code>scenes</code>.</p>
+   *
+   * @return a {@link com.uqpay.sdk.utils.ScenesEnum} object.
+   */
   public ScenesEnum getScenes() {
     return scenes;
   }
