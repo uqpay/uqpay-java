@@ -1,24 +1,24 @@
 package com.uqpay.sdk.utils;
 
 public enum PayMethodEnum {
-  UnionPayQR(1001, ScenesEnum.QRCode),
-  AlipayQR(1002, ScenesEnum.QRCode),
-  WeChatQR(1003, ScenesEnum.QRCode),
-  WeChatH5(1102, ScenesEnum.OnlinePay),
-  UnionPayOnline(1100, ScenesEnum.OnlinePay),
-  VISA(1200, ScenesEnum.CreditCard),
-  VISA3D(1250, ScenesEnum.ThreeDCreditCard),
-  Master(1201, ScenesEnum.CreditCard),
-  Master3D(1251, ScenesEnum.ThreeDCreditCard),
-  UnionPay(1202, ScenesEnum.CreditCard),
-  AMEX(1203, ScenesEnum.CreditCard),
-  JCB(1204, ScenesEnum.CreditCard),
-  PayPal(1300, ScenesEnum.CreditCard),
-  Alipay(1301, ScenesEnum.OnlinePay),
-  AlipayWap(1501, ScenesEnum.OnlinePay),
-  Wechat_InAPP(2000, ScenesEnum.InApp),
-  UnionPay_InAPP(2001, ScenesEnum.InApp),
-  ApplePay(3000, ScenesEnum.OnlinePay);
+  UnionPayQR(PayMethod.UnionPayQR, ScenesEnum.QRCode),
+  AlipayQR(PayMethod.AlipayQR, ScenesEnum.QRCode),
+  WeChatQR(PayMethod.WeChatQR, ScenesEnum.QRCode),
+  WeChatH5(PayMethod.WeChatH5, ScenesEnum.OnlinePay),
+  UnionPayOnline(PayMethod.UnionPayOnline, ScenesEnum.OnlinePay),
+  VISA(PayMethod.VISA, ScenesEnum.CreditCard),
+  VISA3D(PayMethod.VISA3D, ScenesEnum.ThreeDCreditCard),
+  Master(PayMethod.Master, ScenesEnum.CreditCard),
+  Master3D(PayMethod.Master3D, ScenesEnum.ThreeDCreditCard),
+  UnionPay(PayMethod.UnionPay, ScenesEnum.CreditCard),
+  AMEX(PayMethod.AMEX, ScenesEnum.CreditCard),
+  JCB(PayMethod.JCB, ScenesEnum.CreditCard),
+  PayPal(PayMethod.PayPal, ScenesEnum.CreditCard),
+  Alipay(PayMethod.Alipay, ScenesEnum.OnlinePay),
+  AlipayWap(PayMethod.AlipayWap, ScenesEnum.OnlinePay),
+  Wechat_InAPP(PayMethod.Wechat_InAPP, ScenesEnum.InApp),
+  UnionPay_InAPP(PayMethod.UnionPay_InAPP, ScenesEnum.InApp),
+  ApplePay(PayMethod.ApplePay, ScenesEnum.OnlinePay);
 
   private int value;
   private ScenesEnum scenes;

@@ -22,6 +22,6 @@ public final class PayMethod {
   public static int Alipay = 1301;
   public static int AlipayWap = 1501;
   public static int Wechat_InAPP = 2000;
-  public static int UnionPay_InAPP = 2001;
+  public static int UnionPay_InAPP = 2002;
   public static int ApplePay = 3000;
 }
