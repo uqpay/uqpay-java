@@ -84,7 +84,7 @@ public class PayUtil {
         Field field = fields[i];
         ParamLink paramLink = field.getAnnotation(ParamLink.class);
         if (paramLink == null) continue;
-        String value = source.get(paramLink.value()).toString();
+        String value = String.valueOf(source.get(paramLink.value()));
         if (value == null || value.equals("")) continue;
         String name = Tools.capitalize(field.getName());
         Method setValue = clazz.getMethod("set" + name, field.getType());
