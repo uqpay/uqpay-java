@@ -21,7 +21,7 @@ public abstract class OrderDTO extends PayOptionsDTO {
   @Positive
   private double amount;
   @ParamLink(value = Constants.ORDER_CURRENCY)
-  @NotEmpty
+  @NotNull
   private Currency currency; // use ISO 4217 currency code same as the Java Currency Class
   @ParamLink(Constants.ORDER_DATE)
   @NotNull
