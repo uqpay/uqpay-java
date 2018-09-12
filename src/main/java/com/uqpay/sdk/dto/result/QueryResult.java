@@ -1,44 +1,39 @@
 package com.uqpay.sdk.dto.result;
 
+import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.UqpayTradeType;
-
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-public class QueryResult implements Serializable {
-  protected String sign;
-  protected int merchantId;
-  protected UqpayTradeType tradeType;
-  protected String code;
-  protected String message;
-  protected Date date;
-  protected String orderId;
-  protected long uqOrderId;
-  protected String relatedId; // 关联的订单ID，当发生退款、撤销时，对应订单
-  protected int methodId;
-  protected String state;
-  protected String channelInfo;
-  protected String extendInfo;
+public class QueryResult extends BaseResult {
+  private static final long serialVersionUID = -3884357786838963487L;
+  @ParamLink(Constants.AUTH_SIGN)
+  private String sign;
+  @ParamLink(Constants.AUTH_MERCHANT_ID)
+  private int merchantId;
+  @ParamLink(Constants.AUTH_AGENT_ID)
+  private int agentId;
+  @ParamLink(Constants.PAY_OPTIONS_METHOD_ID)
+  private int methodId;
+  @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
+  private UqpayTradeType tradeType;
+  @ParamLink(Constants.ORDER_DATE)
+  private Date date;
+  @ParamLink(Constants.ORDER_ID)
+  private String orderId;
+  @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
+  private long uqOrderId;
+  @ParamLink(Constants.RESULT_UQPAY_RELATED_ID)
+  private String relatedId; // related order id (uqpay order), if this is a refund/cancel/withdraw order
+  @ParamLink(Constants.RESULT_STATE)
+  private String state;
+  @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
+  private Map<String,String> channelInfo;
+  @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
+  private Map<String,String> extendInfo;
 
   public QueryResult() {
-  }
-
-  public QueryResult(Map<String, Object> mapResult) {
-    this.code = mapResult.get(Constants.RESULT_CODE).toString();
-    this.sign = mapResult.get(Constants.AUTH_SIGN).toString();
-    this.merchantId = Integer.valueOf(mapResult.get(Constants.AUTH_MERCHANT_ID).toString());
-    this.tradeType = UqpayTradeType.valueOf((String) mapResult.get(Constants.PAY_OPTIONS_TRADE_TYPE));
-    this.message = mapResult.get(Constants.RESULT_MESSAGE).toString();
-    this.date = new Date(Long.valueOf(mapResult.get(Constants.ORDER_DATE).toString()));
-    this.orderId = mapResult.get(Constants.ORDER_ID).toString();
-    this.uqOrderId = Long.valueOf(mapResult.get(Constants.RESULT_UQPAY_ORDER_ID).toString());
-    this.methodId = Integer.valueOf(mapResult.get(Constants.PAY_OPTIONS_METHOD_ID).toString());
-    this.state = mapResult.get(Constants.RESULT_STATE).toString();
-    this.channelInfo = mapResult.get(Constants.ORDER_CHANNEL_INFO).toString();
-    this.extendInfo = mapResult.get(Constants.ORDER_EXTEND_INFO).toString();
-    this.relatedId = mapResult.get(Constants.RESULT_UQPAY_RELATED_ID).toString();
   }
 
   public String getSign() {
@@ -57,28 +52,28 @@ public class QueryResult implements Serializable {
     this.merchantId = merchantId;
   }
 
+  public int getAgentId() {
+    return agentId;
+  }
+
+  public void setAgentId(int agentId) {
+    this.agentId = agentId;
+  }
+
+  public int getMethodId() {
+    return methodId;
+  }
+
+  public void setMethodId(int methodId) {
+    this.methodId = methodId;
+  }
+
   public UqpayTradeType getTradeType() {
     return tradeType;
   }
 
   public void setTradeType(UqpayTradeType tradeType) {
     this.tradeType = tradeType;
-  }
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
   }
 
   public Date getDate() {
@@ -113,14 +108,6 @@ public class QueryResult implements Serializable {
     this.relatedId = relatedId;
   }
 
-  public int getMethodId() {
-    return methodId;
-  }
-
-  public void setMethodId(int methodId) {
-    this.methodId = methodId;
-  }
-
   public String getState() {
     return state;
   }
@@ -129,19 +116,19 @@ public class QueryResult implements Serializable {
     this.state = state;
   }
 
-  public String getChannelInfo() {
+  public Map<String, String> getChannelInfo() {
     return channelInfo;
   }
 
-  public void setChannelInfo(String channelInfo) {
+  public void setChannelInfo(Map<String, String> channelInfo) {
     this.channelInfo = channelInfo;
   }
 
-  public String getExtendInfo() {
+  public Map<String, String> getExtendInfo() {
     return extendInfo;
   }
 
-  public void setExtendInfo(String extendInfo) {
+  public void setExtendInfo(Map<String, String> extendInfo) {
     this.extendInfo = extendInfo;
   }
 }

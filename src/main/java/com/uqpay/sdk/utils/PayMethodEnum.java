@@ -4,8 +4,8 @@ public enum PayMethodEnum {
   UnionPayQR(PayMethod.UnionPayQR, ScenesEnum.QRCode),
   AlipayQR(PayMethod.AlipayQR, ScenesEnum.QRCode),
   WeChatQR(PayMethod.WeChatQR, ScenesEnum.QRCode),
-  WeChatH5(PayMethod.WeChatH5, ScenesEnum.OnlinePay),
-  UnionPayOnline(PayMethod.UnionPayOnline, ScenesEnum.OnlinePay),
+  WeChatH5(PayMethod.WeChatH5, ScenesEnum.RedirectPay),
+  UnionPayOnline(PayMethod.UnionPayOnline, ScenesEnum.RedirectPay),
   VISA(PayMethod.VISA, ScenesEnum.CreditCard),
   VISA3D(PayMethod.VISA3D, ScenesEnum.ThreeDCreditCard),
   Master(PayMethod.Master, ScenesEnum.CreditCard),
@@ -14,11 +14,11 @@ public enum PayMethodEnum {
   AMEX(PayMethod.AMEX, ScenesEnum.CreditCard),
   JCB(PayMethod.JCB, ScenesEnum.CreditCard),
   PayPal(PayMethod.PayPal, ScenesEnum.CreditCard),
-  Alipay(PayMethod.Alipay, ScenesEnum.OnlinePay),
-  AlipayWap(PayMethod.AlipayWap, ScenesEnum.OnlinePay),
+  Alipay(PayMethod.Alipay, ScenesEnum.RedirectPay),
+  AlipayWap(PayMethod.AlipayWap, ScenesEnum.RedirectPay),
   Wechat_InAPP(PayMethod.Wechat_InAPP, ScenesEnum.InApp),
   UnionPay_InAPP(PayMethod.UnionPay_InAPP, ScenesEnum.InApp),
-  ApplePay(PayMethod.ApplePay, ScenesEnum.OnlinePay);
+  ApplePay(PayMethod.ApplePay, ScenesEnum.RedirectPay);
 
   private int value;
   private ScenesEnum scenes;

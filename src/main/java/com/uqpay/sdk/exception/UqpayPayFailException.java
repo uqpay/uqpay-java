@@ -1,17 +1,20 @@
 package com.uqpay.sdk.exception;
 
-import com.uqpay.sdk.utils.Constants;
-
-import java.util.Map;
-
-public class UqpayPayFailException extends UqpayResultVerifyException{
+public class UqpayPayFailException extends Exception{
   private int code;
-  public UqpayPayFailException(String msg, Map<String, Object> resultMap) {
-    super(msg, resultMap);
-    this.code = Integer.valueOf(resultMap.get(Constants.RESULT_CODE).toString());
+  private String message;
+
+  public UqpayPayFailException(int code, String message) {
+    this.code = code;
+    this.message = message;
   }
 
   public int getCode() {
     return code;
+  }
+
+  @Override
+  public String getMessage() {
+    return message;
   }
 }
