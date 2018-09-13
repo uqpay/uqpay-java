@@ -98,8 +98,12 @@ public class PayUtil {
             default:
               realValue = value;
           }
-        } else if (field.getType().getInterfaces()[0].equals(HasValue.class)) {
-          realValue = Tools.enumValueOf(field.getType(), Short.valueOf(value));
+        } else if (field.getType().isEnum()) {
+          if (field.getType().getInterfaces().length > 0 && field.getType().getInterfaces()[0].equals(HasValue.class)) {
+            realValue = Tools.enumValueOf(field.getType(), Short.valueOf(value));
+          } else {
+            // TODO;
+          }
         } else {
           switch (field.getType().getName()) {
             case "java.lang.Integer":
