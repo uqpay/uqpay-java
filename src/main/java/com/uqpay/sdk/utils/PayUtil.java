@@ -102,7 +102,7 @@ public class PayUtil {
           if (field.getType().getInterfaces().length > 0 && field.getType().getInterfaces()[0].equals(HasValue.class)) {
             realValue = Tools.enumValueOf(field.getType(), Short.valueOf(value));
           } else {
-            // TODO;
+            realValue = value; // to fix
           }
         } else {
           switch (field.getType().getName()) {
