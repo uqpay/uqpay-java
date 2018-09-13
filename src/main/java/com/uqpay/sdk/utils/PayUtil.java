@@ -92,7 +92,7 @@ public class PayUtil {
         Field field = fields[i];
         ParamLink paramLink = field.getAnnotation(ParamLink.class);
         if (paramLink == null) continue;
-        String value = String.valueOf(source.get(paramLink.value()));
+        Object value = source.get(paramLink.value());
         if (value == null || value.equals("")) continue;
         String name = Tools.capitalize(field.getName());
         Method setValue = clazz.getMethod("set" + name, field.getType());
@@ -101,14 +101,14 @@ public class PayUtil {
         if (!targetType.equals("")) {
           switch (targetType) {
             case "JSON":
-              realValue = Tools.json2map(value);
+              realValue = Tools.json2map(value.toString());
               break;
             default:
               realValue = value;
           }
         } else if (field.getType().isEnum()) {
           if (field.getType().getInterfaces().length > 0 && field.getType().getInterfaces()[0].equals(HasValue.class)) {
-            realValue = Tools.enumValueOf(field.getType(), Short.valueOf(value));
+            realValue = Tools.enumValueOf(field.getType(), Short.valueOf(value.toString()));
           } else {
             realValue = value; // to fix
           }
@@ -116,19 +116,19 @@ public class PayUtil {
           switch (field.getType().getName()) {
             case "java.lang.Integer":
             case "int":
-              realValue = Integer.valueOf(value);
+              realValue = Integer.valueOf(value.toString());
               break;
             case "java.lang.Double":
             case "double":
-              realValue = Double.valueOf(value);
+              realValue = Double.valueOf(value.toString());
               break;
             case "java.util.Date":
               Calendar calendar = Calendar.getInstance();
-              calendar.setTimeInMillis(Long.valueOf(value));
+              calendar.setTimeInMillis(Long.valueOf(value.toString()));
               realValue = calendar.getTime();
               break;
             case "java.util.Currency":
-              realValue = Currency.getInstance(value);
+              realValue = Currency.getInstance(value.toString());
               break;
             default:
               realValue = value;
