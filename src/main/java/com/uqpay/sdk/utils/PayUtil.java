@@ -56,6 +56,14 @@ public class PayUtil {
           }
         } else {
           switch (field.getType().getName()) {
+            case "java.lang.Integer":
+            case "int":
+            case "java.lang.Double":
+            case "double":
+              if (value.toString() != "0") {
+                realValue = value;
+              }
+              break;
             case "java.util.Date":
               realValue = ((Date) value).getTime();
               break;
