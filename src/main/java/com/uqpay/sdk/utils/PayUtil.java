@@ -60,7 +60,7 @@ public class PayUtil {
             case "int":
             case "java.lang.Double":
             case "double":
-              if (value.toString() != "0") {
+              if (!value.toString().equals("0")) {
                 realValue = value;
               }
               break;
