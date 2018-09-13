@@ -60,6 +60,8 @@ public class PayUtil {
             case "int":
             case "java.lang.Double":
             case "double":
+            case "java.lang.Long":
+            case "long":
               if (!value.toString().equals("0")) {
                 realValue = value;
               }
@@ -121,6 +123,10 @@ public class PayUtil {
             case "java.lang.Double":
             case "double":
               realValue = Double.valueOf(value.toString());
+              break;
+            case "java.lang.Long":
+            case "long":
+              realValue = Long.valueOf(value.toString());
               break;
             case "java.util.Date":
               Calendar calendar = Calendar.getInstance();
