@@ -13,10 +13,8 @@ public class BankCardDTO extends CreditCardDTO {
   @NotEmpty
   private String addressCountry;
   @ParamLink(Constants.BANK_CARD_ADDRESS_STATE)
-
   private String addressState;
   @ParamLink(Constants.BANK_CARD_ADDRESS_CITY)
-
   private String addressCity;
   @ParamLink(Constants.BANK_CARD_ADDRESS)
 

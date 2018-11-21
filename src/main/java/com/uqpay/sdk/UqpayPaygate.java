@@ -2,10 +2,7 @@ package com.uqpay.sdk;
 
 import com.uqpay.sdk.dto.PayOptions;
 import com.uqpay.sdk.dto.PaygateParams;
-import com.uqpay.sdk.dto.common.AuthDTO;
-import com.uqpay.sdk.dto.common.BankCardCompatibleDTO;
-import com.uqpay.sdk.dto.common.BankCardDTO;
-import com.uqpay.sdk.dto.common.CreditCardDTO;
+import com.uqpay.sdk.dto.common.*;
 import com.uqpay.sdk.dto.enroll.EnrollOrder;
 import com.uqpay.sdk.dto.enroll.VerifyOrder;
 import com.uqpay.sdk.dto.pay.PayOrder;
@@ -115,11 +112,11 @@ public class UqpayPaygate {
   }
 
   private final CardResult MerchantHostPayment(PaygateParams pay, BankCardCompatibleDTO bankCard, String url) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    if (bankCard.getCardType().equals(BankCardType.Credit)) {
-      if (bankCard.getExpireMonth() == null || bankCard.getExpireMonth().equals("") || bankCard.getExpireYear() == null || bankCard.getExpireYear().equals("")) {
-        throw new NullPointerException("uqpay merchant host payment if the card type is credit, the expire date info is required");
-      }
-    }
+    Map<String, String> paramsMap = PayUtil.params2Map(pay, bankCard, this.auth);
+    return directPost(paramsMap, url, CardResult.class);
+  }
+
+  private final CardResult ServerHostPayment(PaygateParams pay, BankCardHostBaseDTO bankCard, String url) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
     Map<String, String> paramsMap = PayUtil.params2Map(pay, bankCard, this.auth);
     return directPost(paramsMap, url, CardResult.class);
   }
@@ -147,8 +144,8 @@ public class UqpayPaygate {
     return directPost(paramsMap, apiUrl(Constants.PAYGATE_API_PRE_AUTH), TransResult.class);
   }
 
-  private final CardResult EnrollCard(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    Map<String, String> paramsMap = PayUtil.params2Map(order, this.auth);
+  private final CardResult EnrollCard(EnrollOrder order, BankCardDTO bankCardDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    Map<String, String> paramsMap = PayUtil.params2Map(order, bankCardDTO, this.auth);
     return directPost(paramsMap, apiUrl(Constants.PAYGATE_API_ENROLL), CardResult.class);
   }
 
@@ -220,7 +217,12 @@ public class UqpayPaygate {
         validatePayData(bankCard);
         return this.ThreeDSecurePayment(order, bankCard, apiUrl(Constants.PAYGATE_API_PAY));
       case MerchantHost:
-        return this.MerchantHostPayment(order, BankCardCompatibleDTO.valueOf(bankCard), apiUrl(Constants.PAYGATE_API_PAY));
+        BankCardCompatibleDTO cardCompatibleDTO = BankCardCompatibleDTO.valueOf(bankCard);
+        validatePayData(cardCompatibleDTO);
+        return this.MerchantHostPayment(order, cardCompatibleDTO, apiUrl(Constants.PAYGATE_API_PAY));
+      case ServerHost:
+        BankCardHostBaseDTO hostBaseDTO = BankCardHostBaseDTO.valueOf(bankCard);
+        return this.ServerHostPayment(order, hostBaseDTO, apiUrl(Constants.PAYGATE_API_PAY));
       default:
         return null;
     }
@@ -273,13 +275,16 @@ public class UqpayPaygate {
   // Enroll API
   //===========================================
 
-  public final Object enroll(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+  public final Object enroll(EnrollOrder order, BankCardDTO bankCardDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
     order.setTradeType(UqpayTradeType.enroll);
     validatePayData(order);
+    validatePayData(bankCardDTO);
     PayMethodEnum scenes = PayMethodEnum.valueOf(order.getMethodId());
     switch (scenes.getScenes()) {
       case MerchantHost:
-        return this.EnrollCard(order);
+        return this.EnrollCard(order, bankCardDTO);
+      case ServerHost:
+        return this.EnrollCard(order, bankCardDTO);
       default:
         return null;
     }

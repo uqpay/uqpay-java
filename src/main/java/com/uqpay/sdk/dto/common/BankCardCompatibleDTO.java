@@ -9,11 +9,8 @@ import org.springframework.beans.BeanUtils;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class BankCardCompatibleDTO implements PaygateParams {
-  private static final long serialVersionUID = -1196720316572173015L;
-  @ParamLink(Constants.BANK_CARD_TYPE)
-  @NotNull
-  private BankCardType cardType;
+public class BankCardCompatibleDTO extends BankCardHostBaseDTO {
+  private static final long serialVersionUID = -3250705245010408049L;
 
   @ParamLink(Constants.BANK_CARD_CARD_NUM)
   @NotEmpty
@@ -36,14 +33,6 @@ public class BankCardCompatibleDTO implements PaygateParams {
     BankCardCompatibleDTO result = new BankCardCompatibleDTO();
     BeanUtils.copyProperties(bankCard, result);
     return result;
-  }
-
-  public BankCardType getCardType() {
-    return cardType;
-  }
-
-  public void setCardType(BankCardType cardType) {
-    this.cardType = cardType;
   }
 
   public String getCardNum() {

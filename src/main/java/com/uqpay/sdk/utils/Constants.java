@@ -56,6 +56,7 @@ public class Constants {
 
   public static final String MERCHANT_HOST_ENROLL_CODE_UQPAY_ID = "codeuqpayid";
   public static final String MERCHANT_HOST_VERIFY_CODE = "verifycode";
+  public static final String SERVER_HOST_CARD_TOKEN = "token";
 
   public static final String PAYGATE_API_PAY = "/pay";
   public static final String PAYGATE_API_REFUND = "/refund";

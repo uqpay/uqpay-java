@@ -14,5 +14,7 @@ public enum ScenesEnum {
   DirectPay, // 105
   MerchantHost, // 110
   EmbedPay, // 107
-  InApp // 109
+  InApp, // 109
+  OnlinePay, // 104
+  ServerHost;// 111
 }
