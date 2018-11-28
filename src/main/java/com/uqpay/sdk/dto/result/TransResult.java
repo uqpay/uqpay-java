@@ -30,7 +30,8 @@ public class TransResult extends BaseResult {
   private Currency currency;
   @ParamLink(value = Constants.RESULT_STATE)
   private String state; // order state
-
+  @ParamLink(value = Constants.SERVER_HOST_CARD_TOKEN)
+  protected String token;       //cardtoken
   @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
   private Map<String,String> channelInfo;
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
@@ -140,5 +141,13 @@ public class TransResult extends BaseResult {
 
   public void setExtendInfo(Map<String, String> extendInfo) {
     this.extendInfo = extendInfo;
+  }
+
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
   }
 }
