@@ -8,6 +8,7 @@ package com.uqpay.sdk.utils;
  */
 public enum PayMethodEnum {
   UnionPayQR(PayMethod.UnionPayQR, ScenesEnum.QRCode),
+  UnionPayOfflineQR(PayMethod.UnionPayOfflineQR, ScenesEnum.QRCode),
   AlipayQR(PayMethod.AlipayQR, ScenesEnum.QRCode),
   WeChatQR(PayMethod.WeChatQR, ScenesEnum.QRCode),
   WechatWebBasedInApp(PayMethod.WechatWebBasedInApp, ScenesEnum.RedirectPay),
