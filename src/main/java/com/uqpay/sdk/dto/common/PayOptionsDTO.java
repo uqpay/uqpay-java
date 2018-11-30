@@ -41,7 +41,12 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
   @ParamLink(Constants.PAY_OPTIONS_SCAN_TYPE)
   private UqpayScanType scanType; // only required for qr code payment
   @ParamLink(Constants.PAY_OPTIONS_IDENTITY)
-  private String identity; // only required for qr code payment when scan type is Merchant
+  private String identity; // only required for qr code payment when scan type is Merchant or the pay method is offline qr code
+
+  @ParamLink(Constants.PAY_OPTIONS_MERCHANT_CITY)
+  private String merchantCity; //城市
+  @ParamLink(Constants.PAY_OPTIONS_TERMINAL_ID)
+  private String terminalID; //终端号
 
   @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
   private Map<String,String> channelInfo;
@@ -130,5 +135,21 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
 
   public void setExtendInfo(Map<String, String> extendInfo) {
     this.extendInfo = extendInfo;
+  }
+
+  public String getMerchantCity() {
+    return merchantCity;
+  }
+
+  public void setMerchantCity(String merchantCity) {
+    this.merchantCity = merchantCity;
+  }
+
+  public String getTerminalID() {
+    return terminalID;
+  }
+
+  public void setTerminalID(String terminalID) {
+    this.terminalID = terminalID;
   }
 }

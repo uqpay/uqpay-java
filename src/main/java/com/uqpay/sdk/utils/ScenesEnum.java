@@ -8,6 +8,7 @@ package com.uqpay.sdk.utils;
  */
 public enum ScenesEnum {
   QRCode,// 101
+  OfflineQRCode,// 106 离线扫码
   CreditCard, // 102
   ThreeDCreditCard, // 103
   RedirectPay, // 104

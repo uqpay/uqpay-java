@@ -98,6 +98,20 @@ public class UqpayPaygate {
     return directPost(paramsMap, url, QRResult.class);
   }
 
+  private final QRResult OfflineQRCodePayment(PaygateParams pay, String url) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+    PayOptions payOptions = (PayOptions) pay;
+    if (payOptions.getIdentity() == null)
+      throw new NullPointerException("uqpay offline qr code payment need the identity data");
+    if (payOptions.getMerchantCity() == null) {
+      throw new NullPointerException("uqpay offline qr code payment need the merchant city data");
+    }
+    if (payOptions.getTerminalID() == null) {
+      throw new NullPointerException("uqpay offline qr code payment need the terminal id data");
+    }
+    Map<String, String> paramsMap = PayUtil.params2Map(pay, this.auth);
+    return directPost(paramsMap, url, QRResult.class);
+  }
+
   private final String RedirectPayment(PaygateParams pay, String url) throws IOException, UqpayRSAException, UqpayPayFailException {
     PayOptions payOptions = (PayOptions) pay;
     if (payOptions.getReturnUrl() == null || payOptions.getReturnUrl().equals(""))
@@ -175,6 +189,8 @@ public class UqpayPaygate {
     switch (scenes.getScenes()) {
       case QRCode:
         return this.QRCodePayment(order, apiUrl(Constants.PAYGATE_API_PAY));
+      case OfflineQRCode:
+        return this.OfflineQRCodePayment(order, apiUrl(Constants.PAYGATE_API_PAY));
       case RedirectPay:
         return this.RedirectPayment(order, apiUrl(Constants.PAYGATE_API_PAY));
       case InApp:

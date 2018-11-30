@@ -41,4 +41,12 @@ public interface PayOptions {
   public Map<String, String> getExtendInfo();
 
   public void setExtendInfo(Map<String, String> extendInfo);
+
+  public String getMerchantCity();
+
+  public void setMerchantCity(String merchantCity);
+
+  public String getTerminalID();
+
+  public void setTerminalID(String terminalID);
 }
