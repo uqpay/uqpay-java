@@ -158,8 +158,8 @@ public class UqpayPaygate {
     return directPost(paramsMap, apiUrl(Constants.PAYGATE_API_PRE_AUTH), TransResult.class);
   }
 
-  private final CardResult EnrollCard(EnrollOrder order, BankCardDTO bankCardDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    Map<String, String> paramsMap = PayUtil.params2Map(order, bankCardDTO, this.auth);
+  private final CardResult EnrollCard(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    Map<String, String> paramsMap = PayUtil.params2Map(order, this.auth);
     return directPost(paramsMap, apiUrl(Constants.PAYGATE_API_ENROLL), CardResult.class);
   }
 
@@ -291,22 +291,21 @@ public class UqpayPaygate {
   // Enroll API
   //===========================================
 
-  public final Object enroll(EnrollOrder order, BankCardDTO bankCardDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+  public final CardResult enroll(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
     order.setTradeType(UqpayTradeType.enroll);
     validatePayData(order);
-    validatePayData(bankCardDTO);
     PayMethodEnum scenes = PayMethodEnum.valueOf(order.getMethodId());
     switch (scenes.getScenes()) {
       case MerchantHost:
-        return this.EnrollCard(order, bankCardDTO);
+        return this.EnrollCard(order);
       case ServerHost:
-        return this.EnrollCard(order, bankCardDTO);
+        return this.EnrollCard(order);
       default:
         return null;
     }
   }
 
-  public final Object verify(VerifyOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+  public final CardResult verify(VerifyOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
     order.setTradeType(UqpayTradeType.verifycode);
     validatePayData(order);
     return this.VerifyPhone(order);
