@@ -1,18 +1,14 @@
 package com.uqpay.sdk.utils;
 
+import com.uqpay.sdk.config.BaseConfig;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.dto.result.BaseResult;
 import com.uqpay.sdk.exception.UqpayPayFailException;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import com.uqpay.sdk.config.CashierConfig;
+import okhttp3.*;
 import com.uqpay.sdk.config.PaygateConfig;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
-import com.uqpay.sdk.vo.UqpayCashier;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -148,22 +144,18 @@ public class PayUtil {
     }
   }
 
-  public static String generateCashierLink(UqpayCashier cashier, CashierConfig config)
-      throws UnsupportedEncodingException, UqpayRSAException {
-    Map<String, String> paramsMap = new HashMap<>();
-    paramsMap.putAll(cashier.getParamsMap());
-    String paramsQuery = Tools.stringify(paramsMap, false);
-    String sign = RSAUtil.sign(paramsQuery, config.getRSA().getPrivateKey());
-    paramsMap.put(Constants.AUTH_SIGN, sign);
-    return config.getApiRoot() + "?" + Tools.stringify(paramsMap, true);
-  }
-
   public static Map<String, String> signParams(Map<String, String> paramsMap, PaygateConfig config)
       throws UnsupportedEncodingException, UqpayRSAException {
     String paramsQuery = Tools.stringify(paramsMap, false);
     String sign = RSAUtil.sign(paramsQuery, config.getRSA().getPrivateKey());
     paramsMap.put(Constants.AUTH_SIGN, sign);
     return paramsMap;
+  }
+
+  public static String signParams(Object params, BaseConfig config) throws IOException, UqpayRSAException {
+    String jsonData = Tools.objToJson(params);
+    String sign = RSAUtil.sign(jsonData, config.getRSA().getPrivateKey());
+    return sign;
   }
 
   public static void verifyUqpayNotice(Map<String, String> paramsMap, PaygateConfig config)
@@ -177,12 +169,12 @@ public class PayUtil {
       }
     });
     String paramsQuery = Tools.stringify(needVerifyParams, false);
-    boolean verify = RSAUtil.verify(paramsQuery, paramsMap.get(Constants.AUTH_SIGN).toString(), config.getUqpayPublicKey().getPublicKey());
+    boolean verify = RSAUtil.verify(paramsQuery, paramsMap.get(Constants.AUTH_SIGN).toString(), config.getRSA().getPublicKey());
     if (!verify)
       throw new UqpayResultVerifyException("The payment result is invalid, be sure is from the UQPAY server", paramsMap);
   }
 
-  public static Request generateRequest(Map<String, String> paramsMap, String url) {
+  public static Request generateFormRequest(Map<String, String> paramsMap, String url) {
     FormBody.Builder formBody = new FormBody.Builder();
     paramsMap.forEach((key, value) -> formBody.add(key, value));
     Request request = new Request.Builder()
@@ -192,7 +184,17 @@ public class PayUtil {
     return request;
   }
 
-  public static Response doSyncFormRequest(Request request) throws IOException, UqpayPayFailException {
+  public static Request generateJsonRequest(Object bodyObject, String url) throws IOException {
+    String requestBody = Tools.objToJson(bodyObject);
+    MediaType mediaType = MediaType.parse("application/json;charset=UTF-8");
+    Request request = new Request.Builder()
+        .url(url)
+        .post(RequestBody.create(mediaType, requestBody))
+        .build();
+    return request;
+  }
+
+  public static Response doSyncRequest(Request request) throws IOException, UqpayPayFailException {
     Response response = httpClient.newCall(request).execute();
     if (response.isSuccessful()) {
       return response;

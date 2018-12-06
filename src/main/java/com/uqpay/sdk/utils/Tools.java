@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
@@ -34,6 +35,10 @@ public class Tools {
     return mapper.readValue(jsonStr, Map.class);
   }
 
+  public static <T> T json2Obj(String jsonStr, Class<T> clasz) throws IOException {
+    return mapper.readValue(jsonStr, clasz);
+  }
+
   public static final String capitalize(String string) {
     char[] cache = string.toCharArray();
     cache[0] -= 32;
@@ -46,12 +51,17 @@ public class Tools {
       if (map == null) {
         return "";
       }
-      ObjectMapper mapper = new ObjectMapper();
       jsonString = mapper.writeValueAsString(map);
     } catch (Exception ex) {
       return "";
     }
     return jsonString;
+  }
+
+  public static String objToJson(Object obj) throws IOException {
+    StringWriter sw = new StringWriter();
+    mapper.writeValue(sw, obj);
+    return sw.toString();
   }
 
   public static List<Field> getAllFieldsList(final Class<?> clazz) {

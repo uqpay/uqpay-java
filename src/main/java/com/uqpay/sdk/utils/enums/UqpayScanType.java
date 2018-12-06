@@ -1,4 +1,6 @@
-package com.uqpay.sdk.utils;
+package com.uqpay.sdk.utils.enums;
+
+import com.uqpay.sdk.utils.HasValue;
 
 public enum UqpayScanType implements HasValue {
   Merchant((short) 0), // merchant scan consumer

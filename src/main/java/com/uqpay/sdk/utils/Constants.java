@@ -31,7 +31,6 @@ public class Constants {
   public static final String RESULT_CODE = "code";
   public static final String RESULT_UQPAY_ORDER_ID = "uqorderid";
   public static final String RESULT_UQPAY_RELATED_ID = "relatedid";
-  public static final String RESULT_UQPAY_SCENES_ID = "scenesid";
   public static final String RESULT_STATE = "state";
   public static final String RESULT_ACCEPT_CODE = "acceptcode";
 
@@ -48,13 +47,8 @@ public class Constants {
   public static final String BANK_CARD_EXPIRE_MONTH = "expiremonth";
   public static final String BANK_CARD_EXPIRE_YEAR = "expireyear";
   public static final String BANK_CARD_ADDRESS_COUNTRY = "addresscountry";
-  public static final String BANK_CARD_ADDRESS_STATE = "addressstate";
-  public static final String BANK_CARD_ADDRESS_CITY = "addresscity";
-  public static final String BANK_CARD_ADDRESS = "address";
   public static final String BANK_CARD_PHONE = "phone";
   public static final String BANK_CARD_EMAIL = "email";
-  public static final String BANK_CARD_ZIP = "zip";
-  public static final String BANK_CARD_TYPE = "cardtype";
 
   public static final String MERCHANT_HOST_ENROLL_CODE_UQPAY_ID = "codeuqpayid";
   public static final String MERCHANT_HOST_VERIFY_CODE = "verifycode";
@@ -67,4 +61,9 @@ public class Constants {
   public static final String PAYGATE_API_PRE_AUTH = "/preauth";
   public static final String PAYGATE_API_ENROLL = "/enroll";
   public static final String PAYGATE_API_VERIFY = "/verify";
+  public static final String APPGATE_API_REGISTER = "/register";
+  public static final String APPGATE_API_EMVCO_CREATE = "/emvco/create";
+  public static final String APPGATE_API_EMVCO_QUERY = "/emvco/query";
+  public static final String APPGATE_API_EMVCO_PAYLOAD = "/emvco/payload";
+  public static final String APPGATE_API_RES_EXCHANGE_RATE = "/res/exchange";
 }

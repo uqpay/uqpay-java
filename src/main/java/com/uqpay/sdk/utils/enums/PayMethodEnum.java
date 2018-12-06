@@ -1,4 +1,6 @@
-package com.uqpay.sdk.utils;
+package com.uqpay.sdk.utils.enums;
+
+import com.uqpay.sdk.utils.PayMethod;
 
 /**
  * <p>PayMethodEnum class.</p>
@@ -41,7 +43,7 @@ public enum PayMethodEnum {
    * <p>valueOf.</p>
    *
    * @param value a int.
-   * @return a {@link com.uqpay.sdk.utils.PayMethodEnum} object.
+   * @return a {@link PayMethodEnum} object.
    */
   public static PayMethodEnum valueOf(int value) {
     for (PayMethodEnum val : PayMethodEnum.values()) {
@@ -64,7 +66,7 @@ public enum PayMethodEnum {
   /**
    * <p>Getter for the field <code>scenes</code>.</p>
    *
-   * @return a {@link com.uqpay.sdk.utils.ScenesEnum} object.
+   * @return a {@link ScenesEnum} object.
    */
   public ScenesEnum getScenes() {
     return scenes;

@@ -1,75 +1,88 @@
 package com.uqpay.sdk.dto.common;
 
 import com.uqpay.sdk.dto.ParamLink;
+import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.utils.Constants;
+import org.springframework.beans.BeanUtils;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
-public class BankCardDTO extends CreditCardDTO {
-  private static final long serialVersionUID = -6572498004474248352L;
+public class BankCardDTO implements PaygateParams {
+  private static final long serialVersionUID = -15914608351693804L;
+  @ParamLink(Constants.BANK_CARD_FIRST_NAME)
+  @NotBlank
+  private String firstName;
+  @ParamLink(Constants.BANK_CARD_LAST_NAME)
+  @NotBlank
+  private String lastName;
 
-  @ParamLink(Constants.BANK_CARD_ADDRESS_COUNTRY)
-  @NotEmpty
-  private String addressCountry;
-  @ParamLink(Constants.BANK_CARD_ADDRESS_STATE)
-  private String addressState;
-  @ParamLink(Constants.BANK_CARD_ADDRESS_CITY)
-  private String addressCity;
-  @ParamLink(Constants.BANK_CARD_ADDRESS)
+  @ParamLink(Constants.BANK_CARD_CVV)
+  @NotBlank
+  private String cvv;
 
-  private String address;
-  @ParamLink(Constants.BANK_CARD_ZIP)
-  private String zip;
-  @ParamLink(Constants.BANK_CARD_EMAIL)
-  @Email
-  private String email;
+  @ParamLink(Constants.BANK_CARD_CARD_NUM)
+  @NotBlank
+  private String cardNum;
 
-  public String getAddressCountry() {
-    return addressCountry;
+  @ParamLink(Constants.BANK_CARD_EXPIRE_MONTH)
+  @NotBlank
+  private String expireMonth;
+
+  @ParamLink(Constants.BANK_CARD_EXPIRE_YEAR)
+  @NotBlank
+  private String expireYear;
+
+  public static BankCardDTO valueOf(BankCardExtendDTO bankCard) {
+    BankCardDTO result = new BankCardDTO();
+    BeanUtils.copyProperties(bankCard, result);
+    return result;
   }
 
-  public void setAddressCountry(String addressCountry) {
-    this.addressCountry = addressCountry;
+  public String getCardNum() {
+    return cardNum;
   }
 
-  public String getAddressState() {
-    return addressState;
+  public void setCardNum(String cardNum) {
+    this.cardNum = cardNum;
   }
 
-  public void setAddressState(String addressState) {
-    this.addressState = addressState;
+  public String getExpireMonth() {
+    return expireMonth;
   }
 
-  public String getAddressCity() {
-    return addressCity;
+  public void setExpireMonth(String expireMonth) {
+    this.expireMonth = expireMonth;
   }
 
-  public void setAddressCity(String addressCity) {
-    this.addressCity = addressCity;
+  public String getExpireYear() {
+    return expireYear;
   }
 
-  public String getAddress() {
-    return address;
+  public void setExpireYear(String expireYear) {
+    this.expireYear = expireYear;
   }
 
-  public void setAddress(String address) {
-    this.address = address;
+  public String getCvv() {
+    return cvv;
   }
 
-  public String getZip() {
-    return zip;
+  public void setCvv(String cvv) {
+    this.cvv = cvv;
   }
 
-  public void setZip(String zip) {
-    this.zip = zip;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public String getEmail() {
-    return email;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 }

@@ -1,8 +1,8 @@
 package com.uqpay.sdk.dto;
 
-import com.uqpay.sdk.utils.PaymentSupportClient;
-import com.uqpay.sdk.utils.UqpayScanType;
-import com.uqpay.sdk.utils.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.PaymentSupportClient;
+import com.uqpay.sdk.utils.enums.UqpayScanType;
+import com.uqpay.sdk.utils.enums.UqpayTradeType;
 import java.util.Map;
 
 public interface PayOptions {

@@ -6,9 +6,9 @@ import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.dto.pay.PayOrder;
 import com.uqpay.sdk.dto.preAuth.PreAuthOrder;
 import com.uqpay.sdk.utils.Constants;
-import com.uqpay.sdk.utils.PaymentSupportClient;
-import com.uqpay.sdk.utils.UqpayScanType;
-import com.uqpay.sdk.utils.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.PaymentSupportClient;
+import com.uqpay.sdk.utils.enums.UqpayScanType;
+import com.uqpay.sdk.utils.enums.UqpayTradeType;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotEmpty;

@@ -2,24 +2,13 @@ package com.uqpay.sdk.dto.result;
 
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.utils.Constants;
-import com.uqpay.sdk.utils.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.UqpayScanType;
+
 import java.util.Currency;
-import java.util.Date;
 import java.util.Map;
 
 public class TransResult extends BaseResult {
-  @ParamLink(Constants.AUTH_SIGN)
-  private String sign;
-  @ParamLink(Constants.AUTH_MERCHANT_ID)
-  private int merchantId;
-  @ParamLink(Constants.AUTH_AGENT_ID)
-  private int agentId;
-  @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
-  private UqpayTradeType tradeType;
-  @ParamLink(Constants.PAY_OPTIONS_METHOD_ID)
-  private int methodId;
-  @ParamLink(Constants.ORDER_DATE)
-  private Date date;
+  private static final long serialVersionUID = -5335162222881027560L;
   @ParamLink(Constants.ORDER_ID)
   private String orderId;
   @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
@@ -30,62 +19,42 @@ public class TransResult extends BaseResult {
   private Currency currency;
   @ParamLink(value = Constants.RESULT_STATE)
   private String state; // order state
-  @ParamLink(value = Constants.SERVER_HOST_CARD_TOKEN)
-  protected String token;       //cardtoken
   @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
   private Map<String,String> channelInfo;
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
   private Map<String,String> extendInfo;
 
+  /**
+   * this result valued when IN-APP payment
+   */
+  @ParamLink(Constants.RESULT_ACCEPT_CODE)
+  private String acceptCode; // this code will be used by UQPAY Mobile Client SDK to generate the wallet app url scheme
+
+  /**
+   * these results valued when the payment want return some channel info
+   */
+  @ParamLink(Constants.RESULT_CHANNEL_CODE)
+  private String channelCode;
+  @ParamLink(Constants.RESULT_CHANNEL_MESSAGE)
+  private String channelMsg;
+
+  /**
+   * these results valued when QRCode payment
+   */
+  @ParamLink(Constants.PAY_OPTIONS_SCAN_TYPE)
+  private UqpayScanType scanType;
+  @ParamLink(Constants.RESULT_QR_CODE_URL)
+  private String qrCodeUrl;
+  @ParamLink(Constants.RESULT_QR_CODE_DATA)
+  private String qrCode;
+
+  /**
+   * this result only valued when ThreeD CreditCard and Online Payment
+   * if this result is valued, the others will be null
+   */
+  private String redirectHtml;
+
   public TransResult() {}
-
-  public String getSign() {
-    return sign;
-  }
-
-  public void setSign(String sign) {
-    this.sign = sign;
-  }
-
-  public int getMerchantId() {
-    return merchantId;
-  }
-
-  public void setMerchantId(int merchantId) {
-    this.merchantId = merchantId;
-  }
-
-  public int getAgentId() {
-    return agentId;
-  }
-
-  public void setAgentId(int agentId) {
-    this.agentId = agentId;
-  }
-
-  public UqpayTradeType getTradeType() {
-    return tradeType;
-  }
-
-  public void setTradeType(UqpayTradeType tradeType) {
-    this.tradeType = tradeType;
-  }
-
-  public int getMethodId() {
-    return methodId;
-  }
-
-  public void setMethodId(int methodId) {
-    this.methodId = methodId;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
-  }
 
   public String getOrderId() {
     return orderId;
@@ -143,11 +112,59 @@ public class TransResult extends BaseResult {
     this.extendInfo = extendInfo;
   }
 
-  public String getToken() {
-    return token;
+  public String getAcceptCode() {
+    return acceptCode;
   }
 
-  public void setToken(String token) {
-    this.token = token;
+  public void setAcceptCode(String acceptCode) {
+    this.acceptCode = acceptCode;
+  }
+
+  public String getChannelCode() {
+    return channelCode;
+  }
+
+  public void setChannelCode(String channelCode) {
+    this.channelCode = channelCode;
+  }
+
+  public String getChannelMsg() {
+    return channelMsg;
+  }
+
+  public void setChannelMsg(String channelMsg) {
+    this.channelMsg = channelMsg;
+  }
+
+  public UqpayScanType getScanType() {
+    return scanType;
+  }
+
+  public void setScanType(UqpayScanType scanType) {
+    this.scanType = scanType;
+  }
+
+  public String getQrCodeUrl() {
+    return qrCodeUrl;
+  }
+
+  public void setQrCodeUrl(String qrCodeUrl) {
+    this.qrCodeUrl = qrCodeUrl;
+  }
+
+  public String getQrCode() {
+    return qrCode;
+  }
+
+  public void setQrCode(String qrCode) {
+    this.qrCode = qrCode;
+  }
+
+  public String getRedirectHtml() {
+    return redirectHtml;
+  }
+
+  public void setRedirectHtml(String redirectHtml) {
+    this.redirectHtml = redirectHtml;
   }
 }

@@ -3,22 +3,23 @@ package com.uqpay.sdk.dto.operation;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.utils.Constants;
-import com.uqpay.sdk.utils.PaymentSupportClient;
-import com.uqpay.sdk.utils.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.PaymentSupportClient;
+import com.uqpay.sdk.utils.enums.UqpayTradeType;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
 public class OrderRefund implements PaygateParams {
-  private static final long serialVersionUID = 440075209595912671L;
+  private static final long serialVersionUID = 1518615803970107377L;
   /**
    * is required
    */
+  @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
+  @NotNull
+  private UqpayTradeType tradeType = UqpayTradeType.refund;
   @ParamLink(Constants.ORDER_ID)
   @NotEmpty
   private String orderId; // your order id
@@ -33,13 +34,21 @@ public class OrderRefund implements PaygateParams {
   private Date date; // this request generate date
   @ParamLink(Constants.PAY_OPTIONS_CLIENT_TYPE)
   @NotNull
-  private PaymentSupportClient clientType;
+  private PaymentSupportClient clientType = PaymentSupportClient.PC_WEB;
 
   /**
    * not required
    */
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
   private Map<String, String> extendInfo;
+
+  public UqpayTradeType getTradeType() {
+    return tradeType;
+  }
+
+  public void setTradeType(UqpayTradeType tradeType) {
+    this.tradeType = tradeType;
+  }
 
   public String getOrderId() {
     return orderId;

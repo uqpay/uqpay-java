@@ -1,4 +1,4 @@
-package com.uqpay.sdk.utils;
+package com.uqpay.sdk.utils.enums;
 
 /**
  * <p>ScenesEnum class.</p>

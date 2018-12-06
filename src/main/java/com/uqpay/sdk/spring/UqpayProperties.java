@@ -1,5 +1,6 @@
 package com.uqpay.sdk.spring;
 
+import com.uqpay.sdk.config.AppgateConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import com.uqpay.sdk.config.CashierConfig;
@@ -27,6 +28,12 @@ public class UqpayProperties {
    */
   @NestedConfigurationProperty
   private PaygateConfig paygate;
+
+  /**
+   * Payment Appgate Config
+   */
+  @NestedConfigurationProperty
+  private AppgateConfig appgate;
 
   /**
    * UQPAY Cashier Config
@@ -86,5 +93,13 @@ public class UqpayProperties {
    */
   public void setCashier(CashierConfig cashier) {
     this.cashier = cashier;
+  }
+
+  public AppgateConfig getAppgate() {
+    return appgate;
+  }
+
+  public void setAppgate(AppgateConfig appgate) {
+    this.appgate = appgate;
   }
 }

@@ -3,6 +3,7 @@ package com.uqpay.sdk.dto.enroll;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.common.PayOptionsDTO;
 import com.uqpay.sdk.utils.Constants;
+import com.uqpay.sdk.utils.enums.UqpayTradeType;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -24,6 +25,10 @@ public class VerifyOrder extends PayOptionsDTO {
   @ParamLink(Constants.BANK_CARD_PHONE)
   @NotEmpty
   private String phone;
+
+  public VerifyOrder() {
+    this.setTradeType(UqpayTradeType.verifycode);
+  }
 
   public String getOrderId() {
     return orderId;

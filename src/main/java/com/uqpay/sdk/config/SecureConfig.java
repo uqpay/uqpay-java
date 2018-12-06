@@ -9,28 +9,33 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
- * <p>RSAConfig class.</p>
+ * <p>SecureConfig class.</p>
  *
+ * Tips: if u set the key string instead of the path, please remove the comment line (which start with ----) and the line break.
  * @author zhengwei
  * @version $Id: $Id
  */
-public class RSAConfig implements Serializable {
+public class SecureConfig implements Serializable {
   private static final long serialVersionUID = -7014284669389490818L;
 
   /**
-   * RSA Private Key
-   * the content of the private pem.
-   * Tips: remove the comment line (which start with ----) and the line break.
+   * Merchant/Partner RSA Private Key Content
    */
   private String privateKeyStr;
   /**
-   * The pem file path of RSA Private Key
+   * The pem file path of Merchant/Partner RSA Private Key
    * Tips: make sure you have the permission to read.
    */
   private String privateKeyPath;
 
+  /**
+   * UQPAY RSA Public Key Content
+   */
   private String publicKeyStr;
 
+  /**
+   * The pem file path of Merchant/Partner RSA Private Key
+   */
   private String publicKeyPath;
 
   private PrivateKey privateKey;

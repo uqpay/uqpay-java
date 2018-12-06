@@ -3,6 +3,7 @@ package com.uqpay.sdk.dto.enroll;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.common.PayOptionsDTO;
 import com.uqpay.sdk.utils.Constants;
+import com.uqpay.sdk.utils.enums.UqpayTradeType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -39,6 +40,10 @@ public class EnrollOrder extends PayOptionsDTO {
 
   @ParamLink(Constants.BANK_CARD_EXPIRE_YEAR)
   private String expireYear;
+
+  public EnrollOrder() {
+    this.setTradeType(UqpayTradeType.enroll);
+  }
 
   public String getCardNum() {
     return cardNum;

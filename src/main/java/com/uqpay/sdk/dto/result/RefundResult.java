@@ -2,9 +2,8 @@ package com.uqpay.sdk.dto.result;
 
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.utils.Constants;
-import com.uqpay.sdk.utils.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.UqpayTradeType;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 

@@ -1,19 +1,15 @@
 package com.uqpay.sdk.dto.common;
 
-import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.dto.ParamLink;
-import com.uqpay.sdk.utils.BankCardType;
+import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.utils.Constants;
-import org.springframework.beans.BeanUtils;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
-public class BankCardCompatibleDTO extends BankCardHostBaseDTO {
-  private static final long serialVersionUID = -3250705245010408049L;
-
+public class MerchantHostDTO implements PaygateParams {
+  private static final long serialVersionUID = 3624987650141836631L;
   @ParamLink(Constants.BANK_CARD_CARD_NUM)
-  @NotEmpty
+  @NotBlank
   private String cardNum;
 
   @ParamLink(Constants.BANK_CARD_EXPIRE_MONTH)
@@ -23,17 +19,8 @@ public class BankCardCompatibleDTO extends BankCardHostBaseDTO {
   private String expireYear;
 
   @ParamLink(Constants.BANK_CARD_PHONE)
-  @NotEmpty
+  @NotBlank
   private String phone;
-
-  public BankCardCompatibleDTO() {
-  }
-
-  public static BankCardCompatibleDTO valueOf(BankCardDTO bankCard) {
-    BankCardCompatibleDTO result = new BankCardCompatibleDTO();
-    BeanUtils.copyProperties(bankCard, result);
-    return result;
-  }
 
   public String getCardNum() {
     return cardNum;

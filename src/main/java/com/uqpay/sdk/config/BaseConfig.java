@@ -13,16 +13,16 @@ public class BaseConfig implements Serializable {
 
   private boolean testMode = false;
 
-  private RSAConfig productRSA;
+  private SecureConfig productRSA;
 
-  private RSAConfig testRSA;
+  private SecureConfig testRSA;
 
   /**
    * <p>getRSA.</p>
    *
-   * @return a {@link com.uqpay.sdk.config.RSAConfig} object.
+   * @return a {@link SecureConfig} object.
    */
-  public RSAConfig getRSA() {
+  public SecureConfig getRSA() {
     if (isTestMode()) {
       return testRSA;
     }
@@ -32,36 +32,36 @@ public class BaseConfig implements Serializable {
   /**
    * <p>Getter for the field <code>productRSA</code>.</p>
    *
-   * @return a {@link com.uqpay.sdk.config.RSAConfig} object.
+   * @return a {@link SecureConfig} object.
    */
-  public RSAConfig getProductRSA() {
+  public SecureConfig getProductRSA() {
     return productRSA;
   }
 
   /**
    * <p>Setter for the field <code>productRSA</code>.</p>
    *
-   * @param productRSA a {@link com.uqpay.sdk.config.RSAConfig} object.
+   * @param productRSA a {@link SecureConfig} object.
    */
-  public void setProductRSA(RSAConfig productRSA) {
+  public void setProductRSA(SecureConfig productRSA) {
     this.productRSA = productRSA;
   }
 
   /**
    * <p>Getter for the field <code>testRSA</code>.</p>
    *
-   * @return a {@link com.uqpay.sdk.config.RSAConfig} object.
+   * @return a {@link SecureConfig} object.
    */
-  public RSAConfig getTestRSA() {
+  public SecureConfig getTestRSA() {
     return testRSA;
   }
 
   /**
    * <p>Setter for the field <code>testRSA</code>.</p>
    *
-   * @param testRSA a {@link com.uqpay.sdk.config.RSAConfig} object.
+   * @param testRSA a {@link SecureConfig} object.
    */
-  public void setTestRSA(RSAConfig testRSA) {
+  public void setTestRSA(SecureConfig testRSA) {
     this.testRSA = testRSA;
   }
 
