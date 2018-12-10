@@ -115,7 +115,7 @@ public class UqpayAPI {
   }
 
   private Map<String, String> generatePayParamsMap(PaygateParams... params) throws UnsupportedEncodingException, UqpayRSAException {
-    List<PaygateParams> paygateParams = Arrays.asList(params);
+    List<PaygateParams> paygateParams = new ArrayList<>(Arrays.asList(params));
     paygateParams.add(this.auth);
     PaygateParams[] finalParams = new PaygateParams[paygateParams.size()];
     Map<String, String> paramsMap = PayUtil.params2Map(paygateParams.toArray(finalParams));
