@@ -8,7 +8,7 @@ import java.util.Currency;
 import java.util.Map;
 
 public class TransResult extends BaseResult {
-  private static final long serialVersionUID = 2003547672016986548L;
+  private static final long serialVersionUID = -6119418549563324766L;
   @ParamLink(Constants.ORDER_ID)
   private String orderId;
   @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
@@ -53,12 +53,15 @@ public class TransResult extends BaseResult {
    * if this result is valued, the others will be null
    * user can return this data to client, and post them with media type "application/x-www-form-urlencoded" to the apiURL (which u can get from this data)
    */
-  private Map<String, String> redirectPostData;
+  private RedirectPostData redirectPostData;
 
   public TransResult() {}
 
-  public TransResult(Map<String, String> redirectPostData) {
-    this.redirectPostData = redirectPostData;
+  public TransResult(Map<String, String> postData, String apiURL) {
+    RedirectPostData redirectPost = new RedirectPostData();
+    redirectPost.setApiURL(apiURL);
+    redirectPost.setPostData(postData);
+    this.redirectPostData = redirectPost;
   }
 
   public String getOrderId() {
@@ -165,11 +168,11 @@ public class TransResult extends BaseResult {
     this.qrCode = qrCode;
   }
 
-  public Map<String, String> getRedirectPostData() {
+  public RedirectPostData getRedirectPostData() {
     return redirectPostData;
   }
 
-  public void setRedirectPostData(Map<String, String> redirectPostData) {
+  public void setRedirectPostData(RedirectPostData redirectPostData) {
     this.redirectPostData = redirectPostData;
   }
 }

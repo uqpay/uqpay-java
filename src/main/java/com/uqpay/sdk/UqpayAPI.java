@@ -172,8 +172,7 @@ public class UqpayAPI {
     if (payOptions.getReturnUrl() == null || payOptions.getReturnUrl().equals(""))
       throw new NullPointerException("uqpay online payment need sync notice url");
     Map<String, String> paramsMap = generatePayParamsMap(pay);
-    paramsMap.put("apiURL", url);
-    TransResult transResult = new TransResult(paramsMap);
+    TransResult transResult = new TransResult(paramsMap, url);
     return transResult;
   }
 
@@ -197,8 +196,7 @@ public class UqpayAPI {
     if (payOptions.getReturnUrl() == null || payOptions.getReturnUrl().equals(""))
       throw new NullPointerException("uqpay 3D secure payment need sync notice url");
     Map<String, String> paramsMap = generatePayParamsMap(pay, bankCard);
-    paramsMap.put("apiURL", url);
-    TransResult transResult = new TransResult(paramsMap);
+    TransResult transResult = new TransResult(paramsMap, url);
     return transResult;
   }
 
