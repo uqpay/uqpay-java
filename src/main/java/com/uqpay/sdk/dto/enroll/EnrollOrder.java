@@ -12,7 +12,7 @@ import javax.validation.constraints.Positive;
 import java.util.Date;
 
 public class EnrollOrder extends PayOptionsDTO {
-  private static final long serialVersionUID = -6077510475543558118L;
+  private static final long serialVersionUID = 4812915221955060799L;
   @ParamLink(Constants.ORDER_ID)
   @NotEmpty
   private String orderId; // your order id
@@ -41,8 +41,19 @@ public class EnrollOrder extends PayOptionsDTO {
   @ParamLink(Constants.BANK_CARD_EXPIRE_YEAR)
   private String expireYear;
 
+  @ParamLink(Constants.BANK_CARD_PHONE)
+  private String phone;
+
   public EnrollOrder() {
     this.setTradeType(UqpayTradeType.enroll);
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 
   public String getCardNum() {
