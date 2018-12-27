@@ -2,10 +2,11 @@ package com.uqpay.sdk.utils;
 
 public class Constants {
   public static final String AUTH_SIGN = "sign";
+  public static final String AUTH_SIGN_TYPE = "signtype";
   public static final String AUTH_MERCHANT_ID = "merchantid";
   public static final String AUTH_AGENT_ID = "agentid";
 
-  public static final String PAY_OPTIONS_TRADE_TYPE = "tradetype";
+  public static final String PAY_OPTIONS_TRADE_TYPE = "transtype";
   public static final String PAY_OPTIONS_METHOD_ID = "methodid";
   public static final String PAY_OPTIONS_SCAN_TYPE = "scantype";
   public static final String PAY_OPTIONS_ASYNC_NOTICE_URL = "callbackurl";

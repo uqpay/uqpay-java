@@ -3,7 +3,7 @@ package com.uqpay.sdk.dto.enroll;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.common.PayOptionsDTO;
 import com.uqpay.sdk.utils.Constants;
-import com.uqpay.sdk.utils.enums.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.UqpayTransType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -45,7 +45,7 @@ public class EnrollOrder extends PayOptionsDTO {
   private String phone;
 
   public EnrollOrder() {
-    this.setTradeType(UqpayTradeType.enroll);
+    this.setTradeType(UqpayTransType.enroll);
   }
 
   public String getPhone() {

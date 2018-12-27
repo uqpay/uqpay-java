@@ -2,13 +2,13 @@ package com.uqpay.sdk.dto;
 
 import com.uqpay.sdk.utils.enums.PaymentSupportClient;
 import com.uqpay.sdk.utils.enums.UqpayScanType;
-import com.uqpay.sdk.utils.enums.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.UqpayTransType;
 import java.util.Map;
 
 public interface PayOptions {
-  public UqpayTradeType getTradeType();
+  public UqpayTransType getTradeType();
 
-  public void setTradeType(UqpayTradeType tradeType);
+  public void setTradeType(UqpayTransType tradeType);
 
   public int getMethodId();
 

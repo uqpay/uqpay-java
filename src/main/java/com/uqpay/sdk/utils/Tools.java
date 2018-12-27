@@ -90,4 +90,14 @@ public class Tools {
     }
     return null;
   }
+
+  public static <T> T enumValueOf(Class<T> enumType, String name) {
+    T[] values = enumType.getEnumConstants();
+    for (T val: values) {
+      if (name.equals(((Enum) val).name())) {
+        return val;
+      }
+    }
+    return null;
+  }
 }

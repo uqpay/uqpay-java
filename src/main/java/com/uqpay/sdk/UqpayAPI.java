@@ -23,7 +23,7 @@ import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.utils.enums.PayMethodEnum;
 import com.uqpay.sdk.utils.enums.PaymentSupportClient;
 import com.uqpay.sdk.utils.enums.UqpayScanType;
-import com.uqpay.sdk.utils.enums.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.UqpayTransType;
 import com.uqpay.sdk.vo.UqpayCashier;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -245,7 +245,7 @@ public class UqpayAPI {
    * @throws IOException
    */
   public final TransResult pay(PayOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    order.setTradeType(UqpayTradeType.pay);
+    order.setTradeType(UqpayTransType.pay);
     validatePayData(order);
     PayMethodEnum scenes = PayMethodEnum.valueOf(order.getMethodId());
     switch (scenes.getScenes()) {
@@ -335,7 +335,7 @@ public class UqpayAPI {
   //===========================================
 
   public final EnrollResult enroll(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    order.setTradeType(UqpayTradeType.enroll);
+    order.setTradeType(UqpayTransType.enroll);
     validatePayData(order);
     PayMethodEnum scenes = PayMethodEnum.valueOf(order.getMethodId());
     switch (scenes.getScenes()) {
@@ -349,7 +349,7 @@ public class UqpayAPI {
   }
 
   public final VerifyResult verify(VerifyOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    order.setTradeType(UqpayTradeType.verifycode);
+    order.setTradeType(UqpayTransType.verifycode);
     validatePayData(order);
     return this.VerifyPhone(order);
   }

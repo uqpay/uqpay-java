@@ -1,8 +1,6 @@
 package com.uqpay.sdk.utils.enums;
 
-import com.uqpay.sdk.utils.HasValue;
-
-public enum UqpayTradeType implements HasValue {
+public enum UqpayTransType {
   pay((short) 101),
   cancel((short) 102),
   refund((short) 103),
@@ -18,7 +16,7 @@ public enum UqpayTradeType implements HasValue {
 
   private short value;
 
-  UqpayTradeType(short value) {
+  UqpayTransType(short value) {
     this.value = value;
   }
 
@@ -26,8 +24,8 @@ public enum UqpayTradeType implements HasValue {
     return value;
   }
 
-  public static UqpayTradeType valueOf(short value) {
-    for (UqpayTradeType val: UqpayTradeType.values()) {
+  public static UqpayTransType valueOf(short value) {
+    for (UqpayTransType val: UqpayTransType.values()) {
       if (value == val.getValue()) {
         return val;
       }

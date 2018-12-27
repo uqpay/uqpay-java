@@ -8,7 +8,7 @@ import com.uqpay.sdk.dto.preAuth.PreAuthOrder;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.PaymentSupportClient;
 import com.uqpay.sdk.utils.enums.UqpayScanType;
-import com.uqpay.sdk.utils.enums.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.UqpayTransType;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotEmpty;
@@ -31,7 +31,7 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
   private PaymentSupportClient client; // only required for in app payment
   @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
   @NotNull
-  private UqpayTradeType tradeType;
+  private UqpayTransType tradeType;
 
   /**
    * not required for each payment API
@@ -65,11 +65,11 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
     return result;
   }
 
-  public UqpayTradeType getTradeType() {
+  public UqpayTransType getTradeType() {
     return tradeType;
   }
 
-  public void setTradeType(UqpayTradeType tradeType) {
+  public void setTradeType(UqpayTransType tradeType) {
     this.tradeType = tradeType;
   }
 

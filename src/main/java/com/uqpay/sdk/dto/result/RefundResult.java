@@ -2,7 +2,7 @@ package com.uqpay.sdk.dto.result;
 
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.utils.Constants;
-import com.uqpay.sdk.utils.enums.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.UqpayTransType;
 
 import java.util.Date;
 import java.util.Map;
@@ -16,7 +16,7 @@ public class RefundResult extends BaseResult{
   @ParamLink(Constants.AUTH_AGENT_ID)
   private int agentId;
   @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
-  private UqpayTradeType tradeType;
+  private UqpayTransType tradeType;
   @ParamLink(Constants.ORDER_DATE)
   private Date date;
 
@@ -58,12 +58,12 @@ public class RefundResult extends BaseResult{
     this.agentId = agentId;
   }
 
-  public UqpayTradeType getTradeType() {
+  public UqpayTransType getTransType() {
     return tradeType;
   }
 
-  public void setTradeType(UqpayTradeType tradeType) {
-    this.tradeType = tradeType;
+  public void setTransType(UqpayTransType transType) {
+    this.tradeType = transType;
   }
 
   public Date getDate() {
