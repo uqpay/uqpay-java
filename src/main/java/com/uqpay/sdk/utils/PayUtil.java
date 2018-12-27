@@ -166,7 +166,7 @@ public class PayUtil {
       throw new UqpayResultVerifyException("The payment result is not a valid uqpay result, sign data is missing", paramsMap);
     Map<String, String> needVerifyParams = new HashMap<>();
     paramsMap.forEach((key, value) -> {
-      if (!key.equals(Constants.AUTH_SIGN)) {
+      if (!key.equals(Constants.AUTH_SIGN) && !key.equals(Constants.AUTH_SIGN_TYPE)) {
         needVerifyParams.put(key, value.toString());
       }
     });

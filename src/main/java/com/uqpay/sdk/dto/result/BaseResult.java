@@ -8,7 +8,7 @@ import com.uqpay.sdk.utils.enums.UqpayTransType;
 import java.util.Date;
 
 public class BaseResult implements PaygateParams {
-  private static final long serialVersionUID = 6862743445457844915L;
+  private static final long serialVersionUID = 1089463092439412978L;
   @ParamLink(Constants.RESULT_CODE)
   private int code;
   @ParamLink(Constants.RESULT_MESSAGE)
@@ -16,6 +16,9 @@ public class BaseResult implements PaygateParams {
 
   @ParamLink(Constants.AUTH_SIGN)
   private String sign;
+  @ParamLink(Constants.AUTH_SIGN_TYPE)
+  private String signType;
+
   @ParamLink(Constants.AUTH_MERCHANT_ID)
   private int merchantId;
   @ParamLink(Constants.AUTH_AGENT_ID)
@@ -26,6 +29,14 @@ public class BaseResult implements PaygateParams {
   private UqpayTransType transType;
   @ParamLink(Constants.ORDER_DATE)
   private Date date;
+
+  public String getSignType() {
+    return signType;
+  }
+
+  public void setSignType(String signType) {
+    this.signType = signType;
+  }
 
   public String getSign() {
     return sign;

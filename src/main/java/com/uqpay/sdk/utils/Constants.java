@@ -2,6 +2,7 @@ package com.uqpay.sdk.utils;
 
 public class Constants {
   public static final String AUTH_SIGN = "sign";
+  public static final String AUTH_SIGN_TYPE = "signtype";
   public static final String AUTH_MERCHANT_ID = "merchantid";
   public static final String AUTH_AGENT_ID = "agentid";
 
