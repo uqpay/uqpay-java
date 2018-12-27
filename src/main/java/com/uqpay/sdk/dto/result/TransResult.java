@@ -8,7 +8,7 @@ import java.util.Currency;
 import java.util.Map;
 
 public class TransResult extends BaseResult {
-  private static final long serialVersionUID = -5335162222881027560L;
+  private static final long serialVersionUID = -6119418549563324766L;
   @ParamLink(Constants.ORDER_ID)
   private String orderId;
   @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
@@ -51,10 +51,18 @@ public class TransResult extends BaseResult {
   /**
    * this result only valued when ThreeD CreditCard and Online Payment
    * if this result is valued, the others will be null
+   * user can return this data to client, and post them with media type "application/x-www-form-urlencoded" to the apiURL (which u can get from this data)
    */
-  private String redirectHtml;
+  private RedirectPostData redirectPostData;
 
   public TransResult() {}
+
+  public TransResult(Map<String, String> postData, String apiURL) {
+    RedirectPostData redirectPost = new RedirectPostData();
+    redirectPost.setApiURL(apiURL);
+    redirectPost.setPostData(postData);
+    this.redirectPostData = redirectPost;
+  }
 
   public String getOrderId() {
     return orderId;
@@ -160,11 +168,11 @@ public class TransResult extends BaseResult {
     this.qrCode = qrCode;
   }
 
-  public String getRedirectHtml() {
-    return redirectHtml;
+  public RedirectPostData getRedirectPostData() {
+    return redirectPostData;
   }
 
-  public void setRedirectHtml(String redirectHtml) {
-    this.redirectHtml = redirectHtml;
+  public void setRedirectPostData(RedirectPostData redirectPostData) {
+    this.redirectPostData = redirectPostData;
   }
 }

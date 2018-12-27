@@ -43,10 +43,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class UqpayAPI {
 
@@ -117,8 +114,16 @@ public class UqpayAPI {
     jsonParams.setAgentId(this.auth.getAgentId());
   }
 
+  private Map<String, String> generatePayParamsMap(PaygateParams... params) throws UnsupportedEncodingException, UqpayRSAException {
+    List<PaygateParams> paygateParams = new ArrayList<>(Arrays.asList(params));
+    paygateParams.add(this.auth);
+    PaygateParams[] finalParams = new PaygateParams[paygateParams.size()];
+    Map<String, String> paramsMap = PayUtil.params2Map(paygateParams.toArray(finalParams));
+    return PayUtil.signParams(paramsMap, paygateConfig);
+  }
+
   private <T> T directFormPost(Map<String, String> paramsMap, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
-    Request request = PayUtil.generateFormRequest(PayUtil.signParams(paramsMap, paygateConfig), url);
+    Request request = PayUtil.generateFormRequest(paramsMap, url);
     Response response = PayUtil.doSyncRequest(request);
     Map<String, String> resultMap = Tools.json2map(response.body().string());
     T result = PayUtil.map2Params(resultClass, resultMap);
@@ -126,19 +131,12 @@ public class UqpayAPI {
     return result;
   }
 
-  private TransResult redirectFormPost(Map<String, String> paramsMap, String url) throws IOException, UqpayRSAException, UqpayPayFailException {
-    Request request = PayUtil.generateFormRequest(PayUtil.signParams(paramsMap, paygateConfig), url);
-    Response response = PayUtil.doSyncRequest(request);
-    TransResult transResult = new TransResult();
-    transResult.setRedirectHtml(response.body().string());
-    return transResult;
-  }
-
   private <T> T directJsonPost(Object params, Class<T> resultClass, String url) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     ((BaseJsonRequestDTO) params).setSignature(PayUtil.signParams(params, appgateConfig));
     Request request = PayUtil.generateJsonRequest(params, url);
     Response response = PayUtil.doSyncRequest(request);
     T result = Tools.json2Obj(response.body().string(), resultClass);
+    // TODO Verify UQPAY Notice
     return result;
   }
 
@@ -151,7 +149,7 @@ public class UqpayAPI {
     if (payOptions.getScanType() == null) throw new NullPointerException("uqpay qr code payment need Scan Type");
     if (payOptions.getScanType().equals(UqpayScanType.Merchant) && payOptions.getIdentity() == null)
       throw new NullPointerException("uqpay qr code payment need the identity data when scan type is merchant");
-    Map<String, String> paramsMap = PayUtil.params2Map(pay, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(pay);
     return directFormPost(paramsMap, url, TransResult.class);
   }
 
@@ -165,7 +163,7 @@ public class UqpayAPI {
     if (payOptions.getTerminalID() == null) {
       throw new NullPointerException("uqpay offline qr code payment need the terminal id data");
     }
-    Map<String, String> paramsMap = PayUtil.params2Map(pay, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(pay);
     return directFormPost(paramsMap, url, TransResult.class);
   }
 
@@ -173,22 +171,23 @@ public class UqpayAPI {
     PayOptions payOptions = (PayOptions) pay;
     if (payOptions.getReturnUrl() == null || payOptions.getReturnUrl().equals(""))
       throw new NullPointerException("uqpay online payment need sync notice url");
-    Map<String, String> paramsMap = PayUtil.params2Map(pay, this.auth);
-    return redirectFormPost(paramsMap, url);
+    Map<String, String> paramsMap = generatePayParamsMap(pay);
+    TransResult transResult = new TransResult(paramsMap, url);
+    return transResult;
   }
 
   private final TransResult CreditCardPayment(PaygateParams pay, BankCardExtendDTO bankCard, String url) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
-    Map<String, String> paramsMap = PayUtil.params2Map(pay, bankCard, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(pay, bankCard);
     return directFormPost(paramsMap, url, TransResult.class);
   }
 
   private final TransResult MerchantHostPayment(PaygateParams pay, MerchantHostDTO hostDTO, String url) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    Map<String, String> paramsMap = PayUtil.params2Map(pay, hostDTO, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(pay, hostDTO);
     return directFormPost(paramsMap, url, TransResult.class);
   }
 
   private final TransResult ServerHostPayment(PaygateParams pay, ServerHostDTO hostDTO, String url) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    Map<String, String> paramsMap = PayUtil.params2Map(pay, hostDTO, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(pay, hostDTO);
     return directFormPost(paramsMap, url, TransResult.class);
   }
 
@@ -196,14 +195,15 @@ public class UqpayAPI {
     PayOptions payOptions = (PayOptions) pay;
     if (payOptions.getReturnUrl() == null || payOptions.getReturnUrl().equals(""))
       throw new NullPointerException("uqpay 3D secure payment need sync notice url");
-    Map<String, String> paramsMap = PayUtil.params2Map(pay, bankCard, this.auth);
-    return redirectFormPost(paramsMap, url);
+    Map<String, String> paramsMap = generatePayParamsMap(pay, bankCard);
+    TransResult transResult = new TransResult(paramsMap, url);
+    return transResult;
   }
 
   private final TransResult InAppPayment(PaygateParams pay, String url) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     if (((PayOptions) pay).getClient().equals(PaymentSupportClient.PC_WEB))
       throw new NullPointerException("uqpay in-app payment not support pc client");
-    Map<String, String> paramsMap = PayUtil.params2Map(pay, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(pay);
     return directFormPost(paramsMap, url, TransResult.class);
   }
 
@@ -211,7 +211,7 @@ public class UqpayAPI {
     if (order.getUqOrderId() <= 0) {
       throw new NullPointerException("uqpay order id is required");
     }
-    Map<String, String> paramsMap = PayUtil.params2Map(order, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(order);
     return directFormPost(paramsMap, paygateApiUrl(Constants.PAYGATE_API_PRE_AUTH), TransResult.class);
   }
 
@@ -220,12 +220,12 @@ public class UqpayAPI {
    ****/
 
   private final EnrollResult EnrollCard(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    Map<String, String> paramsMap = PayUtil.params2Map(order, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(order);
     return directFormPost(paramsMap, paygateApiUrl(Constants.PAYGATE_API_ENROLL), EnrollResult.class);
   }
 
   private final VerifyResult VerifyPhone(VerifyOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
-    Map<String, String> paramsMap = PayUtil.params2Map(order, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(order);
     return directFormPost(paramsMap, paygateApiUrl(Constants.PAYGATE_API_VERIFY), VerifyResult.class);
   }
 
@@ -253,7 +253,7 @@ public class UqpayAPI {
         return this.QRCodePayment(order, paygateApiUrl(Constants.PAYGATE_API_PAY));
       case OfflineQRCode:
         return this.OfflineQRCodePayment(order, paygateApiUrl(Constants.PAYGATE_API_PAY));
-      case RedirectPay:
+      case OnlinePay:
         return this.RedirectPayment(order, paygateApiUrl(Constants.PAYGATE_API_PAY));
       case InApp:
         return this.InAppPayment(order, paygateApiUrl(Constants.PAYGATE_API_PAY));
@@ -309,7 +309,7 @@ public class UqpayAPI {
           case CreditCard:
             validatePayData(bankCard);
             return this.CreditCardPayment(order, bankCard, paygateApiUrl(Constants.PAYGATE_API_PRE_AUTH));
-          case RedirectPay:
+          case OnlinePay:
             validatePayData(bankCard);
             return this.ThreeDSecurePayment(order, bankCard, paygateApiUrl(Constants.PAYGATE_API_PRE_AUTH));
           case MerchantHost:
