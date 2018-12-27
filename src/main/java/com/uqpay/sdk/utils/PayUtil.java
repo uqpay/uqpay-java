@@ -148,7 +148,7 @@ public class PayUtil {
 
   public static Map<String, String> signParams(Map<String, String> paramsMap, PaygateConfig config)
       throws UnsupportedEncodingException, UqpayRSAException {
-    String paramsQuery = Tools.stringify(paramsMap, false);
+    String paramsQuery = Tools.stringify(paramsMap, false, Constants.AUTH_SIGN_TYPE);
     String sign = RSAUtil.sign(paramsQuery, config.getRSA().getPrivateKey());
     paramsMap.put(Constants.AUTH_SIGN, sign);
     return paramsMap;

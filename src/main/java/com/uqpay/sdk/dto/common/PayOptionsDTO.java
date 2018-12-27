@@ -7,6 +7,7 @@ import com.uqpay.sdk.dto.pay.PayOrder;
 import com.uqpay.sdk.dto.preAuth.PreAuthOrder;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.PaymentSupportClient;
+import com.uqpay.sdk.utils.enums.SignTypeEnum;
 import com.uqpay.sdk.utils.enums.UqpayScanType;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +21,8 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
   /**
    * is required
    */
+  @ParamLink(Constants.AUTH_SIGN_TYPE)
+  private SignTypeEnum signType = SignTypeEnum.RSA;
   @ParamLink(Constants.PAY_OPTIONS_METHOD_ID)
   @Positive
   private int methodId;
@@ -63,6 +66,14 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
     PayOptionsDTO result = new PayOptionsDTO();
     BeanUtils.copyProperties(order, result);
     return result;
+  }
+
+  public SignTypeEnum getSignType() {
+    return signType;
+  }
+
+  public void setSignType(SignTypeEnum signType) {
+    this.signType = signType;
   }
 
   public UqpayTransType getTradeType() {

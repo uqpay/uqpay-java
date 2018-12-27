@@ -4,6 +4,7 @@ import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.PaymentSupportClient;
+import com.uqpay.sdk.utils.enums.SignTypeEnum;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 
 import javax.validation.constraints.NotEmpty;
@@ -13,7 +14,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class OrderRefund implements PaygateParams {
-  private static final long serialVersionUID = 1518615803970107377L;
+  private static final long serialVersionUID = -1792187227378051408L;
   /**
    * is required
    */
@@ -35,12 +36,21 @@ public class OrderRefund implements PaygateParams {
   @ParamLink(Constants.PAY_OPTIONS_CLIENT_TYPE)
   @NotNull
   private PaymentSupportClient clientType = PaymentSupportClient.PC_WEB;
-
+  @ParamLink(Constants.AUTH_SIGN_TYPE)
+  private SignTypeEnum signType = SignTypeEnum.RSA;
   /**
    * not required
    */
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
   private Map<String, String> extendInfo;
+
+  public SignTypeEnum getSignType() {
+    return signType;
+  }
+
+  public void setSignType(SignTypeEnum signType) {
+    this.signType = signType;
+  }
 
   public UqpayTransType getTradeType() {
     return tradeType;
