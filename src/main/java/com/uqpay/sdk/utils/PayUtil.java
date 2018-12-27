@@ -42,6 +42,8 @@ public class PayUtil {
         String targetType = paramLink.targetType();
         if (value instanceof HasValue) {
           realValue = ((HasValue) value).getValue();
+        } else if (field.getType().isEnum()) {
+          realValue = ((Enum) value).name();
         } else if (!targetType.equals("")) {
           switch (paramLink.targetType()) {
             case "JSON":
@@ -108,7 +110,7 @@ public class PayUtil {
           if (field.getType().getInterfaces().length > 0 && field.getType().getInterfaces()[0].equals(HasValue.class)) {
             realValue = Tools.enumValueOf(field.getType(), Short.valueOf(value.toString()));
           } else {
-            realValue = value; // to fix
+            realValue = Tools.enumValueOf(field.getType(), String.valueOf(value));
           }
         } else {
           switch (field.getType().getName()) {

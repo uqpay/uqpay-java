@@ -4,7 +4,7 @@ import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.PaymentSupportClient;
-import com.uqpay.sdk.utils.enums.UqpayTradeType;
+import com.uqpay.sdk.utils.enums.UqpayTransType;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,7 +19,7 @@ public class OrderRefund implements PaygateParams {
    */
   @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
   @NotNull
-  private UqpayTradeType tradeType = UqpayTradeType.refund;
+  private UqpayTransType tradeType = UqpayTransType.refund;
   @ParamLink(Constants.ORDER_ID)
   @NotEmpty
   private String orderId; // your order id
@@ -42,11 +42,11 @@ public class OrderRefund implements PaygateParams {
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
   private Map<String, String> extendInfo;
 
-  public UqpayTradeType getTradeType() {
+  public UqpayTransType getTradeType() {
     return tradeType;
   }
 
-  public void setTradeType(UqpayTradeType tradeType) {
+  public void setTradeType(UqpayTransType tradeType) {
     this.tradeType = tradeType;
   }
 
