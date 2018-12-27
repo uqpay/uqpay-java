@@ -20,4 +20,17 @@ public enum UqpayTransType {
     this.value = value;
   }
 
+  public short getValue() {
+    return value;
+  }
+
+  public static UqpayTransType valueOf(short value) {
+    for (UqpayTransType val: UqpayTransType.values()) {
+      if (value == val.getValue()) {
+        return val;
+      }
+    }
+    return null;
+  }
+
 }
