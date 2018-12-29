@@ -1,6 +1,7 @@
 package com.uqpay.sdk.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
@@ -12,11 +13,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Tools {
   public static ObjectMapper mapper = new ObjectMapper();
-  public static String stringify(Map<String, String> paramsMap, boolean urlEncode) throws UnsupportedEncodingException {
-    List<String> keys = new ArrayList<>(paramsMap.keySet());
+  public static String stringify(Map<String, String> paramsMap, boolean urlEncode, String... ignoreKeys) throws UnsupportedEncodingException {
+    List<String> keys = new ArrayList<>(paramsMap.keySet()).parallelStream().filter(s -> ArrayUtils.indexOf(ignoreKeys, s) < 0).collect(Collectors.toList());
     Collections.sort(keys);
     String queryString = "";
     for (int i = 0; i < keys.size(); i++) {

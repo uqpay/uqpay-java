@@ -360,19 +360,19 @@ public class UqpayAPI {
 
   public final RefundResult refund(OrderRefund refund) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     validateRequestParams(refund, "refund request data invalid for uqpay order operation");
-    Map<String, String> paramsMap = PayUtil.params2Map(refund, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(refund);
     return directFormPost(paramsMap, paygateApiUrl(Constants.PAYGATE_API_REFUND), RefundResult.class);
   }
 
   public final CancelResult cancel(OrderCancel cancel) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     validateRequestParams(cancel, "cancel payment request data invalid for uqpay order operation");
-    Map<String, String> paramsMap = PayUtil.params2Map(cancel, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(cancel);
     return directFormPost(paramsMap, paygateApiUrl(Constants.PAYGATE_API_CANCEL), CancelResult.class);
   }
 
   public final QueryResult query(OrderQuery query) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     validateRequestParams(query, "query request data invalid for uqpay order operation");
-    Map<String, String> paramsMap = PayUtil.params2Map(query, this.auth);
+    Map<String, String> paramsMap = generatePayParamsMap(query);
     return directFormPost(paramsMap, paygateApiUrl(Constants.PAYGATE_API_QUERY), QueryResult.class);
   }
 
