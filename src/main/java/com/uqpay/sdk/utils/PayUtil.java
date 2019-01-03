@@ -1,6 +1,8 @@
 package com.uqpay.sdk.utils;
 
+import com.uqpay.sdk.config.AppgateConfig;
 import com.uqpay.sdk.config.BaseConfig;
+import com.uqpay.sdk.config.SecureConfig;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.dto.result.BaseResult;
@@ -163,7 +165,7 @@ public class PayUtil {
   public static void verifyUqpayNotice(Map<String, String> paramsMap, PaygateConfig config)
       throws UnsupportedEncodingException, UqpayRSAException, UqpayResultVerifyException {
     if (paramsMap.get(Constants.AUTH_SIGN) == null)
-      throw new UqpayResultVerifyException("The payment result is not a valid uqpay result, sign data is missing", paramsMap);
+      throw new UqpayResultVerifyException("The payment result is not a valid uqpay result, signature is missing", paramsMap);
     Map<String, String> needVerifyParams = new HashMap<>();
     paramsMap.forEach((key, value) -> {
       if (!key.equals(Constants.AUTH_SIGN) && !key.equals(Constants.AUTH_SIGN_TYPE)) {
@@ -176,7 +178,13 @@ public class PayUtil {
       throw new UqpayResultVerifyException("The payment result is invalid, be sure is from the UQPAY server", paramsMap);
   }
 
-
+  public static void verifyUqpayNotice(String jsonString, String signature, SecureConfig secure) throws UqpayResultVerifyException, UqpayRSAException {
+    if (signature == null || signature.equals("")) throw new UqpayResultVerifyException("The result is not a valid uqpay result, signature is missing", jsonString);
+    String verifyString = jsonString.replace(signature, "000000");
+    boolean verify = RSAUtil.verify(verifyString, signature, secure.getPublicKey());
+    if (!verify)
+      throw new UqpayResultVerifyException("The result is invalid, be sure is from the UQPAY server", jsonString);
+  }
 
   public static Request generateFormRequest(Map<String, String> paramsMap, String url) {
     FormBody.Builder formBody = new FormBody.Builder();
