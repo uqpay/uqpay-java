@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 public class EmvcoCreateDTO extends BaseJsonRequestDTO {
-  private static final long serialVersionUID = -4784272588247646493L;
+  private static final long serialVersionUID = -6225867370664920141L;
   @NotNull
   private QRCodeChannelTypeEnum type;
   private String name;
@@ -22,6 +22,7 @@ public class EmvcoCreateDTO extends BaseJsonRequestDTO {
   private double amount;
   @NotBlank
   private String city;
+  private String orderId; // Order ID , useful for Dynamic QRCode
 
   public QRCodeChannelTypeEnum getType() {
     return type;
@@ -77,5 +78,13 @@ public class EmvcoCreateDTO extends BaseJsonRequestDTO {
 
   public void setCity(String city) {
     this.city = city;
+  }
+
+  public String getOrderId() {
+    return orderId;
+  }
+
+  public void setOrderId(String orderId) {
+    this.orderId = orderId;
   }
 }
