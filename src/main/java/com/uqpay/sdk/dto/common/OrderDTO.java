@@ -3,6 +3,7 @@ package com.uqpay.sdk.dto.common;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.utils.Constants;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -10,7 +11,7 @@ import java.util.Currency;
 import java.util.Date;
 
 public abstract class OrderDTO extends PayOptionsDTO {
-  private static final long serialVersionUID = 1125426489037781008L;
+  private static final long serialVersionUID = 270839263809466488L;
   /**
    * is required
    */
@@ -26,6 +27,9 @@ public abstract class OrderDTO extends PayOptionsDTO {
   @ParamLink(Constants.ORDER_DATE)
   @NotNull
   private Date date; // this order generate date
+  @ParamLink(Constants.PAY_OPTIONS_CLIENT_IP)
+  @NotBlank
+  private String clientIp; // consumer client ip
 
   /**
    * not required
@@ -91,5 +95,13 @@ public abstract class OrderDTO extends PayOptionsDTO {
 
   public void setSeller(int seller) {
     this.seller = seller;
+  }
+
+  public String getClientIp() {
+    return clientIp;
+  }
+
+  public void setClientIp(String clientIp) {
+    this.clientIp = clientIp;
   }
 }
