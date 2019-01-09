@@ -16,7 +16,7 @@ public class Constants {
   public static final String PAY_OPTIONS_IDENTITY = "identity";
   public static final String PAY_OPTIONS_MERCHANT_CITY = "merchantcity";
   public static final String PAY_OPTIONS_TERMINAL_ID = "terminalid";
-  public static final String PAY_OPTIONS_OPEN_ID = "openid";
+  public static final String PAY_OPTIONS_CLIENT_IP = "clientip";
 
   public static final String ORDER_ID = "orderid";
   public static final String ORDER_AMOUNT = "amount";
