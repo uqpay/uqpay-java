@@ -26,9 +26,6 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
   @ParamLink(Constants.PAY_OPTIONS_METHOD_ID)
   @Positive
   private int methodId;
-  @ParamLink(Constants.PAY_OPTIONS_ASYNC_NOTICE_URL)
-  @NotEmpty
-  private String callbackUrl; // async notice url
   @ParamLink(Constants.PAY_OPTIONS_CLIENT_TYPE)
   @NotNull
   private PaymentSupportClient client; // only required for in app payment
@@ -39,6 +36,8 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
   /**
    * not required for each payment API
    */
+  @ParamLink(Constants.PAY_OPTIONS_ASYNC_NOTICE_URL)
+  private String callbackUrl; // async notice url
   @ParamLink(Constants.PAY_OPTIONS_SYNC_NOTICE_URL)
   private String returnUrl; // sync notice url
   @ParamLink(Constants.PAY_OPTIONS_SCAN_TYPE)
