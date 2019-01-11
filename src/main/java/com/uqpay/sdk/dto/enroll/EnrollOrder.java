@@ -44,8 +44,16 @@ public class EnrollOrder extends PayOptionsDTO {
   @ParamLink(Constants.BANK_CARD_PHONE)
   private String phone;
 
+  @ParamLink(Constants.PAY_OPTIONS_CLIENT_IP)
+  @NotBlank
+  private String clientIp; // consumer client ip
+
   public EnrollOrder() {
     this.setTradeType(UqpayTransType.enroll);
+  }
+
+  public String getClientIp() {
+    return clientIp;
   }
 
   public String getPhone() {
