@@ -12,7 +12,7 @@ import javax.validation.constraints.Positive;
 import java.util.Date;
 
 public class EnrollOrder extends PayOptionsDTO {
-  private static final long serialVersionUID = 4812915221955060799L;
+  private static final long serialVersionUID = 5961618674482880676L;
   @ParamLink(Constants.ORDER_ID)
   @NotEmpty
   private String orderId; // your order id
@@ -54,6 +54,10 @@ public class EnrollOrder extends PayOptionsDTO {
 
   public String getClientIp() {
     return clientIp;
+  }
+
+  public void setClientIp(String clientIp) {
+    this.clientIp = clientIp;
   }
 
   public String getPhone() {
