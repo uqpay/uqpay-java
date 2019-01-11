@@ -5,6 +5,7 @@ import com.uqpay.sdk.dto.common.PayOptionsDTO;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -26,8 +27,20 @@ public class VerifyOrder extends PayOptionsDTO {
   @NotEmpty
   private String phone;
 
+  @ParamLink(Constants.PAY_OPTIONS_CLIENT_IP)
+  @NotBlank
+  private String clientIp; // consumer client ip
+
   public VerifyOrder() {
     this.setTradeType(UqpayTransType.verifycode);
+  }
+
+  public String getClientIp() {
+    return clientIp;
+  }
+
+  public void setClientIp(String clientIp) {
+    this.clientIp = clientIp;
   }
 
   public String getOrderId() {
