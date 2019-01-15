@@ -16,7 +16,7 @@ public class RefundResult extends BaseResult{
   @ParamLink(Constants.AUTH_AGENT_ID)
   private int agentId;
   @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
-  private UqpayTransType tradeType;
+  private UqpayTransType transType;
   @ParamLink(Constants.ORDER_DATE)
   private Date date;
 
@@ -59,11 +59,11 @@ public class RefundResult extends BaseResult{
   }
 
   public UqpayTransType getTransType() {
-    return tradeType;
+    return transType;
   }
 
   public void setTransType(UqpayTransType transType) {
-    this.tradeType = transType;
+    this.transType = transType;
   }
 
   public Date getDate() {
