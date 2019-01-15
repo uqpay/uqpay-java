@@ -6,7 +6,7 @@ import com.uqpay.sdk.utils.Constants;
 public class EnrollResult extends BaseResult {
   private static final long serialVersionUID = 328774373720863051L;
   @ParamLink(value = Constants.SERVER_HOST_CARD_TOKEN)
-  protected String token;
+  protected String token; // this field has value when the ServerHost methods
   @ParamLink(Constants.RESULT_CHANNEL_CODE)
   private String channelCode;
   @ParamLink(Constants.RESULT_CHANNEL_MESSAGE)
