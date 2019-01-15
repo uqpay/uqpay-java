@@ -10,7 +10,6 @@ public class BankCardExtendDTO extends BankCardDTO {
   private static final long serialVersionUID = -6572498004474248352L;
 
   @ParamLink(Constants.BANK_CARD_ADDRESS_COUNTRY)
-  @NotEmpty
   private String addressCountry;
   @ParamLink(Constants.BANK_CARD_EMAIL)
   @Email
