@@ -2,7 +2,6 @@ package com.uqpay.sdk.dto.common;
 
 import com.uqpay.sdk.utils.enums.SignTypeEnum;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -10,7 +9,7 @@ public class BaseJsonRequestDTO extends AuthDTO {
   private static final long serialVersionUID = 6434237925369884603L;
   @NotNull
   private SignTypeEnum signType = SignTypeEnum.RSA;
-  @NotBlank
+  @NotNull
   private Date date;
 
   private String signature;
