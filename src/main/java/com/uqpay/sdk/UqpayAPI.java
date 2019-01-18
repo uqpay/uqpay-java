@@ -135,8 +135,9 @@ public class UqpayAPI {
     ((BaseJsonRequestDTO) params).setSignature(PayUtil.signParams(params, appgateConfig));
     Request request = PayUtil.generateJsonRequest(params, url);
     Response response = PayUtil.doSyncRequest(request);
-    T result = Tools.json2Obj(response.body().string(), resultClass);
-    PayUtil.verifyUqpayNotice(response.body().string(), ((BaseAppgateResult) result).getSignature(), appgateConfig.getRSA());
+    String resBody = response.body().string();
+    T result = Tools.json2Obj(resBody, resultClass);
+    PayUtil.verifyUqpayNotice(resBody, ((BaseAppgateResult) result).getSignature(), appgateConfig.getRSA());
     return result;
   }
 

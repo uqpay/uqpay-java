@@ -4,14 +4,15 @@ import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.utils.Constants;
 
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 public class AuthDTO implements PaygateParams {
   @ParamLink(Constants.AUTH_MERCHANT_ID)
-  @Positive
+  @PositiveOrZero
   private int merchantId;
 
   @ParamLink(Constants.AUTH_AGENT_ID)
+  @PositiveOrZero
   private int agentId;
 
   public int getMerchantId() {
