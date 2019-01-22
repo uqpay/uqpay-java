@@ -52,7 +52,7 @@ public class Constants {
   public static final String BANK_CARD_PHONE = "phone";
   public static final String BANK_CARD_EMAIL = "email";
 
-  public static final String MERCHANT_HOST_ENROLL_CODE_UQPAY_ID = "codeuqpayid";
+  public static final String MERCHANT_HOST_ENROLL_CODE_UQPAY_ID = "codeorderid";
   public static final String MERCHANT_HOST_VERIFY_CODE = "verifycode";
   public static final String SERVER_HOST_CARD_TOKEN = "token";
 
