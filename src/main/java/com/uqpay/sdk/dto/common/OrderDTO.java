@@ -37,9 +37,9 @@ public abstract class OrderDTO extends PayOptionsDTO {
   @ParamLink(Constants.ORDER_QUANTITY)
   private int quantity; // quantity of products
   @ParamLink(Constants.ORDER_STORE_ID)
-  private int storeId; // your store id
+  private String storeId; // your store info
   @ParamLink(Constants.ORDER_SELLER)
-  private int seller; // your seller id
+  private String seller; // your seller info
 
   public String getOrderId() {
     return orderId;
@@ -81,19 +81,19 @@ public abstract class OrderDTO extends PayOptionsDTO {
     this.quantity = quantity;
   }
 
-  public int getStoreId() {
+  public String getStoreId() {
     return storeId;
   }
 
-  public void setStoreId(int storeId) {
+  public void setStoreId(String storeId) {
     this.storeId = storeId;
   }
 
-  public int getSeller() {
+  public String getSeller() {
     return seller;
   }
 
-  public void setSeller(int seller) {
+  public void setSeller(String seller) {
     this.seller = seller;
   }
 

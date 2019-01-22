@@ -8,7 +8,7 @@ import java.util.Currency;
 import java.util.Map;
 
 public class TransResult extends BaseResult {
-  private static final long serialVersionUID = -6119418549563324766L;
+  private static final long serialVersionUID = 6988156670533616581L;
   @ParamLink(Constants.ORDER_ID)
   private String orderId;
   @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
@@ -47,6 +47,15 @@ public class TransResult extends BaseResult {
   private String qrCodeUrl;
   @ParamLink(Constants.RESULT_QR_CODE_DATA)
   private String qrCode;
+
+  /**
+   * other merchant info
+   */
+  @ParamLink(Constants.ORDER_STORE_ID)
+  private String storeId; // if you request with this info, the UQPAY will return it to your
+
+  @ParamLink(Constants.ORDER_SELLER)
+  private String seller; // if you request with this info, the UQPAY will return it to your
 
   /**
    * this result only valued when ThreeD CreditCard and Online Payment
@@ -166,6 +175,22 @@ public class TransResult extends BaseResult {
 
   public void setQrCode(String qrCode) {
     this.qrCode = qrCode;
+  }
+
+  public String getStoreId() {
+    return storeId;
+  }
+
+  public void setStoreId(String storeId) {
+    this.storeId = storeId;
+  }
+
+  public String getSeller() {
+    return seller;
+  }
+
+  public void setSeller(String seller) {
+    this.seller = seller;
   }
 
   public RedirectPostData getRedirectPostData() {
