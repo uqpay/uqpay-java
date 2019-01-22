@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class OrderRefund implements PaygateParams {
-  private static final long serialVersionUID = -1792187227378051408L;
+  private static final long serialVersionUID = 7314902719465136035L;
   /**
    * is required
    */
@@ -24,6 +24,9 @@ public class OrderRefund implements PaygateParams {
   @ParamLink(Constants.ORDER_ID)
   @NotEmpty
   private String orderId; // your order id
+  @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
+  @Positive
+  private long uqOrderId; // 原始订单的UQPAY 订单号
   @ParamLink(Constants.ORDER_AMOUNT)
   @Positive
   private double amount;
@@ -43,6 +46,14 @@ public class OrderRefund implements PaygateParams {
    */
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
   private Map<String, String> extendInfo;
+
+  public long getUqOrderId() {
+    return uqOrderId;
+  }
+
+  public void setUqOrderId(long uqOrderId) {
+    this.uqOrderId = uqOrderId;
+  }
 
   public SignTypeEnum getSignType() {
     return signType;
