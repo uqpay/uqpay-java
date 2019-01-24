@@ -42,6 +42,9 @@ public class Constants {
   public static final String RESULT_CHANNEL_CODE = "channelcode";
   public static final String RESULT_CHANNEL_MESSAGE = "channelmsg";
 
+  public static final String RESULT_3D_PA_REQUEST = "parequst";
+  public static final String RESULT_3D_ASC_URL = "ascurl";
+
   public static final String BANK_CARD_FIRST_NAME = "firstname";
   public static final String BANK_CARD_LAST_NAME = "lastname";
   public static final String BANK_CARD_CARD_NUM = "cardnum";
@@ -51,6 +54,12 @@ public class Constants {
   public static final String BANK_CARD_ADDRESS_COUNTRY = "addresscountry";
   public static final String BANK_CARD_PHONE = "phone";
   public static final String BANK_CARD_EMAIL = "email";
+  public static final String BANK_CARD_THREE_D_UQORDERID= "uqorderid";
+  public static final String BANK_CARD_THREE_D_PARES= "paresponse";
+  public static final String APPLE_PAY_DPAN = "dpan";
+  public static final String APPLE_PAY_ICCARDDATA = "iccarddata";
+  public static final String APPLE_PAY_CARDHOLDER_NAME= "cardholdername";
+  public static final String APPLE_PAY_PIN = "pin";
 
   public static final String MERCHANT_HOST_ENROLL_CODE_UQPAY_ID = "codeorderid";
   public static final String MERCHANT_HOST_VERIFY_CODE = "verifycode";

@@ -192,11 +192,8 @@ public class UqpayAPI {
     return directFormPost(paramsMap, url, TransResult.class);
   }
 
-  private final TransResult ThreeDSecurePayment(PaygateParams pay, BankCardExtendDTO bankCard, String url) throws IOException, UqpayRSAException, UqpayPayFailException {
-    PayOptions payOptions = (PayOptions) pay;
-    if (payOptions.getReturnUrl() == null || payOptions.getReturnUrl().equals(""))
-      throw new NullPointerException("uqpay 3D secure payment need sync notice url");
-    Map<String, String> paramsMap = generatePayParamsMap(pay, bankCard);
+  private final TransResult ThreeDSecurePayment(PaygateParams pay, BankCardExtendDTO bankCard, ThreeDFinishDTO threeDFinish, String url) throws IOException, UqpayRSAException, UqpayPayFailException {
+    Map<String, String> paramsMap = generatePayParamsMap(pay, bankCard, threeDFinish);
     TransResult transResult = new TransResult(paramsMap, url);
     return transResult;
   }
@@ -271,8 +268,10 @@ public class UqpayAPI {
         }
         return this.CreditCardPayment(order, order.getBankCard(), paygateApiUrl(Constants.PAYGATE_API_PAY));
       case ThreeDCreditCard:
-        validatePayData(order.getBankCard());
-        return this.ThreeDSecurePayment(order, order.getBankCard(), paygateApiUrl(Constants.PAYGATE_API_PAY));
+        if (order.getThreeDFinish() == null) {
+          validatePayData(order.getBankCard());
+        }
+        return this.ThreeDSecurePayment(order, order.getBankCard(), order.getThreeDFinish(), paygateApiUrl(Constants.PAYGATE_API_PAY));
       case MerchantHost:
         validatePayData(order.getMerchantHost());
         return this.MerchantHostPayment(order, order.getMerchantHost(), paygateApiUrl(Constants.PAYGATE_API_PAY));
@@ -312,7 +311,7 @@ public class UqpayAPI {
             return this.CreditCardPayment(order, bankCard, paygateApiUrl(Constants.PAYGATE_API_PRE_AUTH));
           case OnlinePay:
             validatePayData(bankCard);
-            return this.ThreeDSecurePayment(order, bankCard, paygateApiUrl(Constants.PAYGATE_API_PRE_AUTH));
+            return this.RedirectPayment(order, paygateApiUrl(Constants.PAYGATE_API_PRE_AUTH));
           case MerchantHost:
             validatePayData(order.getMerchantHost());
             return this.MerchantHostPayment(order, order.getMerchantHost(), paygateApiUrl(Constants.PAYGATE_API_PRE_AUTH));

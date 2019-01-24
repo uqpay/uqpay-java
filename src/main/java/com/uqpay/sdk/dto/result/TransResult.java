@@ -8,7 +8,7 @@ import java.util.Currency;
 import java.util.Map;
 
 public class TransResult extends BaseResult {
-  private static final long serialVersionUID = 6988156670533616581L;
+  private static final long serialVersionUID = 2394757051743388283L;
   @ParamLink(Constants.ORDER_ID)
   private String orderId;
   @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
@@ -47,6 +47,16 @@ public class TransResult extends BaseResult {
   private String qrCodeUrl;
   @ParamLink(Constants.RESULT_QR_CODE_DATA)
   private String qrCode;
+
+  /**
+   * these results valued when 3D CreditCard payment
+   * use {@link paRequest} as the post body, send to {@link ascUrl} from client
+   * if this values not null, and the state is Paying, you need request pay API again with {@link com.uqpay.sdk.dto.common.ThreeDFinishDTO}
+   */
+  @ParamLink(Constants.RESULT_3D_PA_REQUEST)
+  private String paRequest;
+  @ParamLink(Constants.RESULT_3D_ASC_URL)
+  private String ascUrl;
 
   /**
    * other merchant info
@@ -199,5 +209,21 @@ public class TransResult extends BaseResult {
 
   public void setRedirectPostData(RedirectPostData redirectPostData) {
     this.redirectPostData = redirectPostData;
+  }
+
+  public String getPaRequest() {
+    return paRequest;
+  }
+
+  public void setPaRequest(String paRequest) {
+    this.paRequest = paRequest;
+  }
+
+  public String getAscUrl() {
+    return ascUrl;
+  }
+
+  public void setAscUrl(String ascUrl) {
+    this.ascUrl = ascUrl;
   }
 }
