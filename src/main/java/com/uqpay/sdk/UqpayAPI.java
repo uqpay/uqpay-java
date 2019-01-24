@@ -20,10 +20,7 @@ import com.uqpay.sdk.dto.result.appgate.ExchangeRateResult;
 import com.uqpay.sdk.dto.result.appgate.PayloadResult;
 import com.uqpay.sdk.dto.result.appgate.QRCodeResult;
 import com.uqpay.sdk.exception.UqpayPayFailException;
-import com.uqpay.sdk.utils.enums.PayMethodEnum;
-import com.uqpay.sdk.utils.enums.PaymentSupportClient;
-import com.uqpay.sdk.utils.enums.UqpayScanType;
-import com.uqpay.sdk.utils.enums.UqpayTransType;
+import com.uqpay.sdk.utils.enums.*;
 import com.uqpay.sdk.vo.UqpayCashier;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -36,6 +33,7 @@ import com.uqpay.sdk.dto.result.*;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 import com.uqpay.sdk.utils.*;
+import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -122,12 +120,17 @@ public class UqpayAPI {
     return PayUtil.signParams(paramsMap, paygateConfig);
   }
 
-  private <T> T directFormPost(Map<String, String> paramsMap, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+  private Map<String, String> directFormPost(Map<String, String> paramsMap, String url) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     Request request = PayUtil.generateFormRequest(paramsMap, url);
     Response response = PayUtil.doSyncRequest(request);
     Map<String, String> resultMap = Tools.json2map(response.body().string());
-    T result = PayUtil.map2Params(resultClass, resultMap);
     PayUtil.verifyUqpayNotice(resultMap, paygateConfig);
+    return resultMap;
+  }
+
+  private <T> T directFormPost(Map<String, String> paramsMap, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+    Map<String, String> resultMap = directFormPost(paramsMap, url);
+    T result = PayUtil.map2Params(resultClass, resultMap);
     return result;
   }
 
@@ -192,9 +195,25 @@ public class UqpayAPI {
     return directFormPost(paramsMap, url, TransResult.class);
   }
 
-  private final TransResult ThreeDSecurePayment(PaygateParams pay, BankCardExtendDTO bankCard, ThreeDFinishDTO threeDFinish, String url) throws IOException, UqpayRSAException, UqpayPayFailException {
+  private final TransResult ThreeDSecurePayment(PaygateParams pay, BankCardExtendDTO bankCard, ThreeDFinishDTO threeDFinish, String url) throws IOException, UqpayRSAException, UqpayPayFailException, UqpayResultVerifyException {
+    PayOptions payOptions = (PayOptions) pay;
+    if (payOptions.getPaResCbUrl() == null || payOptions.getPaResCbUrl().equals(""))
+      throw new NullPointerException("uqpay 3D Credit Card Payment need url to handle the PaResponse");
     Map<String, String> paramsMap = generatePayParamsMap(pay, bankCard, threeDFinish);
-    TransResult transResult = new TransResult(paramsMap, url);
+    Map<String, String> resMap = directFormPost(paramsMap, url);
+    TransResult transResult = PayUtil.map2Params(TransResult.class, resMap);
+    if (transResult.getState().equals(OrderStateEnum.Paying.name())) {
+      ThreeDResult threeDResult = PayUtil.map2Params(ThreeDResult.class, resMap);
+      if (!StringUtils.isEmpty(threeDResult.getPaRequest()) && !StringUtils.isEmpty(threeDResult.getAscUrl())) {
+        Map<String, String> postData = new HashMap<>();
+        postData.put("PaReq", threeDResult.getPaRequest());
+        postData.put("TermUrl", payOptions.getPaResCbUrl());
+        RedirectPostData redirectPostData = new RedirectPostData();
+        redirectPostData.setPostData(postData);
+        redirectPostData.setApiURL(threeDResult.getAscUrl());
+        transResult.setRedirectPostData(redirectPostData);
+      }
+    }
     return transResult;
   }
 

@@ -55,6 +55,13 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
   private Map<String,String> extendInfo;
 
+  /**
+   * only use for 3D CreditCard Payment,
+   * This URL is used to get the paResponse sent by the bank
+   * the paResponse will be used to finished the 3D payment, see {@link ThreeDFinishDTO}
+   */
+  private String paResCbUrl;
+
   public static PayOptionsDTO valueOf(PayOrder order) {
     PayOptionsDTO result = new PayOptionsDTO();
     BeanUtils.copyProperties(order, result);
@@ -161,5 +168,13 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
 
   public void setTerminalID(String terminalID) {
     this.terminalID = terminalID;
+  }
+
+  public String getPaResCbUrl() {
+    return paResCbUrl;
+  }
+
+  public void setPaResCbUrl(String paResCbUrl) {
+    this.paResCbUrl = paResCbUrl;
   }
 }

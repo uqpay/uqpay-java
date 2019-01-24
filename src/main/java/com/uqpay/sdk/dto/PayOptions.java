@@ -49,4 +49,8 @@ public interface PayOptions {
   public String getTerminalID();
 
   public void setTerminalID(String terminalID);
+
+  public String getPaResCbUrl();
+
+  public void setPaResCbUrl(String paResCbUrl);
 }
