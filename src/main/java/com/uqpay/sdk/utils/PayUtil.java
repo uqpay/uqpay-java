@@ -25,7 +25,9 @@ public class PayUtil {
   public static Map<String, String> params2Map(PaygateParams... params) {
     Map<String, String> paramsMap = new HashMap<>();
     Arrays.asList(params).forEach(paygateParams -> {
-      params2Map(paramsMap, paygateParams);
+      if (paygateParams != null) {
+        params2Map(paramsMap, paygateParams);
+      }
     });
     return paramsMap;
   }
