@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class PayUtil {
-  public static OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(0, TimeUnit.SECONDS).build();
+  public static OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS).build();
 
   public static Map<String, String> params2Map(PaygateParams... params) {
     Map<String, String> paramsMap = new HashMap<>();
