@@ -7,7 +7,7 @@
     <groupId>com.uqpay.sdk</groupId>
     <artifactId>uqpay-payment</artifactId>
 
-    <version>1.10.8</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
     <url>https://github.com/uqpaytechnology/java-server-sdk</url>
 
