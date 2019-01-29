@@ -177,6 +177,12 @@ public class UqpayAPI {
       throw new NullPointerException("uqpay online payment need sync notice url");
     Map<String, String> paramsMap = generatePayParamsMap(pay);
     TransResult transResult = new TransResult(paramsMap, url);
+    transResult.setState(OrderStateEnum.Ready.name());
+    transResult.setMethodId(payOptions.getMethodId());
+    transResult.setCode(10002);
+    transResult.setMerchantId(auth.getMerchantId());
+    transResult.setAgentId(auth.getAgentId());
+    transResult.setOrderId(((PayOrder) pay).getOrderId());
     return transResult;
   }
 
