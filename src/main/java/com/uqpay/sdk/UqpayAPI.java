@@ -11,14 +11,12 @@ import com.uqpay.sdk.dto.enroll.EnrollOrder;
 import com.uqpay.sdk.dto.enroll.VerifyOrder;
 import com.uqpay.sdk.dto.common.MerchantHostDTO;
 import com.uqpay.sdk.dto.exchangeRate.ExchangeRateQueryDTO;
+import com.uqpay.sdk.dto.merchant.ConfigPaymentDTO;
 import com.uqpay.sdk.dto.merchant.MerchantRegisterDTO;
 import com.uqpay.sdk.dto.pay.PayOrder;
 import com.uqpay.sdk.dto.common.ServerHostDTO;
 import com.uqpay.sdk.dto.preAuth.PreAuthOrder;
-import com.uqpay.sdk.dto.result.appgate.BaseAppgateResult;
-import com.uqpay.sdk.dto.result.appgate.ExchangeRateResult;
-import com.uqpay.sdk.dto.result.appgate.PayloadResult;
-import com.uqpay.sdk.dto.result.appgate.QRCodeResult;
+import com.uqpay.sdk.dto.result.appgate.*;
 import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.utils.enums.*;
 import com.uqpay.sdk.vo.UqpayCashier;
@@ -402,13 +400,41 @@ public class UqpayAPI {
   }
 
   //===========================================
-  // Merchant Register API
+  // Merchant Manager API
   //===========================================
 
   public final BaseAppgateResult register(MerchantRegisterDTO registerDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
     this.setAuthForJsonParams(registerDTO);
     validateRequestParams(registerDTO, "request data invalid for uqpay register merchant");
-    return directJsonPost(registerDTO, BaseAppgateResult.class, appgateApiUrl(Constants.APPGATE_API_REGISTER));
+    return directJsonPost(registerDTO, BaseAppgateResult.class, appgateApiUrl(Constants.APPGATE_API_MERCHANT_REGISTER));
+  }
+
+  public final MerchantInfoResult queryMerchantDetail(BaseJsonRequestDTO requestDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    this.setAuthForJsonParams(requestDTO);
+    validateRequestParams(requestDTO, "request data invalid for query merchant detail");
+    return directJsonPost(requestDTO, MerchantInfoResult.class, appgateApiUrl(Constants.APPGATE_API_MERCHANT_VIEW));
+  }
+
+  public final MerchantListResult queryMerchantList(PageRequestDTO requestDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    this.setAuthForJsonParams(requestDTO);
+    validateRequestParams(requestDTO, "request data invalid for query merchant list");
+    return directJsonPost(requestDTO, MerchantListResult.class, appgateApiUrl(Constants.APPGATE_API_MERCHANT_LIST));
+  }
+
+  //===========================================
+  // Payment Method Manager API
+  //===========================================
+
+  public final ConfigMethodResult configPayMethod(ConfigPaymentDTO paymentDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    this.setAuthForJsonParams(paymentDTO);
+    validateRequestParams(paymentDTO, "request data invalid for config merchant config");
+    return directJsonPost(paymentDTO, ConfigMethodResult.class, appgateApiUrl(Constants.APPGATE_API_PRODUCT_CONFIG));
+  }
+
+  public final MerchantPayMethodListResult queryConfiguredPayMethod(BaseJsonRequestDTO requestDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    this.setAuthForJsonParams(requestDTO);
+    validateRequestParams(requestDTO, "request data invalid for query configured pay method");
+    return directJsonPost(requestDTO, MerchantPayMethodListResult.class, appgateApiUrl(Constants.APPGATE_API_PRODUCT_LIST));
   }
 
   //===========================================
@@ -425,6 +451,12 @@ public class UqpayAPI {
     this.setAuthForJsonParams(payloadDTO);
     validateRequestParams(payloadDTO, "request data invalid for get qr code payload");
     return directJsonPost(payloadDTO, PayloadResult.class, appgateApiUrl(Constants.APPGATE_API_EMVCO_PAYLOAD));
+  }
+
+  public final MerchantQRCodeListResult queryAllQRCode(PageRequestDTO requestDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    this.setAuthForJsonParams(requestDTO);
+    validateRequestParams(requestDTO, "request data invalid for query all QRCode of merchant");
+    return directJsonPost(requestDTO, MerchantQRCodeListResult.class, appgateApiUrl(Constants.APPGATE_API_EMVCO_QUERY));
   }
 
   //===========================================

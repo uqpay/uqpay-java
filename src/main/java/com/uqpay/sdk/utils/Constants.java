@@ -72,7 +72,12 @@ public class Constants {
   public static final String PAYGATE_API_PRE_AUTH = "/preauth";
   public static final String PAYGATE_API_ENROLL = "/enroll";
   public static final String PAYGATE_API_VERIFY = "/verify";
-  public static final String APPGATE_API_REGISTER = "/register";
+  public static final String APPGATE_API_MERCHANT_REGISTER = "/merchant/register";
+  public static final String APPGATE_API_MERCHANT_VIEW = "/merchant/view";
+  public static final String APPGATE_API_MERCHANT_LIST = "/merchant/list";
+  public static final String APPGATE_API_MERCHANT_CHECKING = "/merchant/checking";
+  public static final String APPGATE_API_PRODUCT_CONFIG = "/product/config";
+  public static final String APPGATE_API_PRODUCT_LIST = "/product/list";
   public static final String APPGATE_API_EMVCO_CREATE = "/emvco/create";
   public static final String APPGATE_API_EMVCO_QUERY = "/emvco/query";
   public static final String APPGATE_API_EMVCO_PAYLOAD = "/emvco/payload";
