@@ -1,6 +1,5 @@
 package com.uqpay.sdk.utils;
 
-import com.uqpay.sdk.config.AppgateConfig;
 import com.uqpay.sdk.config.BaseConfig;
 import com.uqpay.sdk.config.SecureConfig;
 import com.uqpay.sdk.dto.ParamLink;
@@ -12,12 +11,13 @@ import com.uqpay.sdk.config.PaygateConfig;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PayUtil {
   public static OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS).build();
@@ -208,13 +208,61 @@ public class PayUtil {
     return request;
   }
 
+  private static void doIfRequestFailed(Response response) throws UqpayPayFailException, IOException {
+    Map<String, String> resultMap = Tools.json2map(response.body().string());
+    BaseResult result = PayUtil.map2Params(BaseResult.class, resultMap);
+    throw new UqpayPayFailException(result.getCode(), result.getMessage());
+  }
+
   public static Response doSyncRequest(Request request) throws IOException, UqpayPayFailException {
     Response response = httpClient.newCall(request).execute();
     if (response.isSuccessful()) {
       return response;
     }
-    Map<String, String> resultMap = Tools.json2map(response.body().string());
-    BaseResult result = PayUtil.map2Params(BaseResult.class, resultMap);
-    throw new UqpayPayFailException(result.getCode(), result.getMessage());
+    doIfRequestFailed(response);
+    return response;
+  }
+
+  public static byte[] doFileDownloadRequest(Request request, String destPath) throws IOException, UqpayPayFailException {
+    OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.MINUTES).build();
+    Response response = client.newCall(request).execute();
+    if (response.isSuccessful()) {
+      if (destPath == null || destPath.length() == 0) {
+        return response.body().bytes();
+      } else {
+        // write the file
+        InputStream inputStream = null;
+        byte[] buf = new byte[2048];
+        int len = 0;
+        FileOutputStream fos = null;
+        try {
+          String contentDisposition = response.header("Content-Disposition");
+          String fileName = "checking.zip";
+          if (contentDisposition != null && contentDisposition.length() > 0 && contentDisposition.indexOf("filename=") > 0) {
+            Matcher matcher =  Pattern.compile("filename=\"(.*?)\"").matcher(contentDisposition);
+            if (matcher.find()) {
+              fileName = matcher.group(1);
+            }
+          }
+          inputStream = response.body().byteStream();
+          File file = new File(destPath, fileName);
+          fos = new FileOutputStream(file);
+          while ((len = inputStream.read(buf)) != -1) {
+            fos.write(buf, 0 , len);
+          }
+          fos.flush();
+        } finally {
+          if (inputStream != null) {
+            inputStream.close();
+          }
+          if (fos != null) {
+            fos.close();
+          }
+        }
+        return null;
+      }
+    }
+    doIfRequestFailed(response);
+    return null;
   }
 }

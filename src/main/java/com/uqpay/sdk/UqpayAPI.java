@@ -12,6 +12,7 @@ import com.uqpay.sdk.dto.enroll.VerifyOrder;
 import com.uqpay.sdk.dto.common.MerchantHostDTO;
 import com.uqpay.sdk.dto.exchangeRate.ExchangeRateQueryDTO;
 import com.uqpay.sdk.dto.merchant.ConfigPaymentDTO;
+import com.uqpay.sdk.dto.merchant.DownloadCheckingFileDTO;
 import com.uqpay.sdk.dto.merchant.MerchantRegisterDTO;
 import com.uqpay.sdk.dto.pay.PayOrder;
 import com.uqpay.sdk.dto.common.ServerHostDTO;
@@ -140,6 +141,13 @@ public class UqpayAPI {
     T result = Tools.json2Obj(resBody, resultClass);
     PayUtil.verifyUqpayNotice(resBody, ((BaseAppgateResult) result).getSignature(), appgateConfig.getRSA());
     return result;
+  }
+
+  private byte[] directFileDownload(Object params, String destPath, String url) throws IOException, UqpayRSAException, UqpayPayFailException {
+    ((BaseJsonRequestDTO) params).setSignature(PayUtil.signParams(params, appgateConfig));
+    Request request = PayUtil.generateJsonRequest(params, url);
+    byte[] fileContent = PayUtil.doFileDownloadRequest(request, destPath);
+    return fileContent;
   }
 
   /****
@@ -419,6 +427,12 @@ public class UqpayAPI {
     this.setAuthForJsonParams(requestDTO);
     validateRequestParams(requestDTO, "request data invalid for query merchant list");
     return directJsonPost(requestDTO, MerchantListResult.class, appgateApiUrl(Constants.APPGATE_API_MERCHANT_LIST));
+  }
+
+  public final byte[] downloadCheckingFiles(DownloadCheckingFileDTO fileDTO, String destPath) throws UqpayRSAException, IOException, UqpayPayFailException {
+    this.setAuthForJsonParams(fileDTO);
+    validateRequestParams(fileDTO, "request data invalid for download checking file");
+    return directFileDownload(fileDTO, destPath, appgateApiUrl(Constants.APPGATE_API_MERCHANT_CHECKING));
   }
 
   //===========================================
