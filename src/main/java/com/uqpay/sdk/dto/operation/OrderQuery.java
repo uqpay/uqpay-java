@@ -26,23 +26,12 @@ public class OrderQuery implements PaygateParams {
   @NotNull
   private Date date; // this request generate date
 
-  @ParamLink(Constants.AUTH_SIGN_TYPE)
-  private SignTypeEnum signType = SignTypeEnum.RSA;
-
   public UqpayTransType getTradeType() {
     return tradeType;
   }
 
   public void setTradeType(UqpayTransType tradeType) {
     this.tradeType = tradeType;
-  }
-
-  public SignTypeEnum getSignType() {
-    return signType;
-  }
-
-  public void setSignType(SignTypeEnum signType) {
-    this.signType = signType;
   }
 
   public long getUqOrderId() {

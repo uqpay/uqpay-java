@@ -3,7 +3,6 @@ package com.uqpay.sdk.dto.common;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.PaygateParams;
 import com.uqpay.sdk.utils.Constants;
-import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
 
@@ -34,7 +33,12 @@ public class BankCardDTO implements PaygateParams {
 
   public static BankCardDTO valueOf(BankCardExtendDTO bankCard) {
     BankCardDTO result = new BankCardDTO();
-    BeanUtils.copyProperties(bankCard, result);
+    result.setFirstName(bankCard.getFirstName());
+    result.setLastName(bankCard.getLastName());
+    result.setCvv(bankCard.getCvv());
+    result.setCardNum(bankCard.getCardNum());
+    result.setExpireMonth(bankCard.getExpireMonth());
+    result.setExpireYear(bankCard.getExpireYear());
     return result;
   }
 

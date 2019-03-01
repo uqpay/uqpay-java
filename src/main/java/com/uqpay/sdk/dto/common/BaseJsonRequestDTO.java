@@ -7,8 +7,7 @@ import java.util.Date;
 
 public class BaseJsonRequestDTO extends AuthDTO {
   private static final long serialVersionUID = 6434237925369884603L;
-  @NotNull
-  private SignTypeEnum signType = SignTypeEnum.RSA;
+  private SignTypeEnum signType;
   @NotNull
   private Date date;
 

@@ -1,6 +1,7 @@
 package com.uqpay.sdk.utils;
 
 import com.uqpay.sdk.exception.UqpayRSAException;
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -21,7 +22,7 @@ public class RSAUtil {
   private static final String SIGN_CONTENT_CHARSET = "UTF-8";
 
 
-  private static String readKeyContentFrom(String filePath) throws UqpayRSAException {
+  public static String readKeyContentFrom(String filePath, boolean isSalt) throws UqpayRSAException {
     try {
       InputStream in;
       if (filePath.startsWith("classpath:")) {
@@ -34,7 +35,7 @@ public class RSAUtil {
       String readLine = null;
       StringBuilder sb = new StringBuilder();
       while ((readLine = br.readLine()) != null) {
-        if (readLine.charAt(0) == '-') {
+        if (!isSalt && readLine.charAt(0) == '-') {
           continue;
         } else {
           sb.append(readLine);
@@ -58,7 +59,7 @@ public class RSAUtil {
     try {
       String privateKeyStr;
       if (isPath) {
-        privateKeyStr = readKeyContentFrom(privateKey);
+        privateKeyStr = readKeyContentFrom(privateKey, false);
       } else {
         privateKeyStr = privateKey;
       }
@@ -87,11 +88,11 @@ public class RSAUtil {
     try {
       String publicKeyStr;
       if (isPath) {
-        publicKeyStr = readKeyContentFrom(publicKey);
+        publicKeyStr = readKeyContentFrom(publicKey, false);
       } else {
         publicKeyStr = publicKey;
       }
-      byte[] buffer = Base64.decode(publicKeyStr);
+      byte[] buffer = Base64.decodeBase64(publicKeyStr);
       KeyFactory keyFactory = KeyFactory.getInstance(KEY_FACTORY_ALGORITHM);
       X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
       return keyFactory.generatePublic(keySpec);
@@ -112,9 +113,9 @@ public class RSAUtil {
    * @throws IOException
    */
   private static byte[] buildPKCS8Key(String privateKey) {
-    final byte[] innerKey = Base64.decode(privateKey);
+    final byte[] innerKey = Base64.decodeBase64(privateKey);
     final byte[] result = new byte[innerKey.length + 26];
-    System.arraycopy(Base64.decode("MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKY="), 0, result, 0, 26);
+    System.arraycopy(Base64.decodeBase64("MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKY="), 0, result, 0, 26);
     System.arraycopy(BigInteger.valueOf(result.length - 4).toByteArray(), 0, result, 2, 2);
     System.arraycopy(BigInteger.valueOf(innerKey.length).toByteArray(), 0, result, 24, 2);
     System.arraycopy(innerKey, 0, result, 26, innerKey.length);
@@ -137,7 +138,7 @@ public class RSAUtil {
       Signature signature = Signature.getInstance(SIGN_SHA1_WITH_RSA);
       signature.initSign(privateKey);
       signature.update(content.getBytes(SIGN_CONTENT_CHARSET));
-      return Base64.encode(signature.sign());
+      return Base64.encodeBase64String(signature.sign());
     } catch (NoSuchAlgorithmException e) {
       throw new UqpayRSAException("No Such Algorithm");
     } catch (InvalidKeyException e) {
@@ -165,7 +166,7 @@ public class RSAUtil {
       Signature signature = Signature.getInstance(SIGN_SHA1_WITH_RSA);
       signature.initVerify(publicKey);
       signature.update(content.getBytes(SIGN_CONTENT_CHARSET));
-      return signature.verify(Base64.decode(sign));
+      return signature.verify(Base64.decodeBase64(sign));
     } catch (NoSuchAlgorithmException e) {
       throw new UqpayRSAException("No Such Algorithm");
     } catch (InvalidKeyException e) {

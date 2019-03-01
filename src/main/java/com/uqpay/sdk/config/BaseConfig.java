@@ -13,56 +13,56 @@ public class BaseConfig implements Serializable {
 
   private boolean testMode = false;
 
-  private SecureConfig productRSA;
+  private SecureConfig productSecure;
 
-  private SecureConfig testRSA;
+  private SecureConfig testSecure;
 
   /**
-   * <p>getRSA.</p>
+   * <p>getSecure.</p>
    *
    * @return a {@link SecureConfig} object.
    */
-  public SecureConfig getRSA() {
+  public SecureConfig getSecure() {
     if (isTestMode()) {
-      return testRSA;
+      return testSecure;
     }
-    return productRSA;
+    return productSecure;
   }
 
   /**
-   * <p>Getter for the field <code>productRSA</code>.</p>
+   * <p>Getter for the field <code>productSecure</code>.</p>
    *
    * @return a {@link SecureConfig} object.
    */
-  public SecureConfig getProductRSA() {
-    return productRSA;
+  public SecureConfig getProductSecure() {
+    return productSecure;
   }
 
   /**
-   * <p>Setter for the field <code>productRSA</code>.</p>
+   * <p>Setter for the field <code>productSecure</code>.</p>
    *
-   * @param productRSA a {@link SecureConfig} object.
+   * @param productSecure a {@link SecureConfig} object.
    */
-  public void setProductRSA(SecureConfig productRSA) {
-    this.productRSA = productRSA;
+  public void setProductSecure(SecureConfig productSecure) {
+    this.productSecure = productSecure;
   }
 
   /**
-   * <p>Getter for the field <code>testRSA</code>.</p>
+   * <p>Getter for the field <code>testSecure</code>.</p>
    *
    * @return a {@link SecureConfig} object.
    */
-  public SecureConfig getTestRSA() {
-    return testRSA;
+  public SecureConfig getTestSecure() {
+    return testSecure;
   }
 
   /**
-   * <p>Setter for the field <code>testRSA</code>.</p>
+   * <p>Setter for the field <code>testSecure</code>.</p>
    *
-   * @param testRSA a {@link SecureConfig} object.
+   * @param testSecure a {@link SecureConfig} object.
    */
-  public void setTestRSA(SecureConfig testRSA) {
-    this.testRSA = testRSA;
+  public void setTestSecure(SecureConfig testSecure) {
+    this.testSecure = testSecure;
   }
 
   /**

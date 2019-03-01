@@ -1,17 +1,17 @@
 package com.uqpay.sdk.config;
 
+import com.uqpay.sdk.utils.enums.SignTypeEnum;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.utils.RSAUtil;
 
 import java.io.Serializable;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
  * <p>SecureConfig class.</p>
  *
- * Tips: if u set the key string instead of the path, please remove the comment line (which start with ----) and the line break.
  * @author zhengwei
  * @version $Id: $Id
  */
@@ -19,140 +19,67 @@ public class SecureConfig implements Serializable {
   private static final long serialVersionUID = -7014284669389490818L;
 
   /**
-   * Merchant/Partner RSA Private Key Content
+   * Encipher the request data with Merchant/Partner private key (MD5 Salt) before send to UQPAY Service
    */
-  private String privateKeyStr;
-  /**
-   * The pem file path of Merchant/Partner RSA Private Key
-   * Tips: make sure you have the permission to read.
-   */
-  private String privateKeyPath;
+  private SecretKey encipher;
 
   /**
-   * UQPAY RSA Public Key Content
+   * Decipher the response data from UQPAY Service with UQPAY Public RSA key
    */
-  private String publicKeyStr;
+  private SecretKey decipher;
 
-  /**
-   * The pem file path of Merchant/Partner RSA Private Key
-   */
-  private String publicKeyPath;
-
-  private PrivateKey privateKey;
-
-  private PublicKey publicKey;
-
-  /**
-   * <p>Getter for the field <code>privateKey</code>.</p>
-   *
-   * @return a {@link java.security.PrivateKey} object.
-   * @throws com.uqpay.sdk.exception.UqpayRSAException if any.
-   */
-  public PrivateKey getPrivateKey() throws UqpayRSAException {
-    if (privateKey != null) {
-      return privateKey;
+  public SecretResult sign(String target) throws UqpayRSAException {
+    if (encipher == null || !encipher.verify()) {
+      throw new UqpayRSAException("Please setting your encipher secret key");
     }
-    if (StringUtils.isNotEmpty(this.privateKeyPath)){
-        privateKey = RSAUtil.loadPrivateKey(this.privateKeyPath, true);
-    } else if (StringUtils.isNotEmpty(this.privateKeyStr)) {
-      privateKey = RSAUtil.loadPrivateKey(this.privateKeyStr, false);
+    SecretResult result = new SecretResult();
+    result.setSignType(encipher.getSignType());
+    if (encipher.getSignType().equals(SignTypeEnum.RSA)) {
+      if (StringUtils.isNotBlank(encipher.getContent())) {
+        result.setSignature(RSAUtil.sign(target, RSAUtil.loadPrivateKey(encipher.getContent(), false)));
+        return result;
+      } else {
+        result.setSignature(RSAUtil.sign(target, RSAUtil.loadPrivateKey(encipher.getPath(), true)));
+        return result;
+      }
+    } else {
+      String fc = target;
+      if (StringUtils.isNotBlank(encipher.getContent())) {
+        fc += encipher.getContent();
+      } else {
+        fc += target + RSAUtil.readKeyContentFrom(encipher.getPath(), true);
+      }
+      result.setSignature(DigestUtils.md5Hex(fc));
+      return result;
     }
-    if (privateKey == null) {
-      throw new UqpayRSAException("Load Uqpay Payment Private Key Fail!");
+  }
+
+  public boolean verify(String target, String signature) throws UqpayRSAException {
+    if (decipher == null || !decipher.verify()) {
+      throw new UqpayRSAException("Please setting your decipher secret key");
     }
-    return privateKey;
-  }
-
-  /**
-   * <p>Getter for the field <code>publicKey</code>.</p>
-   *
-   * @return a {@link java.security.PublicKey} object.
-   * @throws com.uqpay.sdk.exception.UqpayRSAException if any.
-   */
-  public PublicKey getPublicKey() throws UqpayRSAException {
-    if (publicKey != null) {
-      return publicKey;
+    if (decipher.getSignType().equals(SignTypeEnum.RSA)) {
+      PublicKey publicKey = StringUtils.isNotBlank(decipher.getContent()) ?
+          RSAUtil.loadPublicKey(decipher.getContent(), false) : RSAUtil.loadPublicKey(decipher.getPath(), true);
+      return RSAUtil.verify(target, signature, publicKey);
     }
-    if (StringUtils.isNotEmpty(this.publicKeyPath)) {
-      publicKey = RSAUtil.loadPublicKey(this.publicKeyPath, true);
-    } else if (StringUtils.isNotEmpty(this.publicKeyStr)) {
-      publicKey = RSAUtil.loadPublicKey(this.publicKeyStr, false);
-    }
-    if (publicKey == null) {
-      throw new UqpayRSAException("Load Uqpay Payment Public Key Fail!");
-    }
-    return publicKey;
+    // TODO for this moment the UQPAY Service Only use RSA to encipher the data
+    return false;
   }
 
-  /**
-   * <p>Getter for the field <code>publicKeyStr</code>.</p>
-   *
-   * @return a {@link java.lang.String} object.
-   */
-  public String getPublicKeyStr() {
-    return publicKeyStr;
+  public SecretKey getEncipher() {
+    return encipher;
   }
 
-  /**
-   * <p>Setter for the field <code>publicKeyStr</code>.</p>
-   *
-   * @param publicKeyStr a {@link java.lang.String} object.
-   */
-  public void setPublicKeyStr(String publicKeyStr) {
-    this.publicKeyStr = publicKeyStr;
+  public void setEncipher(SecretKey encipher) {
+    this.encipher = encipher;
   }
 
-  /**
-   * <p>Getter for the field <code>publicKeyPath</code>.</p>
-   *
-   * @return a {@link java.lang.String} object.
-   */
-  public String getPublicKeyPath() {
-    return publicKeyPath;
+  public SecretKey getDecipher() {
+    return decipher;
   }
 
-  /**
-   * <p>Setter for the field <code>publicKeyPath</code>.</p>
-   *
-   * @param publicKeyPath a {@link java.lang.String} object.
-   */
-  public void setPublicKeyPath(String publicKeyPath) {
-    this.publicKeyPath = publicKeyPath;
-  }
-
-  /**
-   * <p>Getter for the field <code>privateKeyStr</code>.</p>
-   *
-   * @return a {@link java.lang.String} object.
-   */
-  public String getPrivateKeyStr() {
-    return privateKeyStr;
-  }
-
-  /**
-   * <p>Setter for the field <code>privateKeyStr</code>.</p>
-   *
-   * @param privateKeyStr a {@link java.lang.String} object.
-   */
-  public void setPrivateKeyStr(String privateKeyStr) {
-    this.privateKeyStr = privateKeyStr;
-  }
-
-  /**
-   * <p>Getter for the field <code>privateKeyPath</code>.</p>
-   *
-   * @return a {@link java.lang.String} object.
-   */
-  public String getPrivateKeyPath() {
-    return privateKeyPath;
-  }
-
-  /**
-   * <p>Setter for the field <code>privateKeyPath</code>.</p>
-   *
-   * @param privateKeyPath a {@link java.lang.String} object.
-   */
-  public void setPrivateKeyPath(String privateKeyPath) {
-    this.privateKeyPath = privateKeyPath;
+  public void setDecipher(SecretKey decipher) {
+    this.decipher = decipher;
   }
 }

@@ -1,13 +1,13 @@
 package com.uqpay.sdk.utils;
 
-import com.uqpay.sdk.config.BaseConfig;
+import com.uqpay.sdk.config.SecretResult;
 import com.uqpay.sdk.config.SecureConfig;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.PaygateParams;
+import com.uqpay.sdk.dto.common.BaseJsonRequestDTO;
 import com.uqpay.sdk.dto.result.BaseResult;
 import com.uqpay.sdk.exception.UqpayPayFailException;
 import okhttp3.*;
-import com.uqpay.sdk.config.PaygateConfig;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 
@@ -150,21 +150,22 @@ public class PayUtil {
     }
   }
 
-  public static Map<String, String> signParams(Map<String, String> paramsMap, PaygateConfig config)
+  public static Map<String, String> signParams(Map<String, String> paramsMap, SecureConfig config)
       throws UnsupportedEncodingException, UqpayRSAException {
     String paramsQuery = Tools.stringify(paramsMap, false, Constants.AUTH_SIGN_TYPE);
-    String sign = RSAUtil.sign(paramsQuery, config.getRSA().getPrivateKey());
-    paramsMap.put(Constants.AUTH_SIGN, sign);
+    SecretResult secret = config.sign(paramsQuery);
+    paramsMap.put(Constants.AUTH_SIGN, secret.getSignature());
+    paramsMap.put(Constants.AUTH_SIGN_TYPE, secret.getSignType().name());
     return paramsMap;
   }
 
-  public static String signParams(Object params, BaseConfig config) throws IOException, UqpayRSAException {
-    String jsonData = Tools.objToJson(params);
-    String sign = RSAUtil.sign(jsonData, config.getRSA().getPrivateKey());
-    return sign;
+  public static void signParams(BaseJsonRequestDTO params, SecureConfig config) throws IOException, UqpayRSAException {
+    SecretResult secret = config.sign(Tools.objToJson(params));
+    params.setSignature(secret.getSignature());
+    params.setSignType(secret.getSignType());
   }
 
-  public static void verifyUqpayNotice(Map<String, String> paramsMap, PaygateConfig config)
+  public static void verifyUqpayNotice(Map<String, String> paramsMap, SecureConfig config)
       throws UnsupportedEncodingException, UqpayRSAException, UqpayResultVerifyException {
     if (paramsMap.get(Constants.AUTH_SIGN) == null)
       throw new UqpayResultVerifyException("The payment result is not a valid uqpay result, signature is missing", paramsMap);
@@ -175,17 +176,20 @@ public class PayUtil {
       }
     });
     String paramsQuery = Tools.stringify(needVerifyParams, false);
-    boolean verify = RSAUtil.verify(paramsQuery, paramsMap.get(Constants.AUTH_SIGN).toString(), config.getRSA().getPublicKey());
-    if (!verify)
+    if (!config.verify(paramsQuery, paramsMap.get(Constants.AUTH_SIGN)))
       throw new UqpayResultVerifyException("The payment result is invalid, be sure is from the UQPAY server", paramsMap);
   }
 
   public static void verifyUqpayNotice(String jsonString, String signature, SecureConfig secure) throws UqpayResultVerifyException, UqpayRSAException {
     if (signature == null || signature.equals("")) throw new UqpayResultVerifyException("The result is not a valid uqpay result, signature is missing", jsonString);
     String verifyString = jsonString.replace(signature, "000000");
-    boolean verify = RSAUtil.verify(verifyString, signature, secure.getPublicKey());
-    if (!verify)
+    if (!secure.verify(verifyString, signature))
       throw new UqpayResultVerifyException("The result is invalid, be sure is from the UQPAY server", jsonString);
+  }
+
+  public static Map<String, String> generatePayParamsMap(SecureConfig config, PaygateParams... params) throws UnsupportedEncodingException, UqpayRSAException {
+    Map<String, String> paramsMap = PayUtil.params2Map(params);
+    return PayUtil.signParams(paramsMap, config);
   }
 
   public static Request generateFormRequest(Map<String, String> paramsMap, String url) {
