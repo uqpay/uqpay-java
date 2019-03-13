@@ -149,16 +149,28 @@
             </plugins>
         </pluginManagement>
     </build>
+    <!--<distributionManagement>-->
+        <!--<snapshotRepository>-->
+            <!--<id>sonatype-nexus-snapshots</id>-->
+            <!--<name>Sonatype Nexus Snapshots</name>-->
+            <!--<url>${sonatypeOssDistMgmtSnapshotsUrl}</url>-->
+        <!--</snapshotRepository>-->
+        <!--<repository>-->
+            <!--<id>sonatype-nexus-staging</id>-->
+            <!--<name>Nexus Release Repository</name>-->
+            <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+        <!--</repository>-->
+    <!--</distributionManagement>-->
     <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>${sonatypeOssDistMgmtSnapshotsUrl}</url>
-        </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
+            <id>nexus-releases</id>
             <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <url>http://dev.uqpay.cn:8081/repository/maven-releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://dev.uqpay.cn:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 </project>
