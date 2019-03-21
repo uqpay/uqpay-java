@@ -38,6 +38,7 @@ import javax.validation.Validator;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class UqpayAPI {
 
@@ -73,6 +74,9 @@ public class UqpayAPI {
     this.auth = new AuthDTO();
     this.auth.setAgentId(merchantConfig.getAgentId());
     this.auth.setMerchantId(merchantConfig.getId());
+    if (this.merchantConfig.getConnectTimeout() > 0) {
+      PayUtil.httpClient = PayUtil.httpClient.newBuilder().connectTimeout(this.merchantConfig.getConnectTimeout(), TimeUnit.SECONDS).build();
+    }
   }
 
   public PaygateConfig paygateConfig() {

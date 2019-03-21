@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class MerchantConfig implements Serializable {
 
-  private static final long serialVersionUID = -312077541053714986L;
+  private static final long serialVersionUID = -3586560256989234027L;
 
   /**
    * Merchant ID
@@ -13,6 +13,8 @@ public class MerchantConfig implements Serializable {
   private int id;
 
   private int agentId;
+
+  private int connectTimeout; // SECONDS
 
   public MerchantConfig() {}
 
@@ -30,5 +32,13 @@ public class MerchantConfig implements Serializable {
 
   public void setAgentId(int agentId) {
     this.agentId = agentId;
+  }
+
+  public int getConnectTimeout() {
+    return connectTimeout;
+  }
+
+  public void setConnectTimeout(int connectTimeout) {
+    this.connectTimeout = connectTimeout;
   }
 }
