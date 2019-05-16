@@ -257,7 +257,7 @@ public class UqpayAPI {
   //===========================================
 
   /**
-   * this pay api support those pay methods which no need input other params(get from the consumers, eg. credit card info)
+   *
    *
    * @param order
    * @return
