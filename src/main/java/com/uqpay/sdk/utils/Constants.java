@@ -23,6 +23,7 @@ public class Constants {
   public static final String ORDER_CURRENCY = "currency";
   public static final String ORDER_TRANS_NAME = "transname";
   public static final String ORDER_DATE = "date";
+  public static final String ORDER_FinishTime = "finishTime";
   public static final String ORDER_QUANTITY = "quantity";
   public static final String ORDER_STORE_ID = "storeid";
   public static final String ORDER_SELLER = "seller";
