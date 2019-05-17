@@ -160,6 +160,7 @@ public class PayUtil {
   }
 
   public static void signParams(BaseJsonRequestDTO params, SecureConfig config) throws IOException, UqpayRSAException {
+    params.setSignType(config.getEncipher().getSignType());
     SecretResult secret = config.sign(Tools.objToJson(params));
     params.setSignature(secret.getSignature());
     params.setSignType(secret.getSignType());
