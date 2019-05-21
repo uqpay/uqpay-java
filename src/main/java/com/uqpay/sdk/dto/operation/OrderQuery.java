@@ -26,7 +26,7 @@ public class OrderQuery implements PaygateParams {
   private Date date; // this request generate date
 
   /**
-   * required rule: orderId not empty || uqOrderId > 0
+   * required rule: orderId not empty || uqOrderId not empty
    */
 
   @ParamLink(Constants.ORDER_ID)
