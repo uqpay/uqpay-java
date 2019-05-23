@@ -32,8 +32,8 @@ public class OrderQuery implements PaygateParams {
   @ParamLink(Constants.ORDER_ID)
   private String orderId; // your origin order id
 
-  @PositiveOrZero
   @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
+  @PositiveOrZero
   private long uqOrderId; // the uqpay order id
 
   public String getOrderId() {
