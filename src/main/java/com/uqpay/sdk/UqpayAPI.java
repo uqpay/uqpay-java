@@ -13,6 +13,7 @@ import com.uqpay.sdk.dto.exchangeRate.ExchangeRateQueryDTO;
 import com.uqpay.sdk.dto.merchant.ConfigPaymentDTO;
 import com.uqpay.sdk.dto.merchant.DownloadCheckingFileDTO;
 import com.uqpay.sdk.dto.merchant.MerchantRegisterDTO;
+import com.uqpay.sdk.dto.merchant.WithdrawDTO;
 import com.uqpay.sdk.dto.pay.CashierOrder;
 import com.uqpay.sdk.dto.pay.PayOrder;
 import com.uqpay.sdk.dto.common.ServerHostDTO;
@@ -420,6 +421,18 @@ public class UqpayAPI {
     this.setAuthForJsonParams(requestDTO);
     validateRequestParams(requestDTO, "request data invalid for query merchant detail");
     return directJsonPost(requestDTO, MerchantInfoResult.class, appgateApiUrl(Constants.APPGATE_API_MERCHANT_VIEW));
+  }
+
+  public final BaseAppgateResult withdraw(WithdrawDTO withdrawDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    this.setAuthForJsonParams(withdrawDTO);
+    validateRequestParams(withdrawDTO, "request data invalid for withdraw apply");
+    return directJsonPost(withdrawDTO, BaseAppgateResult.class, appgateApiUrl(Constants.APPGATE_API_FINANCE_APPLY_WITHDRAW));
+  }
+
+  public final BalanceResult queryBalance(BaseJsonRequestDTO requestDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    this.setAuthForJsonParams(requestDTO);
+    validateRequestParams(requestDTO, "request data invalid for query balance");
+    return directJsonPost(requestDTO, BalanceResult.class, appgateApiUrl(Constants.APPGATE_API_FINANCE_BALANCE));
   }
 
   public final MerchantListResult queryMerchantList(PageRequestDTO requestDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {

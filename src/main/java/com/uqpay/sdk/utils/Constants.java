@@ -83,4 +83,6 @@ public class Constants {
   public static final String APPGATE_API_EMVCO_QUERY = "/emvco/query";
   public static final String APPGATE_API_EMVCO_PAYLOAD = "/emvco/payload";
   public static final String APPGATE_API_RES_EXCHANGE_RATE = "/res/exchange";
+  public static final String APPGATE_API_FINANCE_APPLY_WITHDRAW = "/finance/withdraw";
+  public static final String APPGATE_API_FINANCE_BALANCE = "/finance/balance";
 }
