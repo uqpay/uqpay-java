@@ -16,7 +16,6 @@ public class BankCardDTO implements PaygateParams {
   private String lastName;
 
   @ParamLink(Constants.BANK_CARD_CVV)
-  @NotBlank
   private String cvv;
 
   @ParamLink(Constants.BANK_CARD_CARD_NUM)
