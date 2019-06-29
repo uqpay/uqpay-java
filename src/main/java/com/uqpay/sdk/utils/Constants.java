@@ -61,12 +61,14 @@ public class Constants {
   public static final String APPLE_PAY_ICCARDDATA = "iccarddata";
   public static final String APPLE_PAY_CARDHOLDER_NAME= "cardholdername";
   public static final String APPLE_PAY_PIN = "pin";
+  public static final String HOSTED_CARDTOKEN = "cardtoken";
 
   public static final String MERCHANT_HOST_ENROLL_CODE_UQPAY_ID = "codeorderid";
   public static final String MERCHANT_HOST_VERIFY_CODE = "verifycode";
   public static final String SERVER_HOST_CARD_TOKEN = "token";
 
   public static final String PAYGATE_API_PAY = "/pay";
+  public static final String PAYGATE_API_HOST_PAY = "/hosted/pay";
   public static final String PAYGATE_API_REFUND = "/refund";
   public static final String PAYGATE_API_CANCEL = "/cancel";
   public static final String PAYGATE_API_QUERY = "/query";
@@ -85,4 +87,5 @@ public class Constants {
   public static final String APPGATE_API_RES_EXCHANGE_RATE = "/res/exchange";
   public static final String APPGATE_API_FINANCE_APPLY_WITHDRAW = "/finance/withdraw";
   public static final String APPGATE_API_FINANCE_BALANCE = "/finance/balance";
+  public static final String APPGATE_API_HOST_INIT = "/host/init";
 }

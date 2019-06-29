@@ -9,6 +9,7 @@ import com.uqpay.sdk.utils.enums.UqpayScanType;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Map;
 
 public class PayOptionsDTO implements PaygateParams, PayOptions {
@@ -16,7 +17,7 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
    * is required
    */
   @ParamLink(Constants.PAY_OPTIONS_METHOD_ID)
-  @Positive
+  @PositiveOrZero
   private int methodId;
   @ParamLink(Constants.PAY_OPTIONS_CLIENT_TYPE)
   @NotNull

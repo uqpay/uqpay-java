@@ -10,6 +10,8 @@ import com.uqpay.sdk.dto.enroll.EnrollOrder;
 import com.uqpay.sdk.dto.enroll.VerifyOrder;
 import com.uqpay.sdk.dto.common.MerchantHostDTO;
 import com.uqpay.sdk.dto.exchangeRate.ExchangeRateQueryDTO;
+import com.uqpay.sdk.dto.host.HostPayDTO;
+import com.uqpay.sdk.dto.host.HostPreInit;
 import com.uqpay.sdk.dto.merchant.ConfigPaymentDTO;
 import com.uqpay.sdk.dto.merchant.DownloadCheckingFileDTO;
 import com.uqpay.sdk.dto.merchant.MerchantRegisterDTO;
@@ -201,6 +203,11 @@ public class UqpayAPI {
     return directFormPost(paramsMap, url, TransResult.class);
   }
 
+  private final TransResult UIHostPayment(PaygateParams pay, HostPayDTO hostDTO, String url) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    Map<String, String> paramsMap = PayUtil.generatePayParamsMap(paygateConfig.getSecure(), pay, hostDTO, auth);
+    return directFormPost(paramsMap, url, TransResult.class);
+  }
+
   private final TransResult ThreeDSecurePayment(PaygateParams pay, BankCardExtendDTO bankCard, ThreeDFinishDTO threeDFinish, String url) throws IOException, UqpayRSAException, UqpayPayFailException, UqpayResultVerifyException {
     PayOptions payOptions = (PayOptions) pay;
     if (payOptions.getPaResCbUrl() == null || payOptions.getPaResCbUrl().equals(""))
@@ -306,6 +313,13 @@ public class UqpayAPI {
       default:
         return null;
     }
+  }
+
+  public final TransResult hostPay(PayOrder order) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    order.setTradeType(UqpayTransType.pay);
+    validatePayData(order);
+    validatePayData(order.getHostPayDTO());
+    return this.UIHostPayment(order, order.getHostPayDTO(), paygateApiUrl(Constants.PAYGATE_API_HOST_PAY));
   }
 
   public final String cashier(CashierOrder order) throws UnsupportedEncodingException, UqpayRSAException {
@@ -493,6 +507,17 @@ public class UqpayAPI {
     this.setAuthForJsonParams(queryDTO);
     validateRequestParams(queryDTO, "request data invalid for query exchange rate");
     return directJsonPost(queryDTO, ExchangeRateResult.class, appgateApiUrl(Constants.APPGATE_API_RES_EXCHANGE_RATE));
+  }
+
+
+  //===========================================
+  // Host pre-init
+  //===========================================
+
+  public final HostPreInitResult hostPreInit(HostPreInit preInit) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    this.setAuthForJsonParams(preInit);
+    validateRequestParams(preInit, "request data invalid for host pre-init");
+    return directJsonPost(preInit, HostPreInitResult.class, appgateApiUrl(Constants.APPGATE_API_HOST_INIT));
   }
 
   public static class Builder {
