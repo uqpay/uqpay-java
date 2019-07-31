@@ -87,5 +87,5 @@ public class Constants {
   public static final String APPGATE_API_RES_EXCHANGE_RATE = "/res/exchange";
   public static final String APPGATE_API_FINANCE_APPLY_WITHDRAW = "/finance/withdraw";
   public static final String APPGATE_API_FINANCE_BALANCE = "/finance/balance";
-  public static final String APPGATE_API_HOST_INIT = "/host/init";
+  public static final String APPGATE_API_HOST_INIT = "/hosted/init";
 }
