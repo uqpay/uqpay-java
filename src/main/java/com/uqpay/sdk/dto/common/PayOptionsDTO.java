@@ -3,28 +3,21 @@ package com.uqpay.sdk.dto.common;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.PayOptions;
 import com.uqpay.sdk.dto.PaygateParams;
-import com.uqpay.sdk.dto.pay.PayOrder;
-import com.uqpay.sdk.dto.preAuth.PreAuthOrder;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.PaymentSupportClient;
-import com.uqpay.sdk.utils.enums.SignTypeEnum;
 import com.uqpay.sdk.utils.enums.UqpayScanType;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
-import org.springframework.beans.BeanUtils;
-
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Map;
 
 public class PayOptionsDTO implements PaygateParams, PayOptions {
   /**
    * is required
    */
-  @ParamLink(Constants.AUTH_SIGN_TYPE)
-  private SignTypeEnum signType = SignTypeEnum.RSA;
   @ParamLink(Constants.PAY_OPTIONS_METHOD_ID)
-  @Positive
+  @PositiveOrZero
   private int methodId;
   @ParamLink(Constants.PAY_OPTIONS_CLIENT_TYPE)
   @NotNull
@@ -61,26 +54,6 @@ public class PayOptionsDTO implements PaygateParams, PayOptions {
    * the paResponse will be used to finished the 3D payment, see {@link ThreeDFinishDTO}
    */
   private String paResCbUrl;
-
-  public static PayOptionsDTO valueOf(PayOrder order) {
-    PayOptionsDTO result = new PayOptionsDTO();
-    BeanUtils.copyProperties(order, result);
-    return result;
-  }
-
-  public static PayOptionsDTO valueOf(PreAuthOrder order) {
-    PayOptionsDTO result = new PayOptionsDTO();
-    BeanUtils.copyProperties(order, result);
-    return result;
-  }
-
-  public SignTypeEnum getSignType() {
-    return signType;
-  }
-
-  public void setSignType(SignTypeEnum signType) {
-    this.signType = signType;
-  }
 
   public UqpayTransType getTradeType() {
     return tradeType;

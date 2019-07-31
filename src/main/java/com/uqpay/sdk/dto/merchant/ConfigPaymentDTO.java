@@ -9,7 +9,6 @@ public class ConfigPaymentDTO extends BaseJsonRequestDTO {
   private static final long serialVersionUID = -2581487655316468860L;
   @Positive
   private int methodId;
-
   private int feeTempID; // fee template id, u can set a fee template on UQPAY Partner Dashboard;
   private boolean defOpen;// if true, it will be active automatic
 

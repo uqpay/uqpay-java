@@ -39,8 +39,7 @@ public class OrderRefund implements PaygateParams {
   @ParamLink(Constants.PAY_OPTIONS_CLIENT_TYPE)
   @NotNull
   private PaymentSupportClient clientType = PaymentSupportClient.PC_WEB;
-  @ParamLink(Constants.AUTH_SIGN_TYPE)
-  private SignTypeEnum signType = SignTypeEnum.RSA;
+
   /**
    * not required
    */
@@ -53,14 +52,6 @@ public class OrderRefund implements PaygateParams {
 
   public void setUqOrderId(long uqOrderId) {
     this.uqOrderId = uqOrderId;
-  }
-
-  public SignTypeEnum getSignType() {
-    return signType;
-  }
-
-  public void setSignType(SignTypeEnum signType) {
-    this.signType = signType;
   }
 
   public UqpayTransType getTradeType() {

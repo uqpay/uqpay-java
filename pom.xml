@@ -7,7 +7,7 @@
     <groupId>com.uqpay.sdk</groupId>
     <artifactId>uqpay-payment</artifactId>
 
-    <version>3.2.0</version>
+    <version>4.3.0</version>
     <packaging>jar</packaging>
     <url>https://github.com/uqpaytechnology/java-server-sdk</url>
 
@@ -43,19 +43,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>1.5.15.RELEASE</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.7</version>
         </dependency>
         <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.12</version>
+        </dependency>
+        <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.0.11.Final</version>
+            <version>6.0.12.Final</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>

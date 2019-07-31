@@ -2,7 +2,6 @@ package com.uqpay.sdk.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -67,7 +66,7 @@ public class Tools {
   }
 
   public static List<Field> getAllFieldsList(final Class<?> clazz) {
-    Assert.notNull(clazz, "The class must not be null");
+    if (clazz == null) return null;
     final List<Field> allFields = new ArrayList<>();
     Class<?> currentClass = clazz;
     while (currentClass != null) {

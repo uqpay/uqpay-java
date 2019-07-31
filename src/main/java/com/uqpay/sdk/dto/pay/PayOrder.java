@@ -3,6 +3,7 @@ package com.uqpay.sdk.dto.pay;
 import com.uqpay.sdk.dto.ParamExtendLink;
 import com.uqpay.sdk.dto.ParamLink;
 import com.uqpay.sdk.dto.common.*;
+import com.uqpay.sdk.dto.host.HostPayDTO;
 import com.uqpay.sdk.utils.Constants;
 import javax.validation.constraints.NotEmpty;
 
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
  * all this info will be return to your system when the pay request is done
  */
 public class PayOrder extends OrderDTO {
-  private static final long serialVersionUID = -3872264088178095064L;
+  private static final long serialVersionUID = -2986724242928000769L;
 
   /**
    * is required
@@ -31,6 +32,9 @@ public class PayOrder extends OrderDTO {
 
   @ParamExtendLink
   private ThreeDFinishDTO threeDFinish; // required when finish the 3D payment
+
+  @ParamExtendLink
+  private HostPayDTO hostPayDTO; // required when ui host payment
 
   public String getTransName() {
     return transName;
@@ -70,5 +74,13 @@ public class PayOrder extends OrderDTO {
 
   public void setThreeDFinish(ThreeDFinishDTO threeDFinish) {
     this.threeDFinish = threeDFinish;
+  }
+
+  public HostPayDTO getHostPayDTO() {
+    return hostPayDTO;
+  }
+
+  public void setHostPayDTO(HostPayDTO hostPayDTO) {
+    this.hostPayDTO = hostPayDTO;
   }
 }

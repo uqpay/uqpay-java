@@ -23,6 +23,7 @@ public class Constants {
   public static final String ORDER_CURRENCY = "currency";
   public static final String ORDER_TRANS_NAME = "transname";
   public static final String ORDER_DATE = "date";
+  public static final String ORDER_FinishTime = "finishTime";
   public static final String ORDER_QUANTITY = "quantity";
   public static final String ORDER_STORE_ID = "storeid";
   public static final String ORDER_SELLER = "seller";
@@ -60,12 +61,14 @@ public class Constants {
   public static final String APPLE_PAY_ICCARDDATA = "iccarddata";
   public static final String APPLE_PAY_CARDHOLDER_NAME= "cardholdername";
   public static final String APPLE_PAY_PIN = "pin";
+  public static final String HOSTED_CARDTOKEN = "cardtoken";
 
   public static final String MERCHANT_HOST_ENROLL_CODE_UQPAY_ID = "codeorderid";
   public static final String MERCHANT_HOST_VERIFY_CODE = "verifycode";
   public static final String SERVER_HOST_CARD_TOKEN = "token";
 
   public static final String PAYGATE_API_PAY = "/pay";
+  public static final String PAYGATE_API_HOST_PAY = "/hosted/pay";
   public static final String PAYGATE_API_REFUND = "/refund";
   public static final String PAYGATE_API_CANCEL = "/cancel";
   public static final String PAYGATE_API_QUERY = "/query";
@@ -75,11 +78,14 @@ public class Constants {
   public static final String APPGATE_API_MERCHANT_REGISTER = "/merchant/register";
   public static final String APPGATE_API_MERCHANT_VIEW = "/merchant/view";
   public static final String APPGATE_API_MERCHANT_LIST = "/merchant/list";
-  public static final String APPGATE_API_MERCHANT_CHECKING = "/merchant/checking";
+  public static final String APPGATE_API_MERCHANT_CHECKING = "/file/checking";
   public static final String APPGATE_API_PRODUCT_CONFIG = "/product/config";
   public static final String APPGATE_API_PRODUCT_LIST = "/product/list";
   public static final String APPGATE_API_EMVCO_CREATE = "/emvco/create";
   public static final String APPGATE_API_EMVCO_QUERY = "/emvco/query";
   public static final String APPGATE_API_EMVCO_PAYLOAD = "/emvco/payload";
   public static final String APPGATE_API_RES_EXCHANGE_RATE = "/res/exchange";
+  public static final String APPGATE_API_FINANCE_APPLY_WITHDRAW = "/finance/withdraw";
+  public static final String APPGATE_API_FINANCE_BALANCE = "/finance/balance";
+  public static final String APPGATE_API_HOST_INIT = "/hosted/init";
 }
