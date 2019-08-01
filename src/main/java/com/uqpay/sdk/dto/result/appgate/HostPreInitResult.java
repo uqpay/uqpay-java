@@ -2,13 +2,13 @@ package com.uqpay.sdk.dto.result.appgate;
 
 public class HostPreInitResult extends BaseAppgateResult {
     private static final long serialVersionUID = 7060114935180656115L;
-    private String uuid;
+    private String token;
 
-    public String getUuid() {
-        return uuid;
+    public String getToken() {
+        return token;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setToken(String token) {
+        this.token = token;
     }
 }
