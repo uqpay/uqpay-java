@@ -37,10 +37,8 @@ public class SecureConfig implements Serializable {
     if (encipher.getSignType().equals(SignTypeEnum.RSA)) {
       if (StringUtils.isNotBlank(encipher.getContent())) {
         result.setSignature(RSAUtil.sign(target, RSAUtil.loadPrivateKey(encipher.getContent(), false)));
-        return result;
       } else {
         result.setSignature(RSAUtil.sign(target, RSAUtil.loadPrivateKey(encipher.getPath(), true)));
-        return result;
       }
     } else {
       String fc = target;
@@ -50,8 +48,8 @@ public class SecureConfig implements Serializable {
         fc += target + RSAUtil.readKeyContentFrom(encipher.getPath(), true);
       }
       result.setSignature(DigestUtils.md5Hex(fc));
-      return result;
     }
+    return result;
   }
 
   public boolean verify(String target, String signature) throws UqpayRSAException {

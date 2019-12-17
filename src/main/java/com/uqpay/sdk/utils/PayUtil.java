@@ -2,12 +2,11 @@ package com.uqpay.sdk.utils;
 
 import com.uqpay.sdk.config.SecretResult;
 import com.uqpay.sdk.config.SecureConfig;
-import com.uqpay.sdk.dto.ParamLink;
-import com.uqpay.sdk.dto.PaygateParams;
-import com.uqpay.sdk.dto.common.BaseJsonRequestDTO;
-import com.uqpay.sdk.dto.result.BaseResult;
+import com.uqpay.sdk.payment.bean.v1.ParamLink;
+import com.uqpay.sdk.payment.bean.v1.PaygateParams;
+import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
+import com.uqpay.sdk.payment.bean.v1.BaseResult;
 import com.uqpay.sdk.exception.UqpayPayFailException;
-import okhttp3.*;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 
@@ -20,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PayUtil {
-  public static OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS).build();
+
 
   public static Map<String, String> params2Map(PaygateParams... params) {
     Map<String, String> paramsMap = new HashMap<>();
@@ -188,86 +187,4 @@ public class PayUtil {
       throw new UqpayResultVerifyException("The result is invalid, be sure is from the UQPAY server", jsonString);
   }
 
-  public static Map<String, String> generatePayParamsMap(SecureConfig config, PaygateParams... params) throws UnsupportedEncodingException, UqpayRSAException {
-    Map<String, String> paramsMap = PayUtil.params2Map(params);
-    return PayUtil.signParams(paramsMap, config);
-  }
-
-  public static Request generateFormRequest(Map<String, String> paramsMap, String url) {
-    FormBody.Builder formBody = new FormBody.Builder();
-    paramsMap.forEach((key, value) -> formBody.add(key, value));
-    Request request = new Request.Builder()
-        .url(url)
-        .post(formBody.build())
-        .build();
-    return request;
-  }
-
-  public static Request generateJsonRequest(Object bodyObject, String url) throws IOException {
-    String requestBody = Tools.objToJson(bodyObject);
-    MediaType mediaType = MediaType.parse("application/json;charset=UTF-8");
-    Request request = new Request.Builder()
-        .url(url)
-        .post(RequestBody.create(mediaType, requestBody))
-        .build();
-    return request;
-  }
-
-  private static void doIfRequestFailed(Response response) throws UqpayPayFailException, IOException {
-    Map<String, String> resultMap = Tools.json2map(response.body().string());
-    BaseResult result = PayUtil.map2Params(BaseResult.class, resultMap);
-    throw new UqpayPayFailException(result.getCode(), result.getMessage());
-  }
-
-  public static Response doSyncRequest(Request request) throws IOException, UqpayPayFailException {
-    Response response = httpClient.newCall(request).execute();
-    if (response.isSuccessful()) {
-      return response;
-    }
-    doIfRequestFailed(response);
-    return response;
-  }
-
-  public static byte[] doFileDownloadRequest(Request request, String destPath) throws IOException, UqpayPayFailException {
-    OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.MINUTES).build();
-    Response response = client.newCall(request).execute();
-    if (response.isSuccessful()) {
-      if (destPath == null || destPath.length() == 0) {
-        return response.body().bytes();
-      } else {
-        // write the file
-        InputStream inputStream = null;
-        byte[] buf = new byte[2048];
-        int len = 0;
-        FileOutputStream fos = null;
-        try {
-          String contentDisposition = response.header("Content-Disposition");
-          String fileName = "checking.zip";
-          if (contentDisposition != null && contentDisposition.length() > 0 && contentDisposition.indexOf("filename=") > 0) {
-            Matcher matcher =  Pattern.compile("filename=\"(.*?)\"").matcher(contentDisposition);
-            if (matcher.find()) {
-              fileName = matcher.group(1);
-            }
-          }
-          inputStream = response.body().byteStream();
-          File file = new File(destPath, fileName);
-          fos = new FileOutputStream(file);
-          while ((len = inputStream.read(buf)) != -1) {
-            fos.write(buf, 0 , len);
-          }
-          fos.flush();
-        } finally {
-          if (inputStream != null) {
-            inputStream.close();
-          }
-          if (fos != null) {
-            fos.close();
-          }
-        }
-        return null;
-      }
-    }
-    doIfRequestFailed(response);
-    return null;
-  }
 }

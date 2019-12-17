@@ -1,6 +1,8 @@
 package com.uqpay.sdk.utils;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uqpay.sdk.bean.ApiResponse;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
@@ -16,18 +18,21 @@ import java.util.stream.Collectors;
 
 public class Tools {
   public static ObjectMapper mapper = new ObjectMapper();
-  public static String stringify(Map<String, String> paramsMap, boolean urlEncode, String... ignoreKeys) throws UnsupportedEncodingException {
-    List<String> keys = new ArrayList<>(paramsMap.keySet()).parallelStream().filter(s -> ArrayUtils.indexOf(ignoreKeys, s) < 0).collect(Collectors.toList());
-    Collections.sort(keys);
+  public static String stringify(Map<String, String> paramsMap, boolean urlEncode, String... ignoreKeys) {
+    List<String> keys = new ArrayList<>(paramsMap.keySet()).parallelStream().filter(s -> ArrayUtils.indexOf(ignoreKeys, s) < 0).sorted().collect(Collectors.toList());
     String queryString = "";
-    for (int i = 0; i < keys.size(); i++) {
-      String key = keys.get(i);
-      String value = urlEncode ? URLEncoder.encode(paramsMap.get(key), "UTF-8") : paramsMap.get(key);
-      if (i == keys.size() - 1) {
-        queryString = queryString + key + "=" + value;
-      } else {
-        queryString = queryString + key + "=" + value + "&";
+    try {
+      for (int i = 0; i < keys.size(); i++) {
+        String key = keys.get(i);
+        String value = urlEncode ? URLEncoder.encode(paramsMap.get(key), "UTF-8") : paramsMap.get(key);
+        if (i == keys.size() - 1) {
+          queryString = queryString + key + "=" + value;
+        } else {
+          queryString = queryString + key + "=" + value + "&";
+        }
       }
+    } catch (UnsupportedEncodingException ignore) {
+
     }
     return queryString;
   }
@@ -38,6 +43,16 @@ public class Tools {
 
   public static <T> T json2Obj(String jsonStr, Class<T> clasz) throws IOException {
     return mapper.readValue(jsonStr, clasz);
+  }
+
+  public static <T> ApiResponse<T> json2Rsp(String jsonStr, Class<T> cls) {
+    ApiResponse<T> result = null;
+    try {
+      JavaType t = mapper.getTypeFactory().constructParametricType(ApiResponse.class, cls);
+      result = mapper.readValue(jsonStr, t);
+    } catch (Exception ignored) {
+    }
+    return result;
   }
 
   public static final String capitalize(String string) {
