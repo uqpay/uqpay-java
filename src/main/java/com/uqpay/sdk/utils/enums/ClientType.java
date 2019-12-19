@@ -4,7 +4,7 @@ import com.uqpay.sdk.utils.HasValue;
 
 public enum ClientType implements HasValue {
 
-  PC_WEB((short)1),
+  Web((short)1),// PC
   IOS((short)2),
   Android((short)3);
 

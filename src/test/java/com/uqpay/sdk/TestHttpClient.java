@@ -1,9 +1,13 @@
+package com.uqpay.sdk;
+
 import com.uqpay.sdk.config.HttpClient;
 import com.uqpay.sdk.config.ResourceTypeEnum;
+import com.uqpay.sdk.utils.Tools;
 import okhttp3.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +28,8 @@ public class TestHttpClient implements HttpClient {
       Response response = httpClient.newCall(request).execute();
       if (response.isSuccessful() && response.body() != null) {
         return response.body().string();
+      } else {
+        System.out.println(response.body().string());
       }
     } catch (Exception ignore) {
 
@@ -39,7 +45,7 @@ public class TestHttpClient implements HttpClient {
         .url(url)
         .build();
     Response response;
-    String destPath = "";
+    String destPath = this.getClass().getResource("").getPath();
     try {
       response = httpClient.newCall(request).execute();
       if (response.isSuccessful()) {
@@ -73,8 +79,26 @@ public class TestHttpClient implements HttpClient {
           }
         }
       }
-    } catch (Exception ex) {
-
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
+
+  public static String getTestUnionPayConsumerQRCode() {
+    Request request = new Request.Builder()
+        .post(RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), ""))
+        .url("https://demo.uqpay.net/api/guest/union/qr")
+        .build();
+    try {
+      Response response = httpClient.newCall(request).execute();
+      if (response.isSuccessful() && response.body() != null) {
+        Map<String,String> map = Tools.json2map(response.body().string());
+        return map.get("data");
+      }
+      return "";
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return "";
   }
 }

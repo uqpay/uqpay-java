@@ -2,16 +2,10 @@ package com.uqpay.sdk.operation;
 
 import com.uqpay.sdk.UQPay;
 import com.uqpay.sdk.config.*;
-import com.uqpay.sdk.operation.bean.WithdrawDTO;
-import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
-import com.uqpay.sdk.operation.bean.PageRequestDTO;
-import com.uqpay.sdk.operation.bean.MerchantRegisterDTO;
+import com.uqpay.sdk.operation.bean.*;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
-import com.uqpay.sdk.operation.bean.result.BalanceResult;
-import com.uqpay.sdk.operation.bean.result.BaseAppgateResult;
-import com.uqpay.sdk.operation.bean.result.MerchantInfoResult;
-import com.uqpay.sdk.operation.bean.result.MerchantListResult;
+import com.uqpay.sdk.operation.bean.result.*;
 import com.uqpay.sdk.utils.Constants;
 
 import javax.validation.ConstraintViolation;
@@ -67,5 +61,16 @@ public class Merchant {
     validateRequestParams(requestDTO, "request data invalid for query balance");
     return uqPay.request(requestDTO, uqPay.getAppUrl(Constants.APPGATE_API_FINANCE_BALANCE), BalanceResult.class);
   }
+
+  public final ConfigMethodResult configPayMethod(ConfigPaymentDTO paymentDTO) throws UqpayRSAException, UqpayResultVerifyException, IOException {
+    validateRequestParams(paymentDTO, "request data invalid for config merchant config");
+    return uqPay.request(paymentDTO, uqPay.getAppUrl(Constants.APPGATE_API_PRODUCT_CONFIG), ConfigMethodResult.class);
+  }
+
+  public final MerchantPayMethodListResult queryConfiguredPayMethod(BaseJsonRequestDTO requestDTO) throws UqpayRSAException, UqpayResultVerifyException, IOException {
+    validateRequestParams(requestDTO, "request data invalid for query configured pay method");
+    return uqPay.request(requestDTO, uqPay.getAppUrl(Constants.APPGATE_API_PRODUCT_LIST), MerchantPayMethodListResult.class);
+  }
+
 
 }

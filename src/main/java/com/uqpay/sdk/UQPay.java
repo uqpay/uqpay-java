@@ -13,6 +13,7 @@ import com.uqpay.sdk.utils.Tools;
 import com.uqpay.sdk.utils.enums.SignTypeEnum;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,13 +33,12 @@ public class UQPay {
 
   private HttpClient httpClient;
 
-  private String[] paygate = {"http://paygate.uqpay.cn", "http://paygate.uqpay.net", "http://paygate.uqpay.com"};
-  private String[] appgate = {"http://appgate.uqpay.cn", "http://appgate.uqpay.net", "http://appgate.uqpay.com"};
-  private String[] cashier = {"http://cashier.uqpay.cn", "http://cashier.uqpay.net", "http://cashier.uqpay.com"};
+  private String[] paygate = {"http://localhost:8686", "https://paygate.uqpay.net", "https://paygate.uqpay.com"};
+  private String[] appgate = {"https://appgate.uqpay.cn", "https://appgate.uqpay.net", "https://appgate.uqpay.com"};
+  private String[] cashier = {"https://cashier.uqpay.cn", "https://cashier.uqpay.net", "https://cashier.uqpay.com"};
 
   public static String IDENTITY_HEADER_KEY_MEMBER = "uq-member-id";
   public static String IDENTITY_HEADER_KEY_TYPE = "uq-member-type";
-  public static String EXTEND_HEADER_KEY_METHOD = "uq-pay-method";
   public static final String SIGNATURE_PLACEHOLDER = "000000";
 
   public UQPay(int memberId, MemberTypeEnum memberType) {
@@ -49,6 +49,11 @@ public class UQPay {
 
   public static UQPay setting(MemberTypeEnum memberType, int memberId) {
     return new UQPay(memberId, memberType);
+  }
+
+  public UQPay env(EnvEnum env) {
+    this.env = env;
+    return this;
   }
 
   public UQPay encipher(SignTypeEnum signType, String key, boolean isPath) {
@@ -101,7 +106,9 @@ public class UQPay {
     Map<String, String> headers = new HashMap<>();
     headers.put("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
     String rspBody = httpClient.post(headers, Tools.stringify(paramsMap, true), url);
-
+    if (rspBody == null) {
+      return null;
+    }
     // verify
     Map<String, String> resultMap = Tools.json2map(rspBody);
     PayUtil.verifyUqpayNotice(resultMap, secureConfig);
@@ -133,6 +140,7 @@ public class UQPay {
    */
   @Deprecated
   public <T extends BaseAppgateResult, E extends BaseJsonRequestDTO> T request(E params, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException {
+    params.setDate(new Date());
     wrapParams(params);
     // request
     Map<String, String> headers = new HashMap<>();
@@ -148,6 +156,7 @@ public class UQPay {
   }
 
   public <E extends BasicRequest, T> ApiResponse<T> request(E params, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException {
+    params.setDate(new Date());
     // set identity info
     Map<String, String> headers = new HashMap<>();
     headers.put(IDENTITY_HEADER_KEY_MEMBER, String.valueOf(memberId));
@@ -163,6 +172,9 @@ public class UQPay {
 
     // request
     String rspBody = httpClient.post(headers, Tools.objToJson(params), url);
+    if (rspBody == null) {
+      return null;
+    }
     ApiResponse<T> response = Tools.json2Rsp(rspBody, resultClass);
 
     // only when the request is success, need verify;

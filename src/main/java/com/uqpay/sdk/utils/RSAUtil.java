@@ -61,7 +61,7 @@ public class RSAUtil {
       if (isPath) {
         privateKeyStr = readKeyContentFrom(privateKey, false);
       } else {
-        privateKeyStr = privateKey;
+        privateKeyStr = privateKey.replaceAll("--(.*)--", "").replace("\n", "");
       }
       byte[] buffer = buildPKCS8Key(privateKeyStr);
       PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(buffer);
@@ -90,7 +90,7 @@ public class RSAUtil {
       if (isPath) {
         publicKeyStr = readKeyContentFrom(publicKey, false);
       } else {
-        publicKeyStr = publicKey;
+        publicKeyStr = publicKey.replaceAll("--(.*)--", "").replace("\n", "");
       }
       byte[] buffer = Base64.decodeBase64(publicKeyStr);
       KeyFactory keyFactory = KeyFactory.getInstance(KEY_FACTORY_ALGORITHM);

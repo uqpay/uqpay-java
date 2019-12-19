@@ -1,7 +1,10 @@
 package com.uqpay.sdk.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 
 import java.util.Date;
 
@@ -15,7 +18,12 @@ public class ApiResponse<T> {
   private String message; // warning or error message
   private T data; // business data
   private String signature; // Used to verify whether the result is from UQPAY
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date timestamp;
+
+  public static class DateDeserializer extends DateDeserializers.DateDeserializer {
+
+  }
 
   public boolean isSuccess() {
     return success;

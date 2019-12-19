@@ -35,7 +35,7 @@ public class OrderRefund implements PaygateParams {
   private Date date; // this request generate date
   @ParamLink(Constants.PAY_OPTIONS_CLIENT_TYPE)
   @NotNull
-  private ClientType clientType = ClientType.PC_WEB;
+  private ClientType clientType = ClientType.Web;
 
   @ParamLink(Constants.AUTH_MERCHANT_ID)
   private int merchantId; // only valued if your an Agent, set this value of your sub merchant id

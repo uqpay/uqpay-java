@@ -10,8 +10,6 @@ public class SecretKey implements Serializable {
   private SignTypeEnum signType = SignTypeEnum.RSA;
   /**
    * RSA Key Or MD5 Salt Content
-   * Tips: for RSA, please remove the comment line (which start with ----) and the line break.
-   * Tips: if the content is not empty, we will ignore the path
    */
   private String content;
   /**

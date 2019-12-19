@@ -68,6 +68,7 @@ public class Constants {
   public static final String SERVER_HOST_CARD_TOKEN = "token";
 
   public static final String PAYGATE_API_PAY = "/pay";
+  public static final String PAYGATE_API_PAY_V2 = "/v2/pay";
   public static final String PAYGATE_API_HOST_PAY = "/hosted/pay";
   public static final String PAYGATE_API_REFUND = "/refund";
   public static final String PAYGATE_API_CANCEL = "/cancel";

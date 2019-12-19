@@ -57,7 +57,7 @@ public class HostUI {
     validateRequestParams(order, "request data invalid for host ui payment");
     validateRequestParams(order.getHostPayDTO(), "request data invalid for host ui payment");
     Map<String, String> paramsMap = PayUtil.params2Map(order, order.getHostPayDTO());
-    return uqPay.request(paramsMap, uqPay.getPayUrl(Constants.PAYGATE_API_PAY), TransResult.class);
+    return uqPay.request(paramsMap, uqPay.getPayUrl(Constants.PAYGATE_API_HOST_PAY), TransResult.class);
   }
 
 }

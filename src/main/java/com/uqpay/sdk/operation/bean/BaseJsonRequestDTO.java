@@ -10,7 +10,6 @@ import java.util.Date;
 public class BaseJsonRequestDTO implements Serializable {
   private static final long serialVersionUID = 1544402511660776535L;
   private SignTypeEnum signType;
-  @NotNull
   private Date date;
   private String signature;
 

@@ -2,7 +2,6 @@ package com.uqpay.sdk.payment;
 
 import com.uqpay.sdk.UQPay;
 import com.uqpay.sdk.bean.ApiResponse;
-import com.uqpay.sdk.config.*;
 import com.uqpay.sdk.payment.bean.v1.*;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
@@ -11,6 +10,7 @@ import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 import com.uqpay.sdk.utils.*;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.HibernateValidator;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -22,7 +22,7 @@ import java.util.*;
 public class Payment {
 
   private UQPay uqPay;
-  private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+  private Validator validator = Validation.byProvider(HibernateValidator.class).configure().failFast(false).buildValidatorFactory().getValidator();
 
   private <T> void validateRequestParams(T object, String msg) {
     if (object == null) throw new ConstraintViolationException(msg, null);
@@ -75,7 +75,7 @@ public class Payment {
 
   public ApiResponse<OnlineResult> online(OnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException {
     tx.setTransType(UqpayTransType.pay);
-    ApiResponse<OnlineResult> response = uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY), OnlineResult.class);
+    ApiResponse<OnlineResult> response = uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
     return response;
   }
 
@@ -134,7 +134,7 @@ public class Payment {
 
   public TransResult inAPP(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException {
     order.setTradeType(UqpayTransType.pay);
-    if (order.getClient().equals(ClientType.PC_WEB))
+    if (order.getClient().equals(ClientType.Web))
       throw new NullPointerException("uqpay in-app payment not support pc client");
     Map<String, String> paramsMap = PayUtil.params2Map(order);
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), TransResult.class);

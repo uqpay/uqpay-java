@@ -5,8 +5,9 @@ import com.uqpay.sdk.utils.enums.ClientType;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 
 public class BasicTX extends BasicRequest {
-  private static final long serialVersionUID = -5967552316512248741L;
+  private static final long serialVersionUID = 477298719669854363L;
   private UqpayTransType transType;
+  private int methodId;
   private int subMerchantID;
   private ClientType clientType;
   private String clientIp;
@@ -25,6 +26,14 @@ public class BasicTX extends BasicRequest {
 
   public void setTransType(UqpayTransType transType) {
     this.transType = transType;
+  }
+
+  public int getMethodId() {
+    return methodId;
+  }
+
+  public void setMethodId(int methodId) {
+    this.methodId = methodId;
   }
 
   public int getSubMerchantID() {

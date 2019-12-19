@@ -2,7 +2,6 @@ package com.uqpay.sdk.payment;
 
 import com.uqpay.sdk.UQPay;
 import com.uqpay.sdk.bean.ApiResponse;
-import com.uqpay.sdk.config.EnvEnum;
 import com.uqpay.sdk.payment.bean.v1.BankCardDTO;
 import com.uqpay.sdk.payment.bean.v1.PaygateParams;
 import com.uqpay.sdk.payment.bean.v1.PreAuthOrder;
@@ -22,7 +21,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -79,7 +77,7 @@ public class PreAuth {
 
   public TransResult inAPP(PreAuthOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException {
     order.setTradeType(UqpayTransType.preauth);
-    if (order.getClient().equals(ClientType.PC_WEB))
+    if (order.getClient().equals(ClientType.Web))
       throw new NullPointerException("uqpay in-app payment not support pc client");
     Map<String, String> paramsMap = PayUtil.params2Map(order);
     return uqPay.request(paramsMap, getUrl(), TransResult.class);

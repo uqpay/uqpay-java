@@ -20,21 +20,21 @@ public class Tools {
   public static ObjectMapper mapper = new ObjectMapper();
   public static String stringify(Map<String, String> paramsMap, boolean urlEncode, String... ignoreKeys) {
     List<String> keys = new ArrayList<>(paramsMap.keySet()).parallelStream().filter(s -> ArrayUtils.indexOf(ignoreKeys, s) < 0).sorted().collect(Collectors.toList());
-    String queryString = "";
+    StringBuilder queryString = new StringBuilder();
     try {
       for (int i = 0; i < keys.size(); i++) {
         String key = keys.get(i);
         String value = urlEncode ? URLEncoder.encode(paramsMap.get(key), "UTF-8") : paramsMap.get(key);
         if (i == keys.size() - 1) {
-          queryString = queryString + key + "=" + value;
+          queryString.append(key).append("=").append(value);
         } else {
-          queryString = queryString + key + "=" + value + "&";
+          queryString.append(key).append("=").append(value).append("&");
         }
       }
     } catch (UnsupportedEncodingException ignore) {
 
     }
-    return queryString;
+    return queryString.toString();
   }
 
   public static Map<String, String> json2map(String jsonStr) throws IOException {
@@ -50,7 +50,8 @@ public class Tools {
     try {
       JavaType t = mapper.getTypeFactory().constructParametricType(ApiResponse.class, cls);
       result = mapper.readValue(jsonStr, t);
-    } catch (Exception ignored) {
+    } catch (Exception e) {
+      e.printStackTrace();
     }
     return result;
   }
