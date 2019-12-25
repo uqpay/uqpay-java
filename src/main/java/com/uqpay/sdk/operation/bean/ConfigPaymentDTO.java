@@ -2,14 +2,36 @@ package com.uqpay.sdk.operation.bean;
 
 import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class ConfigPaymentDTO extends BaseJsonRequestDTO {
-  private static final long serialVersionUID = -2581487655316468860L;
+  private static final long serialVersionUID = 1125611182758962993L;
   @Positive
   private int methodId;
   private int feeTempID; // fee template id, u can set a fee template on UQPAY Partner Dashboard;
   private boolean defOpen;// if true, it will be active automatic
+  @NotBlank
+  private String merchantName;
+  @NotBlank
+  private String merchantAbbr;
+
+  public String getMerchantName() {
+    return merchantName;
+  }
+
+  public void setMerchantName(String merchantName) {
+    this.merchantName = merchantName;
+  }
+
+  public String getMerchantAbbr() {
+    return merchantAbbr;
+  }
+
+  public void setMerchantAbbr(String merchantAbbr) {
+    this.merchantAbbr = merchantAbbr;
+  }
 
   public int getMethodId() {
     return methodId;
