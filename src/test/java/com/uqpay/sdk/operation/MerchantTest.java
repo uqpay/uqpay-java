@@ -4,6 +4,7 @@ import com.uqpay.sdk.TestHttpClient;
 import com.uqpay.sdk.UQPay;
 import com.uqpay.sdk.config.EnvEnum;
 import com.uqpay.sdk.config.MemberTypeEnum;
+import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 import com.uqpay.sdk.operation.bean.MerchantRegisterDTO;
@@ -89,7 +90,7 @@ class MerchantTest {
       assertNotNull(result);
       assertTrue(result.getMerchantId() > 0);
       assertEquals(result.getAgentId(), 1005393);
-    } catch (UqpayRSAException | UqpayResultVerifyException | IOException e) {
+    } catch (UqpayRSAException | UqpayResultVerifyException | IOException | UqpayPayFailException e) {
       e.printStackTrace();
     }
   }

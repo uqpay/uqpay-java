@@ -5,6 +5,7 @@ import com.uqpay.sdk.UQPay;
 import com.uqpay.sdk.bean.ApiResponse;
 import com.uqpay.sdk.config.EnvEnum;
 import com.uqpay.sdk.config.MemberTypeEnum;
+import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
@@ -101,7 +102,7 @@ public class PaymentTest {
       assertNotNull(result.getQrCodeUrl());
       assertEquals(OrderStateEnum.Paying.name(), result.getState());
       assertEquals(payOrder.getOrderId(), result.getOrderId());
-    } catch (IOException | UqpayRSAException | UqpayResultVerifyException e) {
+    } catch (IOException | UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException e) {
       e.printStackTrace();
     }
   }
@@ -121,7 +122,7 @@ public class PaymentTest {
       TransResult result = payment.offlineQR(payOrder);
       assertEquals(OrderStateEnum.Success.name(), result.getState(), "Offline QR Payment should Success");
       assertEquals(payOrder.getOrderId(), result.getOrderId());
-    } catch (IOException | UqpayRSAException | UqpayResultVerifyException e) {
+    } catch (IOException | UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException e) {
       e.printStackTrace();
     }
 
@@ -137,7 +138,7 @@ public class PaymentTest {
       assertNotNull(result.getQrCode());
       assertEquals(OrderStateEnum.Ready.name(), result.getState(), "State should be Ready");
       assertEquals(payOrder.getOrderId(), result.getOrderId());
-    } catch (IOException | UqpayRSAException | UqpayResultVerifyException e) {
+    } catch (IOException | UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException e) {
       e.printStackTrace();
     }
   }
@@ -161,7 +162,7 @@ public class PaymentTest {
       TransResult result = payment.bankCard(payOrder);
       assertEquals(OrderStateEnum.SyncSuccess.name(), result.getState(), "State should be SyncSuccess");
       assertEquals(payOrder.getOrderId(), result.getOrderId());
-    } catch (IOException | UqpayRSAException | UqpayResultVerifyException e) {
+    } catch (IOException | UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException e) {
       e.printStackTrace();
     }
   }
@@ -191,7 +192,7 @@ public class PaymentTest {
       } else {
         System.out.println(res.getMessage());
       }
-    } catch (UqpayRSAException | IOException | UqpayResultVerifyException e) {
+    } catch (UqpayRSAException | IOException | UqpayResultVerifyException | UqpayPayFailException e) {
       e.printStackTrace();
     }
   }
