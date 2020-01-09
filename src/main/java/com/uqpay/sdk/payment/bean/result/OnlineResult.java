@@ -1,10 +1,9 @@
 package com.uqpay.sdk.payment.bean.result;
 
-import java.io.Serializable;
 import java.util.Map;
 
-public class OnlineResult implements Serializable {
-  private static final long serialVersionUID = -1348330481998284965L;
+public class OnlineResult extends BasePayResult {
+  private static final long serialVersionUID = 3761106381766111812L;
   private String targetUrl;
   private String method; // http request method
   private Map<String,String> params;

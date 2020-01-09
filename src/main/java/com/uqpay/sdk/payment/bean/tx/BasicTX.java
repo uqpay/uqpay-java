@@ -4,8 +4,10 @@ import com.uqpay.sdk.bean.BasicRequest;
 import com.uqpay.sdk.utils.enums.ClientType;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 
+import java.util.Map;
+
 public class BasicTX extends BasicRequest {
-  private static final long serialVersionUID = 477298719669854363L;
+  private static final long serialVersionUID = 8359242120928131077L;
   private UqpayTransType transType;
   private int methodId;
   private int subMerchantID;
@@ -19,6 +21,24 @@ public class BasicTX extends BasicRequest {
   private int quantity;
   private int storeId;
   private int seller;
+  private Map<String, String> channelInfo;
+  private Map<String, String> extendInfo;
+
+  public Map<String, String> getChannelInfo() {
+    return channelInfo;
+  }
+
+  public void setChannelInfo(Map<String, String> channelInfo) {
+    this.channelInfo = channelInfo;
+  }
+
+  public Map<String, String> getExtendInfo() {
+    return extendInfo;
+  }
+
+  public void setExtendInfo(Map<String, String> extendInfo) {
+    this.extendInfo = extendInfo;
+  }
 
   public UqpayTransType getTransType() {
     return transType;
