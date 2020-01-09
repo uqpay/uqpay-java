@@ -1,5 +1,7 @@
 package com.uqpay.sdk.config;
 
+import com.uqpay.sdk.exception.UqpayPayFailException;
+
 import java.util.Map;
 
 /**
@@ -14,7 +16,7 @@ public interface HttpClient {
    * @param url api address
    * @return response body, when the response http status is 20x, return the response body
    */
-  public String post(Map<String, String> headers, String requestBody, String url);
+  public String post(Map<String, String> headers, String requestBody, String url) throws UqpayPayFailException;
 
   /**
    * download resources from uqpay server

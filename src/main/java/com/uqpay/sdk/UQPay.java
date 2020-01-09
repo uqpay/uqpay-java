@@ -3,6 +3,7 @@ package com.uqpay.sdk;
 import com.uqpay.sdk.bean.ApiResponse;
 import com.uqpay.sdk.bean.BasicRequest;
 import com.uqpay.sdk.config.*;
+import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
 import com.uqpay.sdk.operation.bean.result.BaseAppgateResult;
 import com.uqpay.sdk.exception.UqpayRSAException;
@@ -89,7 +90,7 @@ public class UQPay {
    * v1.x pay api request
    */
   @Deprecated
-  public <T> T request(Map<String, String> paramsMap, String url, Class<T> resultClass) throws UqpayRSAException, IOException, UqpayResultVerifyException {
+  public <T> T request(Map<String, String> paramsMap, String url, Class<T> resultClass) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     // set identity info
     if (memberType.equals(MemberTypeEnum.AGENT)) {
       paramsMap.put(Constants.AUTH_AGENT_ID, String.valueOf(memberId));
@@ -139,7 +140,7 @@ public class UQPay {
    * v1.x operation api request
    */
   @Deprecated
-  public <T extends BaseAppgateResult, E extends BaseJsonRequestDTO> T request(E params, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException {
+  public <T extends BaseAppgateResult, E extends BaseJsonRequestDTO> T request(E params, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     params.setDate(new Date());
     wrapParams(params);
     // request
@@ -155,7 +156,7 @@ public class UQPay {
     return result;
   }
 
-  public <E extends BasicRequest, T> ApiResponse<T> request(E params, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException {
+  public <E extends BasicRequest, T> ApiResponse<T> request(E params, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     params.setDate(new Date());
     // set identity info
     Map<String, String> headers = new HashMap<>();
