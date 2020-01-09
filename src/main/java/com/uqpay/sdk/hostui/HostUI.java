@@ -2,6 +2,7 @@ package com.uqpay.sdk.hostui;
 
 import com.uqpay.sdk.UQPay;
 import com.uqpay.sdk.config.*;
+import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.hostui.bean.HostPreInitResult;
 import com.uqpay.sdk.hostui.bean.HostUIInit;
 import com.uqpay.sdk.exception.UqpayRSAException;
@@ -47,12 +48,12 @@ public class HostUI {
   // Host UI
   //===========================================
 
-  public HostPreInitResult clientToken(HostUIInit preInit) throws UqpayRSAException, UqpayResultVerifyException, IOException {
+  public HostPreInitResult clientToken(HostUIInit preInit) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     validateRequestParams(preInit, "request data invalid for host pre-init");
     return uqPay.request(preInit, uqPay.getAppUrl(Constants.APPGATE_API_HOST_INIT), HostPreInitResult.class);
   }
 
-  public TransResult pay(PayOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException {
+  public TransResult pay(PayOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.pay);
     validateRequestParams(order, "request data invalid for host ui payment");
     validateRequestParams(order.getHostPayDTO(), "request data invalid for host ui payment");

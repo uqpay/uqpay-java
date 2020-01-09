@@ -2,6 +2,7 @@ package com.uqpay.sdk.operation;
 
 import com.uqpay.sdk.UQPay;
 import com.uqpay.sdk.config.*;
+import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.operation.bean.ExchangeRateQueryDTO;
 import com.uqpay.sdk.operation.bean.DownloadCheckingFileDTO;
 import com.uqpay.sdk.exception.UqpayRSAException;
@@ -43,7 +44,7 @@ public class Resources {
   // UQPAY Public Resource API
   //===========================================
 
-  public final ExchangeRateResult queryExchangeRate(ExchangeRateQueryDTO queryDTO) throws UqpayRSAException, UqpayResultVerifyException, IOException {
+  public final ExchangeRateResult queryExchangeRate(ExchangeRateQueryDTO queryDTO) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     validateRequestParams(queryDTO, "request data invalid for query exchange rate");
     return uqPay.request(queryDTO, uqPay.getAppUrl(Constants.APPGATE_API_RES_EXCHANGE_RATE), ExchangeRateResult.class);
   }
