@@ -23,7 +23,7 @@ import java.util.*;
 public class Payment {
 
   private UQPay uqPay;
-  private Validator validator = Validation.byProvider(HibernateValidator.class).configure().failFast(false).buildValidatorFactory().getValidator();
+  private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
   private <T> void validateRequestParams(T object, String msg) {
     if (object == null) throw new ConstraintViolationException(msg, null);

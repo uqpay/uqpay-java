@@ -1,7 +1,14 @@
 package com.uqpay.sdk.payment.bean.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Map;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(
+    ignoreUnknown = true
+)
 public class OnlineResult extends BasePayResult {
   private static final long serialVersionUID = 3761106381766111812L;
   private String targetUrl;

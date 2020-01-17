@@ -31,8 +31,8 @@ public class TestHttpClient implements HttpClient {
       } else {
         System.out.println(response.body().string());
       }
-    } catch (Exception ignore) {
-
+    } catch (Exception e) {
+     e.printStackTrace();
     }
     return null;
   }

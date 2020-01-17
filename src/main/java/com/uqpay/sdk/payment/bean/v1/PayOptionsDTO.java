@@ -39,9 +39,9 @@ public class PayOptionsDTO implements PaygateParams {
   @ParamLink(Constants.PAY_OPTIONS_TERMINAL_ID)
   private String terminalID; //终端号
 
-  @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
-  private Map<String,String> channelInfo;
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
+  private Map<String,String> channelInfo;
+  @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
   private Map<String,String> extendInfo;
 
   /**

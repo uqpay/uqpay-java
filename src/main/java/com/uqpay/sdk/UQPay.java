@@ -34,7 +34,7 @@ public class UQPay {
 
   private HttpClient httpClient;
 
-  private String[] paygate = {"http://localhost:8686", "https://paygate.uqpay.net", "https://paygate.uqpay.com"};
+  private String[] paygate = {"https://paygate.uqpay.cn", "https://paygate.uqpay.net", "https://paygate.uqpay.com"};
   private String[] appgate = {"https://appgate.uqpay.cn", "https://appgate.uqpay.net", "https://appgate.uqpay.com"};
   private String[] cashier = {"https://cashier.uqpay.cn", "https://cashier.uqpay.net", "https://cashier.uqpay.com"};
 
