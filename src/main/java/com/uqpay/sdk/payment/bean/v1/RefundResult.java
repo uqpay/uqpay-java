@@ -28,7 +28,7 @@ public class RefundResult extends BaseResult{
   @ParamLink(Constants.RESULT_STATE)
   private String state;
 
-  @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
+  @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
   private Map<String,String> extendInfo;
 
   public RefundResult() {}

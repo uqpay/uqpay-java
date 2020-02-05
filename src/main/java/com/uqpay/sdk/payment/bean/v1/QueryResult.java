@@ -26,9 +26,9 @@ public class QueryResult extends BaseResult {
   private Date finishTime;
   @ParamLink(Constants.PAY_OPTIONS_SCAN_TYPE)
   private UqpayScanType scanType;
-  @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
-  private Map<String,String> channelInfo;
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
+  private Map<String,String> channelInfo;
+  @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
   private Map<String,String> extendInfo;
 
   public QueryResult() {

@@ -18,9 +18,9 @@ public class TransResult extends BaseResult {
   private Currency currency;
   @ParamLink(value = Constants.RESULT_STATE)
   private String state; // order state
-  @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
-  private Map<String,String> channelInfo;
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
+  private Map<String,String> channelInfo;
+  @ParamLink(value = Constants.ORDER_EXTEND_INFO, targetType = "JSON")
   private Map<String,String> extendInfo;
 
   /**
