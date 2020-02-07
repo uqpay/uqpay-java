@@ -10,9 +10,7 @@ import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
-import com.uqpay.sdk.payment.bean.v1.BankCardExtendDTO;
-import com.uqpay.sdk.payment.bean.v1.PayOrder;
-import com.uqpay.sdk.payment.bean.v1.TransResult;
+import com.uqpay.sdk.payment.bean.v1.*;
 import com.uqpay.sdk.utils.PayMethod;
 import com.uqpay.sdk.utils.enums.ClientType;
 import com.uqpay.sdk.utils.enums.OrderStateEnum;
@@ -28,7 +26,7 @@ import java.util.Date;
 
 
 @DisplayName("Testing UQPAY Java Server Side Library")
-public class PaymentTest {
+public class MerchantPaymentTest {
 
   private UQPay uqPay;
   private PayOrder payOrder;
@@ -195,6 +193,23 @@ public class PaymentTest {
     } catch (UqpayRSAException | IOException | UqpayResultVerifyException | UqpayPayFailException e) {
       e.printStackTrace();
     }
+  }
+
+  @Test
+  @DisplayName("Testing Query")
+  void query() {
+    OrderQuery orderQuery = new OrderQuery();
+    orderQuery.setDate(new Date());
+    orderQuery.setOrderId("58I47p198B");
+
+    try {
+      QueryResult res = payment.query(orderQuery);
+      assertNotNull(res);
+      assertEquals(10, res.getAmount());
+    } catch (UqpayRSAException | IOException | UqpayResultVerifyException | UqpayPayFailException e) {
+      e.printStackTrace();
+    }
+
   }
 
 }
