@@ -21,10 +21,6 @@ public class ApiResponse<T> {
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date timestamp;
 
-  public static class DateDeserializer extends DateDeserializers.DateDeserializer {
-
-  }
-
   public boolean isSuccess() {
     return success;
   }

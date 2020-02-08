@@ -60,7 +60,7 @@ public class PreAuth {
     return response;
   }
 
-  public TransResult bankCard(PreAuthOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+  public ApiResponse<TransResult> bankCard(PreAuthOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.preauth);
     switch (order.getMethodId()) {
       case PayMethod.AMEX:
@@ -76,7 +76,7 @@ public class PreAuth {
     return uqPay.request(paramsMap, getUrl(), TransResult.class);
   }
 
-  public TransResult inAPP(PreAuthOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+  public ApiResponse<TransResult> inAPP(PreAuthOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.preauth);
     if (order.getClient().equals(ClientType.Web))
       throw new NullPointerException("uqpay in-app payment not support pc client");
@@ -84,21 +84,21 @@ public class PreAuth {
     return uqPay.request(paramsMap, getUrl(), TransResult.class);
   }
 
-  public TransResult hostByMerchant(PreAuthOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
+  public ApiResponse<TransResult> hostByMerchant(PreAuthOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.preauth);
     validatePayData(order.getMerchantHost());
     Map<String, String> paramsMap = PayUtil.params2Map(order, order.getMerchantHost());
     return uqPay.request(paramsMap, getUrl(), TransResult.class);
   }
 
-  public TransResult hostByServer(PreAuthOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
+  public ApiResponse<TransResult> hostByServer(PreAuthOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.preauth);
     validatePayData(order.getServerHost());
     Map<String, String> paramsMap = PayUtil.params2Map(order, order.getServerHost());
     return uqPay.request(paramsMap, getUrl(), TransResult.class);
   }
 
-  public TransResult finish(PreAuthOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
+  public ApiResponse<TransResult> finish(PreAuthOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     if (order.getUqOrderId() <= 0) {
       throw new NullPointerException("uqpay order id is required");
     }

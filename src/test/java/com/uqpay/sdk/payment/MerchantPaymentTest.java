@@ -95,7 +95,8 @@ public class MerchantPaymentTest {
     payOrder.setScanType(UqpayScanType.Consumer);
     payOrder.setCurrency(Currency.getInstance("CNY"));
     try {
-      TransResult result = payment.onlineQR(payOrder);
+      ApiResponse<TransResult> res = payment.onlineQR(payOrder);
+      TransResult result = res.getData();
       assertNotNull(result.getQrCode());
       assertNotNull(result.getQrCodeUrl());
       assertEquals(OrderStateEnum.Paying.name(), result.getState());
@@ -117,7 +118,8 @@ public class MerchantPaymentTest {
     payOrder.setCurrency(Currency.getInstance("SGD"));
 
     try {
-      TransResult result = payment.offlineQR(payOrder);
+      ApiResponse<TransResult> res = payment.offlineQR(payOrder);
+      TransResult result = res.getData();
       assertEquals(OrderStateEnum.Success.name(), result.getState(), "Offline QR Payment should Success");
       assertEquals(payOrder.getOrderId(), result.getOrderId());
     } catch (IOException | UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException e) {
@@ -132,7 +134,8 @@ public class MerchantPaymentTest {
     payOrder.setTerminalID("123456");
     payOrder.setCurrency(Currency.getInstance("SGD"));
     try {
-      TransResult result = payment.offlineQR(payOrder);
+      ApiResponse<TransResult> res = payment.offlineQR(payOrder);
+      TransResult result = res.getData();
       assertNotNull(result.getQrCode());
       assertEquals(OrderStateEnum.Ready.name(), result.getState(), "State should be Ready");
       assertEquals(payOrder.getOrderId(), result.getOrderId());
@@ -157,7 +160,8 @@ public class MerchantPaymentTest {
 
     payOrder.setBankCard(bankCard);
     try {
-      TransResult result = payment.bankCard(payOrder);
+      ApiResponse<TransResult> res = payment.bankCard(payOrder);
+      TransResult result = res.getData();
       assertEquals(OrderStateEnum.SyncSuccess.name(), result.getState(), "State should be SyncSuccess");
       assertEquals(payOrder.getOrderId(), result.getOrderId());
     } catch (IOException | UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException e) {
@@ -203,9 +207,10 @@ public class MerchantPaymentTest {
     orderQuery.setOrderId("58I47p198B");
 
     try {
-      QueryResult res = payment.query(orderQuery);
+      ApiResponse<QueryResult> res = payment.query(orderQuery);
+      QueryResult result = res.getData();
       assertNotNull(res);
-      assertEquals(10, res.getAmount());
+      assertEquals(10, result.getAmount());
     } catch (UqpayRSAException | IOException | UqpayResultVerifyException | UqpayPayFailException e) {
       e.printStackTrace();
     }

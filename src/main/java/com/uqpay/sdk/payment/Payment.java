@@ -49,7 +49,7 @@ public class Payment {
     Pay
   ****/
 
-  public TransResult onlineQR(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+  public ApiResponse<TransResult> onlineQR(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.pay);
     validatePayData(order);
     if (order.getScanType() == null) throw new NullPointerException("uqpay qr code payment need Scan Type");
@@ -59,7 +59,7 @@ public class Payment {
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), TransResult.class);
   }
 
-  public TransResult offlineQR(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+  public ApiResponse<TransResult> offlineQR(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.pay);
     validatePayData(order);
     if (order.getIdentity() == null && order.getScanType().equals(UqpayScanType.Merchant))
@@ -80,7 +80,7 @@ public class Payment {
     return response;
   }
 
-  public TransResult bankCard(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+  public ApiResponse<TransResult> bankCard(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.pay);
     switch (order.getMethodId()) {
       case PayMethod.AMEX:
@@ -96,7 +96,7 @@ public class Payment {
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), TransResult.class);
   }
 
-  public TransResult threeD(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+  public ApiResponse<ThreeDResult> threeD(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.pay);
     if (order.getThreeDFinish() == null) {
       validatePayData(order.getBankCard());
@@ -104,8 +104,9 @@ public class Payment {
     if (order.getPaResCbUrl() == null || order.getPaResCbUrl().equals(""))
       throw new NullPointerException("uqpay 3D Credit Card Payment need url to handle the PaResponse");
     Map<String, String> paramsMap = PayUtil.params2Map(order, order.getBankCard(), order.getThreeDFinish());
-    ThreeDResult threeDResult = uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), ThreeDResult.class);
-    if (threeDResult.getState().equals(OrderStateEnum.Paying.name())) {
+    ApiResponse<ThreeDResult> response = uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), ThreeDResult.class);
+    ThreeDResult threeDResult = response.getData();
+    if (threeDResult != null && threeDResult.getState().equals(OrderStateEnum.Paying.name())) {
       if (StringUtils.isNotBlank(threeDResult.getPaRequest()) && StringUtils.isNotBlank(threeDResult.getAscUrl())) {
         Map<String, String> postData = new HashMap<>();
         postData.put("PaReq", threeDResult.getPaRequest());
@@ -116,24 +117,24 @@ public class Payment {
         threeDResult.setRedirectPostData(redirectPostData);
       }
     }
-    return threeDResult;
+    return response;
   }
 
-  public TransResult hostByMerchant(PayOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
+  public ApiResponse<TransResult> hostByMerchant(PayOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.pay);
     validatePayData(order.getMerchantHost());
     Map<String, String> paramsMap = PayUtil.params2Map(order, order.getMerchantHost());
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), TransResult.class);
   }
 
-  public TransResult hostByServer(PayOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
+  public ApiResponse<TransResult> hostByServer(PayOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.pay);
     validatePayData(order.getServerHost());
     Map<String, String> paramsMap = PayUtil.params2Map(order, order.getServerHost());
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), TransResult.class);
   }
 
-  public TransResult inAPP(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+  public ApiResponse<TransResult> inAPP(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.pay);
     if (order.getClient().equals(ClientType.Web))
       throw new NullPointerException("uqpay in-app payment not support pc client");
@@ -145,19 +146,19 @@ public class Payment {
   // Enroll API
   //===========================================
 
-  private EnrollResult EnrollCard(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
+  private ApiResponse<EnrollResult> EnrollCard(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     Map<String, String> paramsMap = PayUtil.params2Map(order);
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_ENROLL), EnrollResult.class);
   }
 
-  public VerifyResult verify(VerifyOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
+  public ApiResponse<VerifyResult> verify(VerifyOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.verifycode);
     validatePayData(order);
     Map<String, String> paramsMap = PayUtil.params2Map(order);
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_VERIFY), VerifyResult.class);
   }
 
-  public final EnrollResult enroll(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
+  public final ApiResponse<EnrollResult> enroll(EnrollOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.enroll);
     validatePayData(order);
     PayMethodEnum scenes = PayMethodEnum.valueOf(order.getMethodId());
@@ -175,19 +176,19 @@ public class Payment {
   // Order Options API
   //===========================================
 
-  public final RefundResult refund(OrderRefund refund) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+  public final ApiResponse<RefundResult> refund(OrderRefund refund) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     validateRequestParams(refund, "refund request data invalid for uqpay order operation");
     Map<String, String> paramsMap = PayUtil.params2Map(refund);
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_REFUND), RefundResult.class);
   }
 
-  public final CancelResult cancel(OrderCancel cancel) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
+  public final ApiResponse<CancelResult> cancel(OrderCancel cancel) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     validateRequestParams(cancel, "cancel payment request data invalid for uqpay order operation");
     Map<String, String> paramsMap = PayUtil.params2Map(cancel);
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_CANCEL), CancelResult.class);
   }
 
-  public final QueryResult query(OrderQuery query) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
+  public final ApiResponse<QueryResult> query(OrderQuery query) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     validateRequestParams(query, "query request data invalid for uqpay order operation");
     Map<String, String> paramsMap = PayUtil.params2Map(query);
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_QUERY), QueryResult.class);

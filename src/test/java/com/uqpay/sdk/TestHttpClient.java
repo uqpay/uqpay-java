@@ -2,6 +2,7 @@ package com.uqpay.sdk;
 
 import com.uqpay.sdk.config.HttpClient;
 import com.uqpay.sdk.config.ResourceTypeEnum;
+import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.utils.Tools;
 import okhttp3.*;
 
@@ -18,7 +19,7 @@ public class TestHttpClient implements HttpClient {
   public static OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.MINUTES).build();
 
   @Override
-  public String post(Map<String, String> headers, String requestBody, String url) {
+  public String post(Map<String, String> headers, String requestBody, String url) throws UqpayPayFailException {
     Request request = new Request.Builder()
         .headers(Headers.of(headers))
         .post(RequestBody.create(MediaType.parse(headers.get("content-type")), requestBody))

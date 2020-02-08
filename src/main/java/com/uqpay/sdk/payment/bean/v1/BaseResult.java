@@ -30,6 +30,13 @@ public class BaseResult implements PaygateParams {
   @ParamLink(Constants.ORDER_DATE)
   private Date date;
 
+  public BaseResult() {}
+
+  public BaseResult(int code, String message) {
+    this.code = code;
+    this.message = message;
+  }
+
   public String getSignType() {
     return signType;
   }

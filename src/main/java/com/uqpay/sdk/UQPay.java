@@ -8,10 +8,12 @@ import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
 import com.uqpay.sdk.operation.bean.result.BaseAppgateResult;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
+import com.uqpay.sdk.payment.bean.v1.BaseResult;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.PayUtil;
 import com.uqpay.sdk.utils.Tools;
 import com.uqpay.sdk.utils.enums.SignTypeEnum;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.Date;
@@ -90,7 +92,7 @@ public class UQPay {
    * v1.x pay api request
    */
   @Deprecated
-  public <T> T request(Map<String, String> paramsMap, String url, Class<T> resultClass) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
+  public <T> ApiResponse<T> request(Map<String, String> paramsMap, String url, Class<T> resultClass) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     // set identity info
     if (memberType.equals(MemberTypeEnum.AGENT)) {
       paramsMap.put(Constants.AUTH_AGENT_ID, String.valueOf(memberId));
@@ -112,10 +114,27 @@ public class UQPay {
     }
     // verify
     Map<String, String> resultMap = Tools.json2map(rspBody);
+    ApiResponse<T> response = new ApiResponse<T>();
+    try {
+      Object value = resultMap.get(Constants.RESULT_CODE);
+      int code = Integer.parseInt(value.toString());
+      if (code > 10002 || StringUtils.isEmpty(resultMap.get(Constants.AUTH_SIGN))) {
+        response.setCode(code);
+        response.setMessage(resultMap.get(Constants.RESULT_MESSAGE));
+        return response;
+      }
+    } catch (NumberFormatException ignored) {
+      response.setCode(19998);
+      response.setMessage(rspBody);
+      return response;
+    }
+
     PayUtil.verifyUqpayNotice(resultMap, secureConfig);
 
     // return target result
-    return PayUtil.map2Params(resultClass, resultMap);
+    response.setData(PayUtil.map2Params(resultClass, resultMap));
+    response.setSuccess(true);
+    return response;
   }
 
   @Deprecated

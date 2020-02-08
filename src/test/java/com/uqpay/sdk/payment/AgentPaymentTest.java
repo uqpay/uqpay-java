@@ -108,7 +108,8 @@ public class AgentPaymentTest {
 
     payOrder.setMerchantId(1005412); // set sub merchant id
     try {
-      TransResult result = payment.bankCard(payOrder);
+      ApiResponse<TransResult> res = payment.bankCard(payOrder);
+      TransResult result = res.getData();
       assertEquals(OrderStateEnum.SyncSuccess.name(), result.getState(), "State should be SyncSuccess");
       assertEquals(payOrder.getOrderId(), result.getOrderId());
     } catch (IOException | UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException e) {
@@ -157,9 +158,9 @@ public class AgentPaymentTest {
 
     orderQuery.setMerchantId(1005412); // set sub merchant id
     try {
-      QueryResult res = payment.query(orderQuery);
-      assertNotNull(res);
-      assertEquals(0.1, res.getAmount());
+      ApiResponse<QueryResult> res = payment.query(orderQuery);
+      assertNotNull(res.getData());
+      assertEquals(0.1, res.getData().getAmount());
     } catch (UqpayRSAException | IOException | UqpayResultVerifyException | UqpayPayFailException e) {
       e.printStackTrace();
     }
