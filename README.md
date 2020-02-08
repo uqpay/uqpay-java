@@ -50,7 +50,12 @@ public class UQPAY {
           bankCard.setLastName("test");
           bankCard.setAddressCountry("SG");
           payOrder.setBankCard(bankCard);
-          TransResult result = payment.bankCard(payOrder);
+          ApiResponse<TransResult> result = payment.bankCard(payOrder);
+          if (result.isSuccess()) {
+            // do your business
+          } else {
+            // check the result.getCode() and result.getMessage()
+          }
     }
 }
 ```
