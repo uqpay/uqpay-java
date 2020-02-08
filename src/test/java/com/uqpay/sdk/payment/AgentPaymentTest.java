@@ -117,6 +117,38 @@ public class AgentPaymentTest {
   }
 
   @Test
+  @DisplayName("Testing Online")
+  void online() {
+    OnlineTX onlineTX = new OnlineTX();
+    onlineTX.setMethodId(PayMethod.UnionSecurePay);
+    onlineTX.setAmount(0.1);
+    onlineTX.setTransName("product info");
+    onlineTX.setCallbackUrl("127.0.0.1");
+    onlineTX.setQuantity(1);
+    onlineTX.setClientType(ClientType.Web);
+    onlineTX.setCallbackUrl("https://localhost:8080/async");
+    onlineTX.setClientIp("127.0.0.1");
+    onlineTX.setOrderId(String.valueOf(new Date().getTime()));
+    onlineTX.setCurrency("CNY");
+    onlineTX.setReturnUrl("https://localhost:8080/sync");
+
+    onlineTX.setSubMerchantID(1005412);
+    try {
+      ApiResponse<OnlineResult> res = payment.online(onlineTX);
+      if (res.isSuccess()) {
+        assertEquals(res.getCode(), 10001);
+        assertNotNull(res.getData(), "Should get the payment result");
+        assertNotNull(res.getData().getTargetUrl());
+        assertTrue(res.getData().getParams().size()>0);
+      } else {
+        System.out.println(res.getMessage());
+      }
+    } catch (UqpayRSAException | IOException | UqpayResultVerifyException | UqpayPayFailException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
   @DisplayName("Testing Query")
   void query() {
     OrderQuery orderQuery = new OrderQuery();
