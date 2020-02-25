@@ -1,11 +1,13 @@
 package com.uqpay.sdk.payment.bean.tx;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.uqpay.sdk.bean.BasicRequest;
 import com.uqpay.sdk.utils.enums.ClientType;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 
 import java.util.Map;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BasicTX extends BasicRequest {
   private static final long serialVersionUID = 8359242120928131077L;
   private UqpayTransType transType;

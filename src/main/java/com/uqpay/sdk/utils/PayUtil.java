@@ -80,7 +80,7 @@ public class PayUtil {
       } catch (Exception ex) {
         // no need care no method exception
       }
-      if (realValue != null) {
+      if (realValue != null && !realValue.equals("")) {
         String valueKey = paramLink.value();
         target.put(valueKey, realValue.toString());
       }
