@@ -14,7 +14,6 @@ import java.security.spec.X509EncodedKeySpec;
  * <p>RSAUtil class.</p>
  *
  * @author zhengwei
- * @version $Id: $Id
  */
 public class RSAUtil {
   private static final String KEY_FACTORY_ALGORITHM = "RSA";

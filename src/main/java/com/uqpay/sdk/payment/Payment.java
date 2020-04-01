@@ -3,6 +3,8 @@ package com.uqpay.sdk.payment;
 import com.uqpay.sdk.UQPay;
 import com.uqpay.sdk.bean.ApiResponse;
 import com.uqpay.sdk.exception.UqpayPayFailException;
+import com.uqpay.sdk.payment.bean.result.DigiccyResult;
+import com.uqpay.sdk.payment.bean.tx.BasicTX;
 import com.uqpay.sdk.payment.bean.v1.*;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
@@ -76,8 +78,20 @@ public class Payment {
 
   public ApiResponse<OnlineResult> online(OnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     tx.setTransType(UqpayTransType.pay);
-    ApiResponse<OnlineResult> response = uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
-    return response;
+    return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
+  }
+
+  /**
+   * use for WeChat web base in-app payment ( Mini Program Pay and Official Account Payment )
+   */
+  public ApiResponse<OnlineResult> weChatOnline(OnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
+    tx.setTransType(UqpayTransType.pay);
+    return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
+  }
+
+  public ApiResponse<DigiccyResult> digiccy(BasicTX tx) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    tx.setTransType(UqpayTransType.pay);
+    return uqPay.request(tx, getUrl(Constants.PAYGATE_API_DIGICCY), DigiccyResult.class);
   }
 
   public ApiResponse<TransResult> bankCard(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {

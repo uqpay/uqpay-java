@@ -8,7 +8,9 @@ import com.uqpay.sdk.config.MemberTypeEnum;
 import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
+import com.uqpay.sdk.payment.bean.result.DigiccyResult;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
+import com.uqpay.sdk.payment.bean.tx.BasicTX;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
 import com.uqpay.sdk.payment.bean.v1.*;
 import com.uqpay.sdk.utils.PayMethod;
@@ -75,7 +77,8 @@ public class MerchantPaymentTest {
         .env(EnvEnum.LOCAL)
         .decipher(SignTypeEnum.RSA, mer_uq_pub_key, false)
         .encipher(SignTypeEnum.RSA, mer_prv_key, false)
-        .httpClient(TestHttpClient.class);
+        .httpClient(TestHttpClient.class)
+        .setApiUrl("paygate", "http://localhost:8686", "https://paygate.uqpay.net", "https://paygate.uqpay.com");
     payment = new Payment(uqPay);
     payOrder = new PayOrder();
     payOrder.setTransName("product info");
@@ -197,6 +200,37 @@ public class MerchantPaymentTest {
     } catch (UqpayRSAException | IOException | UqpayResultVerifyException | UqpayPayFailException e) {
       e.printStackTrace();
     }
+  }
+
+  @Test
+  @DisplayName("Testing Digiccy")
+  void digiccy() {
+    BasicTX tx = new BasicTX();
+    tx.setMethodId(PayMethod.DIGICCY);
+    tx.setAmount(0.001);
+    tx.setTransName("product info");
+    tx.setCallbackUrl("127.0.0.1");
+    tx.setQuantity(1);
+    tx.setClientType(ClientType.Web);
+    tx.setCallbackUrl("https://localhost:8080/async");
+    tx.setClientIp("127.0.0.1");
+    tx.setOrderId(String.valueOf(new Date().getTime()));
+    tx.setCurrency("USDT");
+    try {
+      ApiResponse<DigiccyResult> res = payment.digiccy(tx);
+      if (res.isSuccess()) {
+        assertEquals(res.getCode(), 10001);
+        assertNotNull(res.getData(), "Should get the payment result");
+        assertNotNull(res.getData().getAddress());
+        assertNotNull(res.getData().getQrCode());
+        assertNotNull(res.getData().getQrCodeUrl());
+        System.out.println(res.getData().getAddress());
+        System.out.println(res.getData().getQrCodeUrl());
+      }
+    } catch (UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException | IOException e) {
+      e.printStackTrace();
+    }
+
   }
 
   @Test

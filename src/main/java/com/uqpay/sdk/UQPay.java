@@ -240,4 +240,24 @@ public class UQPay {
   public String getCashierUrl(String subPath) {
     return cashier[env.getValue()] + subPath;
   }
+
+  public UQPay setApiUrl(String type, String ...a){
+    switch (type) {
+      case "paygate": {
+        this.paygate = a;
+        break;
+      }
+      case "appgate": {
+        this.appgate = a;
+        break;
+      }
+      case "cashier": {
+        this.cashier = a;
+        break;
+      }
+      default:
+        break;
+    }
+    return this;
+  }
 }

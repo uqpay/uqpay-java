@@ -10,6 +10,7 @@ public final class PayMethod {
   public static final int AlipayQR = 1002;
   public static final int WeChatQR = 1003;
   public static final int UnionPayOfflineQR = 1004;
+  public static final int DIGICCY = 1008;
   public static final int WechatWebBasedInApp = 1102;
   public static final int UnionSecurePay = 1100;
   public static final int UnionPayMerchantHost = 1101;

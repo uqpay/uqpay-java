@@ -13,6 +13,7 @@ public enum PayMethodEnum {
   UnionPayOfflineQR(PayMethod.UnionPayOfflineQR, ScenesEnum.OfflineQRCode),
   AlipayQR(PayMethod.AlipayQR, ScenesEnum.QRCode),
   WeChatQR(PayMethod.WeChatQR, ScenesEnum.QRCode),
+  DIGICCY(PayMethod.DIGICCY, ScenesEnum.QRCode),
   WechatWebBasedInApp(PayMethod.WechatWebBasedInApp, ScenesEnum.OnlinePay),
   UnionSecurePay(PayMethod.UnionSecurePay, ScenesEnum.OnlinePay),
   VISA(PayMethod.VISA, ScenesEnum.CreditCard),
