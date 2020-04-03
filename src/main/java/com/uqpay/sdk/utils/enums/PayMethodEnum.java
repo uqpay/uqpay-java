@@ -9,11 +9,15 @@ import com.uqpay.sdk.utils.PayMethod;
  * @version $Id: $Id
  */
 public enum PayMethodEnum {
-  UnionPayQR(PayMethod.UnionPayQR, ScenesEnum.QRCode),
+  UnionPayOnlineQR(PayMethod.UnionPayOnlineQR, ScenesEnum.OnlineQRCode),
   UnionPayOfflineQR(PayMethod.UnionPayOfflineQR, ScenesEnum.OfflineQRCode),
-  AlipayQR(PayMethod.AlipayQR, ScenesEnum.QRCode),
-  WeChatQR(PayMethod.WeChatQR, ScenesEnum.QRCode),
-  DIGICCY(PayMethod.DIGICCY, ScenesEnum.QRCode),
+  AlipayOfflineQR(PayMethod.AlipayOfflineQR, ScenesEnum.OfflineQRCode),
+  WeChatOfflineQR(PayMethod.WeChatOfflineQR, ScenesEnum.OfflineQRCode),
+  GradOfflineQR(PayMethod.GradOfflineQR, ScenesEnum.OfflineQRCode),
+  GradOnlineQR(PayMethod.GradOnlineQR, ScenesEnum.OnlineQRCode),
+  AlipayOnlineQR(PayMethod.AlipayOnlineQR, ScenesEnum.OnlineQRCode),
+  WeChatOnlineQR(PayMethod.WeChatOnlineQR, ScenesEnum.OnlineQRCode),
+  DIGICCY(PayMethod.DIGICCY, ScenesEnum.OnlineQRCode),
   WechatWebBasedInApp(PayMethod.WechatWebBasedInApp, ScenesEnum.OnlinePay),
   UnionSecurePay(PayMethod.UnionSecurePay, ScenesEnum.OnlinePay),
   VISA(PayMethod.VISA, ScenesEnum.CreditCard),
@@ -24,10 +28,11 @@ public enum PayMethodEnum {
   AMEX(PayMethod.AMEX, ScenesEnum.CreditCard),
   JCB(PayMethod.JCB, ScenesEnum.CreditCard),
   PayPal(PayMethod.PayPal, ScenesEnum.CreditCard),
-  Alipay(PayMethod.Alipay, ScenesEnum.OnlinePay),
+  AlipayWebOnline(PayMethod.AlipayWebOnline, ScenesEnum.OnlinePay),
   AlipayWap(PayMethod.AlipayWap, ScenesEnum.OnlinePay),
   Wechat_InAPP(PayMethod.Wechat_InAPP, ScenesEnum.InApp),
   UnionPay_InAPP(PayMethod.UnionPay_InAPP, ScenesEnum.InApp),
+  Alipay_InAPP(PayMethod.Alipay_InAPP, ScenesEnum.InApp),
   ApplePay(PayMethod.ApplePay, ScenesEnum.OnlinePay),
   UnionPayMerchantHost(PayMethod.UnionPayMerchantHost, ScenesEnum.MerchantHost),
   UnionPayServerHost(PayMethod.UnionPayServerHost, ScenesEnum.ServerHost);

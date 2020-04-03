@@ -76,6 +76,22 @@ public class Payment {
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), TransResult.class);
   }
 
+  public ApiResponse<RedirectPostData> online_v1(PayOrder order) throws UqpayRSAException {
+    if (order.getReturnUrl() == null || order.getReturnUrl().equals("")){
+      throw new NullPointerException("uqpay online payment need sync notice url");
+    }
+    Map<String, String> paramsMap = PayUtil.params2Map(order);
+    uqPay.wrapParams(paramsMap);
+    RedirectPostData redirectPost = new RedirectPostData();
+    redirectPost.setApiURL(getUrl(Constants.PAYGATE_API_PAY));
+    redirectPost.setPostData(paramsMap);
+    ApiResponse<RedirectPostData> result = new ApiResponse<>();
+    result.setCode(10002);
+    result.setSuccess(true);
+    result.setData(redirectPost);
+    return result;
+  }
+
   public ApiResponse<OnlineResult> online(OnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     tx.setTransType(UqpayTransType.pay);
     return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);

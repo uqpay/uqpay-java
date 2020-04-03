@@ -88,11 +88,8 @@ public class UQPay {
     return secretKey;
   }
 
-  /**
-   * v1.x pay api request
-   */
   @Deprecated
-  public <T> ApiResponse<T> request(Map<String, String> paramsMap, String url, Class<T> resultClass) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
+  public void wrapParams(Map<String, String> paramsMap) throws UqpayRSAException {
     // set identity info
     if (memberType.equals(MemberTypeEnum.AGENT)) {
       paramsMap.put(Constants.AUTH_AGENT_ID, String.valueOf(memberId));
@@ -105,6 +102,14 @@ public class UQPay {
     SecretResult secretResult = secureConfig.sign(paramsQuery);
     paramsMap.put(Constants.AUTH_SIGN, secretResult.getSignature());
     paramsMap.put(Constants.AUTH_SIGN_TYPE, secretResult.getSignType().name());
+  }
+
+  /**
+   * v1.x pay api request
+   */
+  @Deprecated
+  public <T> ApiResponse<T> request(Map<String, String> paramsMap, String url, Class<T> resultClass) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
+    wrapParams(paramsMap);
     // request
     Map<String, String> headers = new HashMap<>();
     headers.put("content-type", "application/x-www-form-urlencoded;charset=UTF-8");

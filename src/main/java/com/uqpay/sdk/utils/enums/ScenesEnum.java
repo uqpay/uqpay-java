@@ -7,7 +7,7 @@ package com.uqpay.sdk.utils.enums;
  * @version $Id: $Id
  */
 public enum ScenesEnum {
-  QRCode,// 101
+  OnlineQRCode,// 101
   OfflineQRCode,// 106 离线扫码
   CreditCard, // 102
   ThreeDCreditCard, // 103

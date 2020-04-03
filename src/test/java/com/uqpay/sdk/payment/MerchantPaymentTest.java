@@ -94,7 +94,7 @@ public class MerchantPaymentTest {
   @Test
   @DisplayName("Testing Online QR")
   public void onlineQR() {
-    payOrder.setMethodId(PayMethod.UnionPayQR);
+    payOrder.setMethodId(PayMethod.UnionPayOnlineQR);
     payOrder.setScanType(UqpayScanType.Consumer);
     payOrder.setCurrency(Currency.getInstance("CNY"));
     try {
