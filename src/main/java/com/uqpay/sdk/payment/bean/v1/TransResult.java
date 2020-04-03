@@ -3,7 +3,6 @@ package com.uqpay.sdk.payment.bean.v1;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.UqpayScanType;
 
-import java.util.Currency;
 import java.util.Map;
 
 public class TransResult extends BaseResult {
@@ -15,7 +14,7 @@ public class TransResult extends BaseResult {
   @ParamLink(Constants.ORDER_AMOUNT)
   private double amount;
   @ParamLink(value = Constants.ORDER_CURRENCY)
-  private Currency currency;
+  private String currency;
   @ParamLink(value = Constants.RESULT_STATE)
   private String state; // order state
   @ParamLink(value = Constants.ORDER_CHANNEL_INFO, targetType = "JSON")
@@ -96,11 +95,11 @@ public class TransResult extends BaseResult {
     this.amount = amount;
   }
 
-  public Currency getCurrency() {
+  public String getCurrency() {
     return currency;
   }
 
-  public void setCurrency(Currency currency) {
+  public void setCurrency(String currency) {
     this.currency = currency;
   }
 

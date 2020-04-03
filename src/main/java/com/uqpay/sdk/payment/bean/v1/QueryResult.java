@@ -3,7 +3,6 @@ package com.uqpay.sdk.payment.bean.v1;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.UqpayScanType;
 
-import java.util.Currency;
 import java.util.Date;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ public class QueryResult extends BaseResult {
   @ParamLink(Constants.ORDER_AMOUNT)
   private double amount;
   @ParamLink(value = Constants.ORDER_CURRENCY)
-  private Currency currency;
+  private String currency;
   @ParamLink(Constants.ORDER_FinishTime)
   private Date finishTime;
   @ParamLink(Constants.PAY_OPTIONS_SCAN_TYPE)
@@ -42,11 +41,11 @@ public class QueryResult extends BaseResult {
     this.amount = amount;
   }
 
-  public Currency getCurrency() {
+  public String getCurrency() {
     return currency;
   }
 
-  public void setCurrency(Currency currency) {
+  public void setCurrency(String currency) {
     this.currency = currency;
   }
 

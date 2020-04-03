@@ -7,7 +7,6 @@ import com.uqpay.sdk.utils.Constants;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.util.Currency;
 import java.util.Date;
 
 public class CashierOrder implements PaygateParams {
@@ -25,7 +24,7 @@ public class CashierOrder implements PaygateParams {
   private double amount;
   @ParamLink(value = Constants.ORDER_CURRENCY)
   @NotNull
-  private Currency currency; // use ISO 4217 currency code same as the Java Currency Class
+  private String currency; // use ISO 4217 currency code same as the Java Currency Class
   @ParamLink(Constants.ORDER_DATE)
   @NotNull
   private Date date; // this order generate date
@@ -82,11 +81,11 @@ public class CashierOrder implements PaygateParams {
     this.amount = amount;
   }
 
-  public Currency getCurrency() {
+  public String getCurrency() {
     return currency;
   }
 
-  public void setCurrency(Currency currency) {
+  public void setCurrency(String currency) {
     this.currency = currency;
   }
 
