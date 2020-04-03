@@ -94,7 +94,7 @@ public class AgentPaymentTest {
   @DisplayName("Testing BankCard")
   void bankCard() {
     payOrder.setMethodId(PayMethod.UnionPayExpressPay);
-    payOrder.setCurrency(Currency.getInstance("USD"));
+    payOrder.setCurrency("USD");
     BankCardExtendDTO bankCard = new BankCardExtendDTO();
     bankCard.setCardNum("6250947000000014");
     bankCard.setCvv("123");

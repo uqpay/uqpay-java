@@ -22,7 +22,7 @@ public abstract class OrderDTO extends PayOptionsDTO {
   private double amount;
   @ParamLink(value = Constants.ORDER_CURRENCY)
   @NotNull
-  private Currency currency; // use ISO 4217 currency code same as the Java Currency Class
+  private String currency; // use ISO 4217 currency code and normal Digital Currency
   @ParamLink(Constants.ORDER_DATE)
   @NotNull
   private Date date; // this order generate date
@@ -56,11 +56,11 @@ public abstract class OrderDTO extends PayOptionsDTO {
     this.amount = amount;
   }
 
-  public Currency getCurrency() {
+  public String getCurrency() {
     return currency;
   }
 
-  public void setCurrency(Currency currency) {
+  public void setCurrency(String currency) {
     this.currency = currency;
   }
 

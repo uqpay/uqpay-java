@@ -96,7 +96,7 @@ public class MerchantPaymentTest {
   public void onlineQR() {
     payOrder.setMethodId(PayMethod.UnionPayOnlineQR);
     payOrder.setScanType(UqpayScanType.Consumer);
-    payOrder.setCurrency(Currency.getInstance("CNY"));
+    payOrder.setCurrency("CNY");
     try {
       ApiResponse<TransResult> res = payment.onlineQR(payOrder);
       TransResult result = res.getData();
@@ -118,7 +118,7 @@ public class MerchantPaymentTest {
     payOrder.setIdentity(TestHttpClient.getTestUnionPayConsumerQRCode());
     payOrder.setMerchantCity("HangZhou");
     payOrder.setTerminalID("123456");
-    payOrder.setCurrency(Currency.getInstance("SGD"));
+    payOrder.setCurrency("SGD");
 
     try {
       ApiResponse<TransResult> res = payment.offlineQR(payOrder);
@@ -135,7 +135,7 @@ public class MerchantPaymentTest {
     payOrder.setIdentity(null);
     payOrder.setMerchantCity("HangZhou");
     payOrder.setTerminalID("123456");
-    payOrder.setCurrency(Currency.getInstance("SGD"));
+    payOrder.setCurrency("SGD");
     try {
       ApiResponse<TransResult> res = payment.offlineQR(payOrder);
       TransResult result = res.getData();
@@ -151,7 +151,7 @@ public class MerchantPaymentTest {
   @DisplayName("Testing BankCard")
   void bankCard() {
     payOrder.setMethodId(PayMethod.UnionPayExpressPay);
-    payOrder.setCurrency(Currency.getInstance("SGD"));
+    payOrder.setCurrency("SGD");
     BankCardExtendDTO bankCard = new BankCardExtendDTO();
     bankCard.setCardNum("6250947000000014");
     bankCard.setCvv("123");
