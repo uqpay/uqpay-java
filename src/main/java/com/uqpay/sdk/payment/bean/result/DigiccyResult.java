@@ -13,6 +13,33 @@ public class DigiccyResult extends QRCodeResult {
   private String bip21;
   private String address;
   private String bip70;
+  protected String total;
+  protected String subtotal;
+  protected String networkCost;
+
+  public String getTotal() {
+    return total;
+  }
+
+  public void setTotal(String total) {
+    this.total = total;
+  }
+
+  public String getSubtotal() {
+    return subtotal;
+  }
+
+  public void setSubtotal(String subtotal) {
+    this.subtotal = subtotal;
+  }
+
+  public String getNetworkCost() {
+    return networkCost;
+  }
+
+  public void setNetworkCost(String networkCost) {
+    this.networkCost = networkCost;
+  }
 
   public String getBip21() {
     return bip21;
