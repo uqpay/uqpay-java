@@ -17,6 +17,8 @@ public enum PayMethodEnum {
   GradOnlineQR(PayMethod.GradOnlineQR, ScenesEnum.OnlineQRCode),
   AlipayOnlineQR(PayMethod.AlipayOnlineQR, ScenesEnum.OnlineQRCode),
   WeChatOnlineQR(PayMethod.WeChatOnlineQR, ScenesEnum.OnlineQRCode),
+  DBS_OnlineQR(PayMethod.DBS_OnlineQR, ScenesEnum.OnlineQRCode),
+  DBS_OfflineQR(PayMethod.DBS_OfflineQR, ScenesEnum.OfflineQRCode),
   DIGICCY(PayMethod.DIGICCY, ScenesEnum.OnlineQRCode),
   WechatWebBasedInApp(PayMethod.WechatWebBasedInApp, ScenesEnum.OnlinePay),
   UnionSecurePay(PayMethod.UnionSecurePay, ScenesEnum.OnlinePay),
