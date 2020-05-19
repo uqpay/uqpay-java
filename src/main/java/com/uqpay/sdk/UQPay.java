@@ -38,7 +38,7 @@ public class UQPay {
 
   private String[] paygate = {"https://paygate.uqpay.cn", "https://paygate.uqpay.net", "https://paygate.uqpay.com"};
   private String[] appgate = {"https://appgate.uqpay.cn", "https://appgate.uqpay.net", "https://appgate.uqpay.com"};
-  private String[] cashier = {"https://cashier.uqpay.cn", "https://cashier.uqpay.net", "https://cashier.uqpay.com"};
+  private String[] cashier = {"https://cashier.uqpay.cn/v2", "https://cashier.uqpay.net/v2", "https://cashier.uqpay.com/v2"};
 
   public static String IDENTITY_HEADER_KEY_MEMBER = "uq-member-id";
   public static String IDENTITY_HEADER_KEY_TYPE = "uq-member-type";
