@@ -37,4 +37,14 @@ public final class PayMethod {
   public static final int Alipay_InAPP = 2002;
   public static final int ApplePay = 3000;
   public static final int QuickPay = 3001;
+  public static final int BTC_Online = 5000;
+  public static final int BTC_Offline = 5001;
+  public static final int BCH_Online = 5002;
+  public static final int BCH_Offline = 5003;
+  public static final int ETH_Online = 5004;
+  public static final int ETH_Offline = 5005;
+  public static final int USDT_Online = 5006;
+  public static final int USDT_Offline = 5007;
+  public static final int USDC_Online = 5008;
+  public static final int USDC_Offline = 5009;
 }

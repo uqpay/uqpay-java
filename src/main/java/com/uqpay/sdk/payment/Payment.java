@@ -5,6 +5,7 @@ import com.uqpay.sdk.bean.ApiResponse;
 import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.payment.bean.result.DigiccyResult;
 import com.uqpay.sdk.payment.bean.tx.BasicTX;
+import com.uqpay.sdk.payment.bean.tx.QRCodeTX;
 import com.uqpay.sdk.payment.bean.v1.*;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
@@ -105,8 +106,11 @@ public class Payment {
     return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
   }
 
-  public ApiResponse<DigiccyResult> digiccy(BasicTX tx) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+  public ApiResponse<DigiccyResult> digiccy(QRCodeTX tx) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
     tx.setTransType(UqpayTransType.pay);
+    if (tx.getScanType() == null) throw new NullPointerException("UQPAY: need Scan Type");
+    if (tx.getScanType().equals(UqpayScanType.Merchant) && tx.getIdentity() == null)
+      throw new NullPointerException("UQPAY: need the identity data when scan type is merchant");
     return uqPay.request(tx, getUrl(Constants.PAYGATE_API_DIGICCY), DigiccyResult.class);
   }
 

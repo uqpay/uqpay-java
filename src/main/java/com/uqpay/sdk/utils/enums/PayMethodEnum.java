@@ -37,7 +37,17 @@ public enum PayMethodEnum {
   Alipay_InAPP(PayMethod.Alipay_InAPP, ScenesEnum.InApp),
   ApplePay(PayMethod.ApplePay, ScenesEnum.OnlinePay),
   UnionPayMerchantHost(PayMethod.UnionPayMerchantHost, ScenesEnum.MerchantHost),
-  UnionPayServerHost(PayMethod.UnionPayServerHost, ScenesEnum.ServerHost);
+  UnionPayServerHost(PayMethod.UnionPayServerHost, ScenesEnum.ServerHost),
+  BTC_Online(PayMethod.BTC_Online, ScenesEnum.OnlineQRCode),
+  BTC_Offline(PayMethod.BTC_Offline, ScenesEnum.OfflineQRCode),
+  BCH_Online(PayMethod.BCH_Online, ScenesEnum.OnlineQRCode),
+  BCH_Offline(PayMethod.BCH_Offline, ScenesEnum.OfflineQRCode),
+  ETH_Online(PayMethod.ETH_Online, ScenesEnum.OnlineQRCode),
+  ETH_Offline(PayMethod.ETH_Offline, ScenesEnum.OfflineQRCode),
+  USDT_Online(PayMethod.USDT_Online, ScenesEnum.OnlineQRCode),
+  USDT_Offline(PayMethod.USDT_Offline, ScenesEnum.OfflineQRCode),
+  USDC_Online(PayMethod.USDC_Online, ScenesEnum.OnlineQRCode),
+  USDC_Offline(PayMethod.USDC_Offline, ScenesEnum.OfflineQRCode);
 
   private int value;
   private ScenesEnum scenes;
