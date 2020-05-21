@@ -12,6 +12,7 @@ import com.uqpay.sdk.payment.bean.result.DigiccyResult;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
 import com.uqpay.sdk.payment.bean.tx.BasicTX;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
+import com.uqpay.sdk.payment.bean.tx.QRCodeTX;
 import com.uqpay.sdk.payment.bean.v1.*;
 import com.uqpay.sdk.utils.PayMethod;
 import com.uqpay.sdk.utils.enums.ClientType;
@@ -204,7 +205,7 @@ public class MerchantPaymentTest {
   @Test
   @DisplayName("Testing Digiccy")
   void digiccy() {
-    BasicTX tx = new BasicTX();
+    QRCodeTX tx = new QRCodeTX();
     tx.setMethodId(PayMethod.DIGICCY);
     tx.setAmount(0.001);
     tx.setTransName("product info");
@@ -215,6 +216,7 @@ public class MerchantPaymentTest {
     tx.setClientIp("127.0.0.1");
     tx.setOrderId(String.valueOf(new Date().getTime()));
     tx.setCurrency("USDT");
+    tx.setScanType(UqpayScanType.Consumer);
     try {
       ApiResponse<DigiccyResult> res = payment.digiccy(tx);
       if (res.isSuccess()) {
