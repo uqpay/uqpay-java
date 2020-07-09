@@ -20,6 +20,7 @@ public class Constants {
 
   public static final String ORDER_ID = "orderid";
   public static final String ORDER_AMOUNT = "amount";
+  public static final String ORDER_BILL_AMOUNT = "billamount";
   public static final String ORDER_CURRENCY = "currency";
   public static final String ORDER_TRANS_NAME = "transname";
   public static final String ORDER_DATE = "date";

@@ -6,13 +6,15 @@ import com.uqpay.sdk.utils.enums.UqpayScanType;
 import java.util.Map;
 
 public class TransResult extends BaseResult {
-  private static final long serialVersionUID = 2394757051743388283L;
+  private static final long serialVersionUID = 2785339986773941702L;
   @ParamLink(Constants.ORDER_ID)
   private String orderId;
   @ParamLink(Constants.RESULT_UQPAY_ORDER_ID)
   private long uqOrderId; // this order id generate by uqpay
   @ParamLink(Constants.ORDER_AMOUNT)
   private double amount;
+  @ParamLink(Constants.ORDER_BILL_AMOUNT)
+  private double billAmount;
   @ParamLink(value = Constants.ORDER_CURRENCY)
   private String currency;
   @ParamLink(value = Constants.RESULT_STATE)
@@ -69,6 +71,14 @@ public class TransResult extends BaseResult {
     redirectPost.setApiURL(apiURL);
     redirectPost.setPostData(postData);
     this.redirectPostData = redirectPost;
+  }
+
+  public double getBillAmount() {
+    return billAmount;
+  }
+
+  public void setBillAmount(double billAmount) {
+    this.billAmount = billAmount;
   }
 
   public String getOrderId() {

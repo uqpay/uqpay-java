@@ -1,7 +1,5 @@
 package com.uqpay.sdk.payment.bean.v1;
 
-import com.uqpay.sdk.payment.bean.v1.ParamLink;
-import com.uqpay.sdk.payment.bean.v1.PaygateParams;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 

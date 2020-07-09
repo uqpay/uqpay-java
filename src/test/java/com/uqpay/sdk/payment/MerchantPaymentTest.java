@@ -10,7 +10,6 @@ import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 import com.uqpay.sdk.payment.bean.result.DigiccyResult;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
-import com.uqpay.sdk.payment.bean.tx.BasicTX;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
 import com.uqpay.sdk.payment.bean.tx.QRCodeTX;
 import com.uqpay.sdk.payment.bean.v1.*;

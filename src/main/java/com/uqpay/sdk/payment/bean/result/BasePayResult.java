@@ -1,10 +1,16 @@
 package com.uqpay.sdk.payment.bean.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 
 import java.io.Serializable;
 import java.util.Map;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(
+    ignoreUnknown = true
+)
 public class BasePayResult implements Serializable {
   private static final long serialVersionUID = 4518238134058833273L;
   private int merchantId;
@@ -19,12 +25,21 @@ public class BasePayResult implements Serializable {
   private long uqOrderId;
   private int methodId;
   private double amount;
+  private double billAmount;
   private String currency;
   private String state;
   private Map<String, String> channelInfo;
   private Map<String, String> extendInfo;
   private String storeId;
   private String seller;
+
+  public double getBillAmount() {
+    return billAmount;
+  }
+
+  public void setBillAmount(double billAmount) {
+    this.billAmount = billAmount;
+  }
 
   public int getMerchantId() {
     return merchantId;
