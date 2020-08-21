@@ -6,6 +6,7 @@ import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.payment.bean.result.DigiccyResult;
 import com.uqpay.sdk.payment.bean.tx.BasicTX;
 import com.uqpay.sdk.payment.bean.tx.QRCodeTX;
+import com.uqpay.sdk.payment.bean.tx.WeChatOnlineTX;
 import com.uqpay.sdk.payment.bean.v1.*;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
@@ -101,7 +102,7 @@ public class Payment {
   /**
    * use for WeChat web base in-app payment ( Mini Program Pay and Official Account Payment )
    */
-  public ApiResponse<OnlineResult> weChatOnline(OnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
+  public ApiResponse<OnlineResult> weChatOnline(WeChatOnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     tx.setTransType(UqpayTransType.pay);
     return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
   }
