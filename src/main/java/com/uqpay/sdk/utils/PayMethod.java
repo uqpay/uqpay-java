@@ -21,7 +21,8 @@ public final class PayMethod {
   public static final int RazerPay_OfflineQR = 1014;
   public static final int UnionSecurePay = 1100;
   public static final int UnionPayMerchantHost = 1101;
-  public static final int WechatWebBasedInApp = 1102;
+  public static final int WechatOfficialAccount = 1102;
+  public static final int WechatMiniProgram = 1401;
   public static final int UnionPayServerHost = 1103;
   public static final int GrabOTC = 1104;
   public static final int VISA = 1200;

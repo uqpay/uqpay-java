@@ -104,6 +104,11 @@ public class Payment {
    */
   public ApiResponse<OnlineResult> weChatOnline(WeChatOnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     tx.setTransType(UqpayTransType.pay);
+    if (tx.getChannelInfo() == null) {
+      tx.setChannelInfo(new HashMap<>());
+    }
+    tx.getChannelInfo().put(Constants.WECHAT_CHANNEL_INFO_SUB_APPID, tx.getAppId());
+    tx.getChannelInfo().put(Constants.WECHAT_CHANNEL_INFO_SUB_OPENID, tx.getOpenId());
     return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
   }
 

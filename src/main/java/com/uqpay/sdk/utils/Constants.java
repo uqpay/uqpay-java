@@ -68,6 +68,9 @@ public class Constants {
   public static final String MERCHANT_HOST_VERIFY_CODE = "verifycode";
   public static final String SERVER_HOST_CARD_TOKEN = "token";
 
+  public static final String WECHAT_CHANNEL_INFO_SUB_OPENID = "sub_openid";
+  public static final String WECHAT_CHANNEL_INFO_SUB_APPID = "sub_appid";
+
   public static final String PAYGATE_API_PAY = "/pay";
   public static final String PAYGATE_API_PAY_V2 = "/v2/pay";
   public static final String PAYGATE_API_DIGICCY = "/v2/digiccy";
