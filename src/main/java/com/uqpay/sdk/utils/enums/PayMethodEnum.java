@@ -34,6 +34,7 @@ public enum PayMethodEnum {
   JCB(PayMethod.JCB, ScenesEnum.CreditCard),
   PayPal(PayMethod.PayPal, ScenesEnum.CreditCard),
   AlipayWebOnline(PayMethod.AlipayWebOnline, ScenesEnum.OnlinePay),
+  FreeCharge(PayMethod.FreeCharge, ScenesEnum.OnlinePay),
   AlipayWap(PayMethod.AlipayWap, ScenesEnum.OnlinePay),
   Wechat_InAPP(PayMethod.Wechat_InAPP, ScenesEnum.InApp),
   UnionPay_InAPP(PayMethod.UnionPay_InAPP, ScenesEnum.InApp),

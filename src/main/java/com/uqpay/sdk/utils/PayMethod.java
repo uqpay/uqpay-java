@@ -34,6 +34,7 @@ public final class PayMethod {
   public static final int JCB = 1204;
   public static final int PayPal = 1300;
   public static final int AlipayWebOnline = 1301;
+  public static final int FreeCharge = 1302;
   public static final int AlipayWap = 1501;
   public static final int Wechat_InAPP = 2000;
   public static final int UnionPay_InAPP = 2001;
