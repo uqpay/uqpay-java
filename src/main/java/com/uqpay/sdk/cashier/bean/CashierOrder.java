@@ -48,6 +48,16 @@ public class CashierOrder implements PaygateParams {
   private String storeId; // your store info
   @ParamLink(Constants.ORDER_SELLER)
   private String seller; // your seller info
+  @ParamLink(Constants.ORDER_EXTEND_INFO_ISSUER_LOCALE)
+  private String locale; // issuer locale. see Auto DCC
+
+  public String getLocale() {
+    return locale;
+  }
+
+  public void setLocale(String locale) {
+    this.locale = locale;
+  }
 
   public int getMerchantId() {
     return merchantId;
