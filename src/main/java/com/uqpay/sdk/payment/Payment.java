@@ -4,12 +4,9 @@ import com.uqpay.sdk.UQPay;
 import com.uqpay.sdk.bean.ApiResponse;
 import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.payment.bean.result.DigiccyResult;
-import com.uqpay.sdk.payment.bean.tx.BasicTX;
-import com.uqpay.sdk.payment.bean.tx.QRCodeTX;
-import com.uqpay.sdk.payment.bean.tx.WeChatOnlineTX;
+import com.uqpay.sdk.payment.bean.tx.*;
 import com.uqpay.sdk.payment.bean.v1.*;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
-import com.uqpay.sdk.payment.bean.tx.OnlineTX;
 import com.uqpay.sdk.utils.enums.*;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
@@ -109,6 +106,20 @@ public class Payment {
     }
     tx.getChannelInfo().put(Constants.WECHAT_CHANNEL_INFO_SUB_APPID, tx.getAppId());
     tx.getChannelInfo().put(Constants.WECHAT_CHANNEL_INFO_SUB_OPENID, tx.getOpenId());
+    return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
+  }
+
+  /**
+   * use for Real Name payment
+   */
+  public ApiResponse<OnlineResult> realNameOnline(RealNameOnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
+    tx.setTransType(UqpayTransType.pay);
+    if (tx.getExtendInfo() == null) {
+      tx.setExtendInfo(new HashMap<>());
+    }
+    tx.getExtendInfo().put(Constants.ORDER_EXTEND_INFO_REAL_NAME_FIRST_NAME, tx.getFirstName());
+    tx.getExtendInfo().put(Constants.ORDER_EXTEND_INFO_REAL_NAME_LAST_NAME, tx.getLastName());
+    tx.getExtendInfo().put(Constants.ORDER_EXTEND_INFO_REAL_NAME_CUSTOMER_ID, tx.getCustomerId());
     return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
   }
 

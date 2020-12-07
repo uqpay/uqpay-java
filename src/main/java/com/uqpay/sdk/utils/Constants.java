@@ -31,6 +31,9 @@ public class Constants {
   public static final String ORDER_CHANNEL_INFO = "channelinfo";
   public static final String ORDER_EXTEND_INFO = "extendinfo";
   public static final String ORDER_EXTEND_INFO_ISSUER_LOCALE = "issuerlocale";
+  public static final String ORDER_EXTEND_INFO_REAL_NAME_FIRST_NAME = "firstName";
+  public static final String ORDER_EXTEND_INFO_REAL_NAME_LAST_NAME = "lastName";
+  public static final String ORDER_EXTEND_INFO_REAL_NAME_CUSTOMER_ID = "customerId";
 
   public static final String RESULT_MESSAGE = "message";
   public static final String RESULT_CODE = "code";

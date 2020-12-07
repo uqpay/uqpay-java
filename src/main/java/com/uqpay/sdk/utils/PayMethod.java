@@ -51,4 +51,5 @@ public final class PayMethod {
   public static final int USDT_Offline = 5007;
   public static final int USDC_Online = 5008;
   public static final int USDC_Offline = 5009;
+  public static final int REAL_NAME_PAYMENT =  11000;//realname payment
 }

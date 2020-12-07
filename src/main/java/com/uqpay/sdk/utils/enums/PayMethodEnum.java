@@ -51,7 +51,8 @@ public enum PayMethodEnum {
   USDT_Online(PayMethod.USDT_Online, ScenesEnum.OnlineQRCode),
   USDT_Offline(PayMethod.USDT_Offline, ScenesEnum.OfflineQRCode),
   USDC_Online(PayMethod.USDC_Online, ScenesEnum.OnlineQRCode),
-  USDC_Offline(PayMethod.USDC_Offline, ScenesEnum.OfflineQRCode);
+  USDC_Offline(PayMethod.USDC_Offline, ScenesEnum.OfflineQRCode),
+  REAL_NAME_PAYMENT(PayMethod.REAL_NAME_PAYMENT, ScenesEnum.OnlinePay);
 
   private int value;
   private ScenesEnum scenes;
