@@ -7,17 +7,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class RefundResult extends BaseResult{
-  private static final long serialVersionUID = 226207824956162475L;
-  @ParamLink(Constants.AUTH_SIGN)
-  private String sign;
-  @ParamLink(Constants.AUTH_MERCHANT_ID)
-  private int merchantId;
-  @ParamLink(Constants.AUTH_AGENT_ID)
-  private int agentId;
-  @ParamLink(Constants.PAY_OPTIONS_TRADE_TYPE)
-  private UqpayTransType transType;
-  @ParamLink(Constants.ORDER_DATE)
-  private Date date;
+  private static final long serialVersionUID = -8008483912133992752L;
 
   @ParamLink(Constants.ORDER_ID)
   private String orderId;
@@ -32,46 +22,6 @@ public class RefundResult extends BaseResult{
   private Map<String,String> extendInfo;
 
   public RefundResult() {}
-
-  public String getSign() {
-    return sign;
-  }
-
-  public void setSign(String sign) {
-    this.sign = sign;
-  }
-
-  public int getMerchantId() {
-    return merchantId;
-  }
-
-  public void setMerchantId(int merchantId) {
-    this.merchantId = merchantId;
-  }
-
-  public int getAgentId() {
-    return agentId;
-  }
-
-  public void setAgentId(int agentId) {
-    this.agentId = agentId;
-  }
-
-  public UqpayTransType getTransType() {
-    return transType;
-  }
-
-  public void setTransType(UqpayTransType transType) {
-    this.transType = transType;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
-  }
 
   public String getOrderId() {
     return orderId;
