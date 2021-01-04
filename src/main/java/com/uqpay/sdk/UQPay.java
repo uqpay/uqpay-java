@@ -172,7 +172,9 @@ public class UQPay {
     headers.put("content-type", "application/json;charset=UTF-8");
     headers.put("accept", "application/json;charset=UTF-8");
     String rspBody = httpClient.post(headers, Tools.objToJson(params), url);
-
+    if (rspBody == null) {
+      return null;
+    }
     // verify
     T result = Tools.json2Obj(rspBody, resultClass);
     PayUtil.verifyUqpayNotice(rspBody, result.getSignature(), secureConfig);
