@@ -8,16 +8,16 @@ import com.uqpay.sdk.config.MemberTypeEnum;
 import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
+import com.uqpay.sdk.operation.Emvco;
+import com.uqpay.sdk.operation.bean.EmvcoCreateDTO;
+import com.uqpay.sdk.operation.bean.result.QRCodeResult;
 import com.uqpay.sdk.payment.bean.result.DigiccyResult;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
 import com.uqpay.sdk.payment.bean.tx.QRCodeTX;
 import com.uqpay.sdk.payment.bean.v1.*;
 import com.uqpay.sdk.utils.PayMethod;
-import com.uqpay.sdk.utils.enums.ClientType;
-import com.uqpay.sdk.utils.enums.OrderStateEnum;
-import com.uqpay.sdk.utils.enums.SignTypeEnum;
-import com.uqpay.sdk.utils.enums.UqpayScanType;
+import com.uqpay.sdk.utils.enums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,53 +32,56 @@ public class MerchantPaymentTest {
   private UQPay uqPay;
   private PayOrder payOrder;
   private Payment payment;
+  private Emvco emvco;
 
   @BeforeEach
   public void initUQpay() {
     String mer_uq_pub_key = "-----BEGIN PUBLIC KEY-----\n" +
-        "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhB/ls6tXiaYxejXRttBX\n" +
-        "OD0VujO96AdFAAWKf3XvBZpLNuYDFwesRzoYAfwntiZlkbULdczT8jKuGSjL65yV\n" +
-        "ZobRtpwhpBdKipTrWKAS98ainOepIbCRtZr/Nm4aF55cChXcHqZCcQU5dSNNg5Jp\n" +
-        "qbXwir+CbOsTZreEVLjPeM82ycvHYGoIHKhMR/9HXLxcG76EypliTUTQkE1BoPyV\n" +
-        "QOZeDEpmdpXsBoSgH5SL/gIjUGvRV6A3yRU6bRNtIL+XiFF+TIz65sQSyKX9tXUw\n" +
-        "FckpgXyAmCaqZ52mfkdVUzvWL96Rxw1H/I39F5seqM6ACBXd33Sp1NZEykdgx4nd\n" +
-        "cQIDAQAB\n" +
+        "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgETPzkWUkaPlzafiKbIp\n" +
+        "9S6alU855A2DPN6DCevjOllCZFPQgI2JnmFrLN4vic26Vdd/6pqqZblrNcwX6lEO\n" +
+        "WXS9fzGFQpYT6a6o9Ix1bS3XXp0HHSC3w99Lto0rsHyInZysOGlwIQji4LWMo0hj\n" +
+        "tSAB2LfiOTric5twieR7zx0wL4/rmPVQAo8b5OzrnF9VyIrDRhIWXUh6ATa+tjhL\n" +
+        "ZoNtnOMWU42LfILhi0nGPQ6jgOZNxRy00revo+Mg9RWMJhHKMzIV0PIOdPVBaGSD\n" +
+        "dAp3ItCyi3D9AEOYwEUNzbHBO35eH0DhyGurwMvWFyVt8umyWnm52s6FuXz0aHzv\n" +
+        "GwIDAQAB\n" +
         "-----END PUBLIC KEY-----";
     String mer_prv_key = "-----BEGIN RSA PRIVATE KEY-----\n" +
-        "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
+        "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\n" +
         "-----END RSA PRIVATE KEY-----";
     uqPay = UQPay
-        .setting(MemberTypeEnum.MERCHANT, 1005004)
-        .env(EnvEnum.LOCAL)
+        .setting(MemberTypeEnum.MERCHANT, 10001)
+        .env(EnvEnum.PROD)
         .decipher(SignTypeEnum.RSA, mer_uq_pub_key, false)
         .encipher(SignTypeEnum.RSA, mer_prv_key, false)
         .httpClient(TestHttpClient.class)
         .setApiUrl("paygate", "http://localhost:8686", "https://paygate.uqpay.net", "https://paygate.uqpay.com");
     payment = new Payment(uqPay);
+    emvco = new Emvco(uqPay);
+
     payOrder = new PayOrder();
     payOrder.setTransName("product info");
     payOrder.setOrderId(String.valueOf(new Date().getTime()));
@@ -249,6 +252,26 @@ public class MerchantPaymentTest {
       e.printStackTrace();
     }
 
+  }
+
+  @Test
+  @DisplayName("Testing Emvco Cteate")
+  void emvco() {
+    EmvcoCreateDTO emvcoCreateDTO = new EmvcoCreateDTO();
+    emvcoCreateDTO.setAmount(1.00);
+    emvcoCreateDTO.setCity("SG");
+    emvcoCreateDTO.setCodeType(QRCodeTypeEnum.Static);
+    emvcoCreateDTO.setType(QRCodeChannelTypeEnum.UnionPay);
+    emvcoCreateDTO.setName("test");
+    emvcoCreateDTO.setShopName("test");
+    emvcoCreateDTO.setTerminalId("10001000");
+    try {
+      QRCodeResult result = emvco.createQRCode(emvcoCreateDTO);
+      assertNotNull(result);
+      assertNotNull(result.getPayload());
+    } catch (UqpayRSAException | UqpayResultVerifyException | IOException | UqpayPayFailException e) {
+      e.printStackTrace();
+    }
   }
 
 }

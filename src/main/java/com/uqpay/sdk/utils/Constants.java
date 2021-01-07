@@ -86,6 +86,7 @@ public class Constants {
   public static final String PAYGATE_API_ENROLL = "/enroll";
   public static final String PAYGATE_API_VERIFY = "/verify";
   public static final String APPGATE_API_MERCHANT_REGISTER = "/merchant/register";
+  public static final String APPGATE_API_SECURITY_REALNAME = "/security/realname";
   public static final String APPGATE_API_MERCHANT_VIEW = "/merchant/view";
   public static final String APPGATE_API_MERCHANT_LIST = "/merchant/list";
   public static final String APPGATE_API_MERCHANT_CHECKING = "/file/checking";
