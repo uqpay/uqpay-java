@@ -79,6 +79,10 @@ public class Payment {
     if (order.getReturnUrl() == null || order.getReturnUrl().equals("")){
       throw new NullPointerException("uqpay online payment need sync notice url");
     }
+    if (order.getCardNum() != null && order.getCardNum().length() > 0) {
+      // use UQPAY public RSA Key to sign the card num.
+      order.setCardNum(uqPay.getSecureConfig().sign(uqPay.getSecureConfig().getDecipher(), order.getCardNum()).getSignature());
+    }
     Map<String, String> paramsMap = PayUtil.params2Map(order);
     uqPay.wrapParams(paramsMap);
     RedirectPostData redirectPost = new RedirectPostData();
@@ -93,6 +97,10 @@ public class Payment {
 
   public ApiResponse<OnlineResult> online(OnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     tx.setTransType(UqpayTransType.pay);
+    if (tx.getCardNum() != null && tx.getCardNum().length() > 0) {
+      // use UQPAY public RSA Key to sign the card num.
+      tx.setCardNum(uqPay.getSecureConfig().sign(uqPay.getSecureConfig().getDecipher(), tx.getCardNum()).getSignature());
+    }
     return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
   }
 

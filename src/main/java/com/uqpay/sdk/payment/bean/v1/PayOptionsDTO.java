@@ -33,6 +33,8 @@ public class PayOptionsDTO implements PaygateParams {
   private UqpayScanType scanType; // only required for qr code payment
   @ParamLink(Constants.PAY_OPTIONS_IDENTITY)
   private String identity; // only required for qr code payment when scan type is Merchant or the pay method is offline qr code
+  @ParamLink(Constants.BANK_CARD_CARD_NUM)
+  private String cardNum; // optional and only use for UnionSecurePay
 
   @ParamLink(Constants.PAY_OPTIONS_MERCHANT_CITY)
   private String merchantCity; //城市
@@ -145,5 +147,13 @@ public class PayOptionsDTO implements PaygateParams {
 
   public void setPaResCbUrl(String paResCbUrl) {
     this.paResCbUrl = paResCbUrl;
+  }
+
+  public String getCardNum() {
+    return cardNum;
+  }
+
+  public void setCardNum(String cardNum) {
+    this.cardNum = cardNum;
   }
 }

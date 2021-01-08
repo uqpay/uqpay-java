@@ -29,27 +29,7 @@ public class SecureConfig implements Serializable {
   private SecretKey decipher;
 
   public SecretResult sign(String target) throws UqpayRSAException {
-    if (encipher == null || !encipher.verify()) {
-      throw new UqpayRSAException("Please setting your encipher secret key");
-    }
-    SecretResult result = new SecretResult();
-    result.setSignType(encipher.getSignType());
-    if (encipher.getSignType().equals(SignTypeEnum.RSA)) {
-      if (StringUtils.isNotBlank(encipher.getContent())) {
-        result.setSignature(RSAUtil.sign(target, RSAUtil.loadPrivateKey(encipher.getContent(), false)));
-      } else {
-        result.setSignature(RSAUtil.sign(target, RSAUtil.loadPrivateKey(encipher.getPath(), true)));
-      }
-    } else {
-      String fc = target;
-      if (StringUtils.isNotBlank(encipher.getContent())) {
-        fc += encipher.getContent();
-      } else {
-        fc += target + RSAUtil.readKeyContentFrom(encipher.getPath(), true);
-      }
-      result.setSignature(DigestUtils.md5Hex(fc));
-    }
-    return result;
+    return sign(encipher, target);
   }
 
   public boolean verify(String target, String signature) throws UqpayRSAException {
@@ -63,6 +43,30 @@ public class SecureConfig implements Serializable {
     }
     // TODO for this moment the UQPAY Service Only use RSA to encipher the data
     return false;
+  }
+
+  public SecretResult sign(SecretKey secretKey, String target) throws UqpayRSAException {
+    if (secretKey == null || !secretKey.verify()) {
+      throw new UqpayRSAException("Please setting your encipher secret key");
+    }
+    SecretResult result = new SecretResult();
+    result.setSignType(secretKey.getSignType());
+    if (secretKey.getSignType().equals(SignTypeEnum.RSA)) {
+      if (StringUtils.isNotBlank(secretKey.getContent())) {
+        result.setSignature(RSAUtil.sign(target, RSAUtil.loadPrivateKey(secretKey.getContent(), false)));
+      } else {
+        result.setSignature(RSAUtil.sign(target, RSAUtil.loadPrivateKey(secretKey.getPath(), true)));
+      }
+    } else {
+      String fc = target;
+      if (StringUtils.isNotBlank(secretKey.getContent())) {
+        fc += secretKey.getContent();
+      } else {
+        fc += target + RSAUtil.readKeyContentFrom(secretKey.getPath(), true);
+      }
+      result.setSignature(DigestUtils.md5Hex(fc));
+    }
+    return result;
   }
 
   public SecretKey getEncipher() {
