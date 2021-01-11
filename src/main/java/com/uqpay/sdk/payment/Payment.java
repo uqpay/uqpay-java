@@ -81,7 +81,7 @@ public class Payment {
     }
     if (order.getCardNum() != null && order.getCardNum().length() > 0) {
       // use UQPAY public RSA Key to sign the card num.
-      order.setCardNum(uqPay.getSecureConfig().sign(uqPay.getSecureConfig().getDecipher(), order.getCardNum()).getSignature());
+      order.setCardNum(uqPay.getSecureConfig().encrypt(order.getCardNum()));
     }
     Map<String, String> paramsMap = PayUtil.params2Map(order);
     uqPay.wrapParams(paramsMap);
@@ -99,7 +99,7 @@ public class Payment {
     tx.setTransType(UqpayTransType.pay);
     if (tx.getCardNum() != null && tx.getCardNum().length() > 0) {
       // use UQPAY public RSA Key to sign the card num.
-      tx.setCardNum(uqPay.getSecureConfig().sign(uqPay.getSecureConfig().getDecipher(), tx.getCardNum()).getSignature());
+      tx.setCardNum(uqPay.getSecureConfig().encrypt(tx.getCardNum()));
     }
     return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), OnlineResult.class);
   }

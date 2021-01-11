@@ -36,7 +36,7 @@ public class Security {
     validateRequestParams(realNameDTO, "request data invalid for uqpay real name valid");
     if (realNameDTO.getPan() != null && realNameDTO.getPan().length() > 0) {
       // use UQPAY public RSA Key to sign the card num.
-      realNameDTO.setPan(uqPay.getSecureConfig().sign(uqPay.getSecureConfig().getDecipher(), realNameDTO.getPan()).getSignature());
+      realNameDTO.setPan(uqPay.getSecureConfig().encrypt(realNameDTO.getPan()));
     }
     return uqPay.request(realNameDTO, uqPay.getAppUrl(Constants.APPGATE_API_SECURITY_REALNAME), RealNameResult.class);
   }

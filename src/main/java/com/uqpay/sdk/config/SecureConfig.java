@@ -6,7 +6,13 @@ import org.apache.commons.lang3.StringUtils;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.utils.RSAUtil;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 
 /**
@@ -67,6 +73,22 @@ public class SecureConfig implements Serializable {
       result.setSignature(DigestUtils.md5Hex(fc));
     }
     return result;
+  }
+
+  public String encrypt(String content) throws UqpayRSAException {
+    if (decipher == null || !decipher.verify()) {
+      throw new UqpayRSAException("Please setting your decipher secret key");
+    }
+    if (decipher.getSignType().equals(SignTypeEnum.RSA)) {
+      PublicKey publicKey = StringUtils.isNotBlank(decipher.getContent()) ?
+          RSAUtil.loadPublicKey(decipher.getContent(), false) : RSAUtil.loadPublicKey(decipher.getPath(), true);
+      try {
+        return RSAUtil.encrypt(content, publicKey);
+      } catch (Exception ex) {
+        throw new UqpayRSAException(ex.getMessage());
+      }
+    }
+    return content;
   }
 
   public SecretKey getEncipher() {

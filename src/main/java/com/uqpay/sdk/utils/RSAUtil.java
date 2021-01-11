@@ -3,8 +3,13 @@ package com.uqpay.sdk.utils;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import org.apache.commons.codec.binary.Base64;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.*;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -177,6 +182,12 @@ public class RSAUtil {
     } catch (NullPointerException e) {
       throw new UqpayRSAException("Key is empty");
     }
+  }
+
+  public static String encrypt(String content, PublicKey publicKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException, BadPaddingException, IllegalBlockSizeException {
+    Cipher cipher = Cipher.getInstance(KEY_FACTORY_ALGORITHM);
+    cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+    return Base64.encodeBase64String(cipher.doFinal(content.getBytes(StandardCharsets.UTF_8)));
   }
 
 }
