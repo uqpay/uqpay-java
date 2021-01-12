@@ -1,6 +1,7 @@
 package com.uqpay.sdk.operation;
 
 import com.uqpay.sdk.UQPay;
+import com.uqpay.sdk.config.SecureConfig;
 import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
@@ -34,10 +35,11 @@ public class Security {
 
   public final RealNameResult realName(RealNameDTO realNameDTO) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
     validateRequestParams(realNameDTO, "request data invalid for uqpay real name valid");
-    if (realNameDTO.getPan() != null && realNameDTO.getPan().length() > 0) {
-      // use UQPAY public RSA Key to sign the card num.
-      realNameDTO.setPan(uqPay.getSecureConfig().encrypt(realNameDTO.getPan()));
-    }
+    // use UQPAY public RSA Key to encrypt the Pan IdCard and Mobile.
+    SecureConfig secureConfig = uqPay.getSecureConfig();
+    realNameDTO.setPan(secureConfig.encrypt(realNameDTO.getPan()));
+    realNameDTO.setIdCard(secureConfig.encrypt(realNameDTO.getIdCard()));
+    realNameDTO.setMobile(secureConfig.encrypt(realNameDTO.getMobile()));
     return uqPay.request(realNameDTO, uqPay.getAppUrl(Constants.APPGATE_API_SECURITY_REALNAME), RealNameResult.class);
   }
 
