@@ -2,7 +2,7 @@ package com.uqpay.sdk.payment.bean.v1;
 
 import com.uqpay.sdk.utils.Constants;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class BankCardDTO implements PaygateParams {
   private static final long serialVersionUID = -15914608351693804L;

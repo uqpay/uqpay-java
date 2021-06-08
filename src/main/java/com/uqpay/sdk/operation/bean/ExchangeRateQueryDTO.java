@@ -2,7 +2,7 @@ package com.uqpay.sdk.operation.bean;
 
 import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class ExchangeRateQueryDTO extends BaseJsonRequestDTO {
 

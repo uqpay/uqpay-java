@@ -2,7 +2,7 @@ package com.uqpay.sdk.operation.bean;
 
 import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 public class DownloadCheckingFileDTO extends BaseJsonRequestDTO {
   @NotEmpty

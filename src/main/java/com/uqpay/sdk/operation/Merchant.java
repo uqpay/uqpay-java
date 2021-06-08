@@ -9,10 +9,10 @@ import com.uqpay.sdk.exception.UqpayResultVerifyException;
 import com.uqpay.sdk.operation.bean.result.*;
 import com.uqpay.sdk.utils.Constants;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import java.io.IOException;
 import java.util.Set;
 

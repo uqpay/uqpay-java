@@ -2,7 +2,7 @@ package com.uqpay.sdk.payment.bean.v1;
 
 import com.uqpay.sdk.hostui.bean.HostUICard;
 import com.uqpay.sdk.utils.Constants;
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Order Data

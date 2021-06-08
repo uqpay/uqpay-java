@@ -14,10 +14,10 @@ import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.PayUtil;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

@@ -2,9 +2,9 @@ package com.uqpay.sdk.operation.bean;
 
 import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public class ConfigPaymentDTO extends BaseJsonRequestDTO {
   private static final long serialVersionUID = 1125611182758962993L;

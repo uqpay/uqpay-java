@@ -4,8 +4,8 @@ import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.ClientType;
 import com.uqpay.sdk.utils.enums.UqpayScanType;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.util.Map;
 
 public class PayOptionsDTO implements PaygateParams {

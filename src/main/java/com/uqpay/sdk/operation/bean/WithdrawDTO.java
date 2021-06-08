@@ -2,8 +2,8 @@ package com.uqpay.sdk.operation.bean;
 
 import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 public class WithdrawDTO extends BaseJsonRequestDTO {
   private static final long serialVersionUID = -7986849254750772386L;

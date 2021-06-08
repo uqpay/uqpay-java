@@ -3,9 +3,9 @@ package com.uqpay.sdk.operation.bean;
 import com.uqpay.sdk.utils.enums.QRCodeChannelTypeEnum;
 import com.uqpay.sdk.utils.enums.QRCodeTypeEnum;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 public class EmvcoCreateDTO extends BaseJsonRequestDTO {
   private static final long serialVersionUID = -6225867370664920141L;

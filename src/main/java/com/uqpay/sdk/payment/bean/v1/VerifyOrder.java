@@ -3,9 +3,9 @@ package com.uqpay.sdk.payment.bean.v1;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.enums.UqpayTransType;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 public class VerifyOrder extends PayOptionsDTO {

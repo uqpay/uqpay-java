@@ -2,7 +2,7 @@ package com.uqpay.sdk.payment.bean.v1;
 
 import com.uqpay.sdk.utils.Constants;
 
-import javax.validation.constraints.Email;
+import jakarta.validation.constraints.Email;
 
 public class BankCardExtendDTO extends BankCardDTO {
   private static final long serialVersionUID = -6572498004474248352L;

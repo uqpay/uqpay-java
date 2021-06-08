@@ -8,11 +8,12 @@ import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.utils.Constants;
 import com.uqpay.sdk.utils.PayUtil;
 import com.uqpay.sdk.utils.Tools;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.Validator;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;

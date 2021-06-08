@@ -4,7 +4,7 @@ import com.uqpay.sdk.payment.bean.v1.ParamLink;
 import com.uqpay.sdk.payment.bean.v1.PaygateParams;
 import com.uqpay.sdk.utils.Constants;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class MerchantHostDTO implements PaygateParams {
   private static final long serialVersionUID = 3624987650141836631L;

@@ -1,6 +1,6 @@
 package com.uqpay.sdk.operation.bean;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 public class RealNameDTO extends BaseJsonRequestDTO {
   private static final long serialVersionUID = -1684901069850587924L;

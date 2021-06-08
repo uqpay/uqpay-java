@@ -2,8 +2,8 @@ package com.uqpay.sdk.operation.bean;
 
 import com.uqpay.sdk.utils.enums.SignTypeEnum;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.util.Date;
 

@@ -2,7 +2,7 @@ package com.uqpay.sdk.operation.bean;
 
 import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 
 public class PageRequestDTO extends BaseJsonRequestDTO {
   private static final long serialVersionUID = -6469936701014264919L;
