@@ -19,6 +19,8 @@ public final class PayMethod {
   public static final int DBS_OfflineQR = 1012;
   public static final int DBS_OnlineQR = 1013;
   public static final int RazerPay_OfflineQR = 1014;
+  public static final int DASH_offlineOR = 1016;
+  public static final int DASH_onlineOR = 1017;
   public static final int UnionSecurePay = 1100;
   public static final int UnionPayMerchantHost = 1101;
   public static final int WechatOfficialAccount = 1102;
