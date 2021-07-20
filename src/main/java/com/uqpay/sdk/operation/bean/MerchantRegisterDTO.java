@@ -22,7 +22,17 @@ public class MerchantRegisterDTO extends BaseJsonRequestDTO {
   @NotBlank
   private String regNo; // company register number
   @NotBlank
-  private String regAddress;
+  private String province;
+  @NotBlank
+  private String city;
+  @NotBlank
+  private String zipCode;
+  @NotBlank
+  private String addressLine1;
+
+  private String addressLine2;
+  @NotBlank
+  private String businessScope;
   @NotBlank
   private String country;
   @NotBlank
@@ -74,12 +84,52 @@ public class MerchantRegisterDTO extends BaseJsonRequestDTO {
     this.regNo = regNo;
   }
 
-  public String getRegAddress() {
-    return regAddress;
+  public String getProvince() {
+    return province;
   }
 
-  public void setRegAddress(String regAddress) {
-    this.regAddress = regAddress;
+  public void setProvince(String province) {
+    this.province = province;
+  }
+
+  public String getCity() {
+    return city;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
+  }
+
+  public String getZipCode() {
+    return zipCode;
+  }
+
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
+  }
+
+  public String getAddressLine1() {
+    return addressLine1;
+  }
+
+  public void setAddressLine1(String addressLine1) {
+    this.addressLine1 = addressLine1;
+  }
+
+  public String getAddressLine2() {
+    return addressLine2;
+  }
+
+  public void setAddressLine2(String addressLine2) {
+    this.addressLine2 = addressLine2;
+  }
+
+  public String getBusinessScope() {
+    return businessScope;
+  }
+
+  public void setBusinessScope(String businessScope) {
+    this.businessScope = businessScope;
   }
 
   public String getCountry() {

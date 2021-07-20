@@ -77,8 +77,12 @@ class MerchantTest {
     dto.setRegEmail((Math.random()*9+1)*100000 + "@uqpay.test");
     dto.setCompanyName("test merchant");
     dto.setRegNo("123123123");
-    dto.setRegAddress("im address");
+    dto.setCity("Singapore");
+    dto.setProvince("Singapore");
     dto.setCountry("SG");
+    dto.setZipCode("419529");
+    dto.setAddressLine1("Address Line 1");
+    dto.setBusinessScope("Test");
     dto.setMcc("0742");
     dto.setWebsite("www.uqpay.tech");
     dto.setContact("+65 69096616");
