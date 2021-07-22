@@ -37,6 +37,10 @@ public class MerchantRegisterDTO extends BaseJsonRequestDTO {
   private String country;
   @NotBlank
   private String mcc;
+  @NotBlank
+  private String monthPayAmount;
+  @NotBlank
+  private String monthPayNum;
 
   private String website;
   private String contact;
@@ -178,5 +182,21 @@ public class MerchantRegisterDTO extends BaseJsonRequestDTO {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getMonthPayAmount() {
+    return monthPayAmount;
+  }
+
+  public void setMonthPayAmount(String monthPayAmount) {
+    this.monthPayAmount = monthPayAmount;
+  }
+
+  public String getMonthPayNum() {
+    return monthPayNum;
+  }
+
+  public void setMonthPayNum(String monthPayNum) {
+    this.monthPayNum = monthPayNum;
   }
 }
