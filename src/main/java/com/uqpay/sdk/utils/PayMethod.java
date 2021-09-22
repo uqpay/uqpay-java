@@ -38,6 +38,7 @@ public final class PayMethod {
   public static final int AlipayWebOnline = 1301;
   public static final int FreeCharge = 1302;
   public static final int AlipayWap = 1501;
+  public static final int AuthQuickPay = 1600;
   public static final int Wechat_InAPP = 2000;
   public static final int UnionPay_InAPP = 2001;
   public static final int Alipay_InAPP = 2002;

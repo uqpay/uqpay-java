@@ -7,6 +7,7 @@ import com.uqpay.sdk.config.MemberTypeEnum;
 import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
+import com.uqpay.sdk.operation.bean.ExternalExchangeDTO;
 import com.uqpay.sdk.operation.bean.MerchantRegisterDTO;
 import com.uqpay.sdk.operation.bean.result.BaseAppgateResult;
 import com.uqpay.sdk.utils.enums.SignTypeEnum;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MerchantTest {
   private UQPay uqPay;
   private Merchant merchant;
+  private InterPub interPub;
   @BeforeEach
   void setUp() {
     String partner_prv_key = "-----BEGIN RSA PRIVATE KEY-----\n" +
@@ -66,6 +68,26 @@ class MerchantTest {
         .encipher(SignTypeEnum.RSA, partner_prv_key, false)
         .httpClient(TestHttpClient.class);
     merchant = new Merchant(uqPay);
+    interPub = new InterPub(uqPay);
+  }
+
+  @Test
+  @DisplayName("Testing Internal Public API")
+  void extExchange(){
+    ExternalExchangeDTO dto = new ExternalExchangeDTO();
+    dto.setExchangeRate(6.5);
+    dto.setAmount(65.0);
+    dto.setCostAmount(10.0);
+    dto.setOriginalCurrency("USD");
+    dto.setTargetCurrency("CNH");
+    try {
+      BaseAppgateResult result = interPub.queryExchangeRate(dto);
+      assertNotNull(result);
+      assertTrue(result.getMerchantId() > 0);
+      assertEquals(result.getAgentId(), 1005393);
+    } catch (UqpayRSAException | UqpayResultVerifyException | IOException | UqpayPayFailException e) {
+      e.printStackTrace();
+    }
   }
 
   @Test

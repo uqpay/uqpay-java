@@ -11,6 +11,7 @@ import com.uqpay.sdk.utils.enums.*;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 import com.uqpay.sdk.utils.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import jakarta.validation.ConstraintViolation;
@@ -136,6 +137,15 @@ public class Payment {
     if (tx.getScanType().equals(UqpayScanType.Merchant) && tx.getIdentity() == null)
       throw new NullPointerException("UQPAY: need the identity data when scan type is merchant");
     return uqPay.request(tx, getUrl(Constants.PAYGATE_API_DIGICCY), DigiccyResult.class);
+  }
+
+  public ApiResponse<TransResult> authQuick(AuthQuickTX tx) throws UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException, IOException {
+    tx.setTransType(UqpayTransType.pay);
+    if (ObjectUtils.isEmpty(tx.getIdNo())) throw new NullPointerException("UQPAY:need Card Holder register ID No.");
+    if (ObjectUtils.isEmpty(tx.getPhone())) throw new NullPointerException("UQPAY:need Card Holder register Phone");
+    if (ObjectUtils.isEmpty(tx.getRealName())) throw new NullPointerException("UQPAY: need Card Holder register real name");
+    if (ObjectUtils.isEmpty(tx.getCardNum())) throw new NullPointerException("UQPAY: need Card Num");
+    return uqPay.request(tx, getUrl(Constants.PAYGATE_API_PAY_V2), TransResult.class);
   }
 
   public ApiResponse<TransResult> bankCard(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {

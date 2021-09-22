@@ -88,7 +88,6 @@ public class UQPay {
     return secretKey;
   }
 
-  @Deprecated
   public void wrapParams(Map<String, String> paramsMap) throws UqpayRSAException {
     // set identity info
     if (memberType.equals(MemberTypeEnum.AGENT)) {
@@ -107,7 +106,6 @@ public class UQPay {
   /**
    * v1.x pay api request
    */
-  @Deprecated
   public <T> ApiResponse<T> request(Map<String, String> paramsMap, String url, Class<T> resultClass) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     wrapParams(paramsMap);
     // request
@@ -142,7 +140,6 @@ public class UQPay {
     return response;
   }
 
-  @Deprecated
   private <T extends BaseJsonRequestDTO> T wrapParams(T params) throws IOException, UqpayRSAException {
     // set identity info
     if (memberType.equals(MemberTypeEnum.AGENT)) {
@@ -163,14 +160,13 @@ public class UQPay {
   /**
    * v1.x operation api request
    */
-  @Deprecated
   public <T extends BaseAppgateResult, E extends BaseJsonRequestDTO> T request(E params, String url, Class<T> resultClass) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
     params.setDate(new Date());
     wrapParams(params);
     // request
     Map<String, String> headers = new HashMap<>();
-    headers.put("content-type", "application/json;charset=UTF-8");
-    headers.put("accept", "application/json;charset=UTF-8");
+    headers.put("content-type", "application/json");
+    headers.put("accept", "application/json");
     String rspBody = httpClient.post(headers, Tools.objToJson(params), url);
     if (rspBody == null) {
       return null;
@@ -188,9 +184,10 @@ public class UQPay {
     Map<String, String> headers = new HashMap<>();
     headers.put(IDENTITY_HEADER_KEY_MEMBER, String.valueOf(memberId));
     headers.put(IDENTITY_HEADER_KEY_TYPE, String.valueOf(memberType));
-    headers.put("content-type", "application/json;charset=UTF-8");
-    headers.put("accept", "application/json;charset=UTF-8");
-
+    headers.put("content-type", "application/json");
+    headers.put("accept", "application/json");
+    // encrypt
+    PayUtil.encryptTX(params,secureConfig);
     // sign
     params.setSignType(secureConfig.getEncipher().getSignType());
     params.setSignature(SIGNATURE_PLACEHOLDER);
@@ -233,8 +230,8 @@ public class UQPay {
   public <T extends BaseJsonRequestDTO> void doDownload(T params, ResourceTypeEnum resourceType, String url) throws IOException, UqpayRSAException {
     wrapParams(params);
     Map<String, String> headers = new HashMap<>();
-    headers.put("content-type", "application/json;charset=UTF-8");
-    headers.put("accept", "application/json;charset=UTF-8");
+    headers.put("content-type", "application/json");
+    headers.put("accept", "application/json");
     httpClient.download(headers, Tools.objToJson(params), url, resourceType);
   }
 

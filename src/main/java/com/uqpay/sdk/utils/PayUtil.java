@@ -1,12 +1,13 @@
 package com.uqpay.sdk.utils;
 
+import com.uqpay.sdk.bean.BasicRequest;
 import com.uqpay.sdk.config.SecretResult;
 import com.uqpay.sdk.config.SecureConfig;
+import com.uqpay.sdk.payment.bean.tx.BasicTX;
+import com.uqpay.sdk.payment.bean.tx.Encrypt;
 import com.uqpay.sdk.payment.bean.v1.ParamLink;
 import com.uqpay.sdk.payment.bean.v1.PaygateParams;
 import com.uqpay.sdk.operation.bean.BaseJsonRequestDTO;
-import com.uqpay.sdk.payment.bean.v1.BaseResult;
-import com.uqpay.sdk.exception.UqpayPayFailException;
 import com.uqpay.sdk.exception.UqpayRSAException;
 import com.uqpay.sdk.exception.UqpayResultVerifyException;
 
@@ -14,9 +15,6 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class PayUtil {
 
@@ -29,6 +27,26 @@ public class PayUtil {
       }
     });
     return paramsMap;
+  }
+
+  public static void encryptTX(BasicRequest tx, SecureConfig secureConfig){
+    Field[] fields = Tools.getAllFields(tx.getClass());
+    for (Field field : fields) {
+      Encrypt encrypt = field.getAnnotation(Encrypt.class);
+      if (encrypt == null) continue;
+      String name = Tools.capitalize(field.getName());
+      try {
+        Method getValue = tx.getClass().getMethod("get" + name);
+        if (getValue.getReturnType() == String.class) {
+          String value = (String) getValue.invoke(tx);
+          Method setValue = tx.getClass().getMethod("set" + name, String.class);
+          String encValue = secureConfig.encrypt(value);
+          setValue.invoke(tx, encValue);
+        }
+      } catch (Exception ex) {
+        // no need care no method exception
+      }
+    }
   }
 
   public static void params2Map(Map<String, String> target, PaygateParams params) {

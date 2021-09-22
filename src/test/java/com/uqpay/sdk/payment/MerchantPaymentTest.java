@@ -13,6 +13,7 @@ import com.uqpay.sdk.operation.bean.EmvcoCreateDTO;
 import com.uqpay.sdk.operation.bean.result.QRCodeResult;
 import com.uqpay.sdk.payment.bean.result.DigiccyResult;
 import com.uqpay.sdk.payment.bean.result.OnlineResult;
+import com.uqpay.sdk.payment.bean.tx.AuthQuickTX;
 import com.uqpay.sdk.payment.bean.tx.OnlineTX;
 import com.uqpay.sdk.payment.bean.tx.QRCodeTX;
 import com.uqpay.sdk.payment.bean.v1.*;
@@ -211,7 +212,6 @@ public class MerchantPaymentTest {
     tx.setMethodId(PayMethod.DIGICCY);
     tx.setAmount(0.001);
     tx.setTransName("product info");
-    tx.setCallbackUrl("127.0.0.1");
     tx.setQuantity(1);
     tx.setClientType(ClientType.Web);
     tx.setCallbackUrl("https://localhost:8080/async");
@@ -233,7 +233,35 @@ public class MerchantPaymentTest {
     } catch (UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException | IOException e) {
       e.printStackTrace();
     }
+  }
 
+  @Test
+  @DisplayName("Testing AuthQuick")
+  void authQuick(){
+    AuthQuickTX tx = new AuthQuickTX();
+    tx.setMethodId(PayMethod.AuthQuickPay);
+    tx.setAmount(10);
+    tx.setCurrency("CNY");
+    tx.setTransName("product info");
+    tx.setCallbackUrl("https://localhost:8080/async");
+    tx.setClientIp("127.0.0.1");
+    tx.setClientType(ClientType.Web);
+    tx.setIdNo("11111111111111111111111111111111");
+    tx.setCardNum("6288888888888888");
+    tx.setPhone("18918981898");
+    tx.setRealName("RealName");
+    try {
+      ApiResponse<TransResult> res = payment.authQuick(tx);
+      if (res.isSuccess()) {
+        assertEquals(res.getCode(), 10001);
+        assertNotNull(res.getData(), "Should get the payment result");
+        assertNotNull(res.getData().getQrCode());
+        assertNotNull(res.getData().getQrCodeUrl());
+        System.out.println(res.getData().getQrCodeUrl());
+      }
+    } catch (UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException | IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Test
