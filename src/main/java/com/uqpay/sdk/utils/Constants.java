@@ -100,4 +100,5 @@ public class Constants {
   public static final String APPGATE_API_FINANCE_BALANCE = "/finance/balance";
   public static final String APPGATE_API_HOST_INIT = "/hosted/init";
   public static final String APPGATE_API_INTERPUB_EXCHANGE = "/interpub/exchange";
+  public static final String APPGATE_API_FINANCE_ACCOUNT_TOPUP_VIEW = "/finance/account/topup/view"; //获取充值账户
 }

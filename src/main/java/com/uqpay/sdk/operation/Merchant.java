@@ -73,5 +73,9 @@ public class Merchant {
     return uqPay.request(requestDTO, uqPay.getAppUrl(Constants.APPGATE_API_PRODUCT_LIST), MerchantPayMethodListResult.class);
   }
 
+  public final TopUpAccountResult getTopUpAccount(BaseJsonRequestDTO requestDTO) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
+    validateRequestParams(requestDTO, "request data invalid for get topUp account");
+    return uqPay.request(requestDTO, uqPay.getAppUrl(Constants.APPGATE_API_FINANCE_ACCOUNT_TOPUP_VIEW), TopUpAccountResult.class);
+  }
 
 }

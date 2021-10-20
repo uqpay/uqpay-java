@@ -26,6 +26,7 @@ public enum PayMethodEnum {
   WechatOfficialAccount(PayMethod.WechatOfficialAccount, ScenesEnum.DirectPay),
   WechatMiniProgram(PayMethod.WechatMiniProgram, ScenesEnum.DirectPay),
   UnionSecurePay(PayMethod.UnionSecurePay, ScenesEnum.OnlinePay),
+  GatewayPayment(PayMethod.GatewayPayment, ScenesEnum.OnlinePay),
   GrabOTC(PayMethod.GrabOTC, ScenesEnum.OnlinePay),
   VISA(PayMethod.VISA, ScenesEnum.CreditCard),
   VISA3D(PayMethod.VISA3D, ScenesEnum.ThreeDCreditCard),
