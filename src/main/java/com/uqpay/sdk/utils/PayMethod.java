@@ -21,10 +21,24 @@ public final class PayMethod {
   public static final int RazerPay_OfflineQR = 1014;
   public static final int DASH_OfflineOR = 1016;
   public static final int DASH_OnlineOR = 1017;
+  public static final int ShopeeOfflineQR = 1018;
+  public static final int ShopeeOnlineQR = 1019;
+  public static final int ShopeeStaticQR = 1020;
+  public static final int XNAP = 1021;
+  public static final int ThaiQR = 1022;
+  public static final int TNGOfflineQR = 1023;
+  public static final int KAKAOPAYOfflineQR = 1024;
+  public static final int PayLahOfflineQR = 1025;
   public static final int UnionSecurePay = 1100;
   public static final int UnionPayMerchantHost = 1101;
   public static final int WechatOfficialAccount = 1102;
   public static final int GatewayPayment = 1105;
+  public static final int DANAOnline = 1106;
+  public static final int GCASHOnline = 1107;
+  public static final int KAKAOPAYOnline = 1108;
+  public static final int TNGOnline = 1109;
+  public static final int TrueMoneyOnline = 1110;
+  public static final int AlipayHKOnline = 1111;
   public static final int WechatMiniProgram = 1401;
   public static final int UnionPayServerHost = 1103;
   public static final int GrabOTC = 1104;
@@ -38,11 +52,13 @@ public final class PayMethod {
   public static final int PayPal = 1300;
   public static final int AlipayWebOnline = 1301;
   public static final int FreeCharge = 1302;
+  public static final int ShopeeOnline = 1303;
   public static final int AlipayWap = 1501;
   public static final int AuthQuickPay = 1600;
   public static final int Wechat_InAPP = 2000;
   public static final int UnionPay_InAPP = 2001;
   public static final int Alipay_InAPP = 2002;
+  public static final int Shopee_InAPP = 2003;
   public static final int ApplePay = 3000;
   public static final int QuickPay = 3001;
   public static final int BTC_Online = 5000;
@@ -55,5 +71,5 @@ public final class PayMethod {
   public static final int USDT_Offline = 5007;
   public static final int USDC_Online = 5008;
   public static final int USDC_Offline = 5009;
-  public static final int REAL_NAME_PAYMENT =  11000;//realname payment
+  public static final int REAL_NAME_PAYMENT = 11000;//realname payment
 }
