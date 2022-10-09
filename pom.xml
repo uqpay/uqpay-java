@@ -7,7 +7,7 @@
     <groupId>com.uqpay.sdk</groupId>
     <artifactId>uqpay-payment</artifactId>
 
-    <version>5.9.2</version>
+    <version>5.9.3</version>
     <packaging>jar</packaging>
     <url>https://github.com/uqpaytechnology/java-server-sdk</url>
 
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.12.7</version>
+            <version>2.13.4</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
