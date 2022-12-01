@@ -54,6 +54,7 @@ public final class PayMethod {
   public static final int FreeCharge = 1302;
   public static final int ShopeeOnline = 1303;
   public static final int AlipayWap = 1501;
+  public static final int WechatH5 = 1502;
   public static final int AuthQuickPay = 1600;
   public static final int Wechat_InAPP = 2000;
   public static final int UnionPay_InAPP = 2001;

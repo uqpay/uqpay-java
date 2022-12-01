@@ -70,7 +70,8 @@ public enum PayMethodEnum {
   USDT_Offline(PayMethod.USDT_Offline, ScenesEnum.OfflineQRCode),
   USDC_Online(PayMethod.USDC_Online, ScenesEnum.OnlineQRCode),
   USDC_Offline(PayMethod.USDC_Offline, ScenesEnum.OfflineQRCode),
-  REAL_NAME_PAYMENT(PayMethod.REAL_NAME_PAYMENT, ScenesEnum.OnlinePay);
+  REAL_NAME_PAYMENT(PayMethod.REAL_NAME_PAYMENT, ScenesEnum.OnlinePay),
+  Wechat_H5(PayMethod.WechatH5, ScenesEnum.OnlinePay);
 
   private int value;
   private ScenesEnum scenes;
