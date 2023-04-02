@@ -10,7 +10,7 @@ public enum ScenesEnum {
   OnlineQRCode,// 101
   OfflineQRCode,// 106 离线扫码
   CreditCard, // 102
-  ThreeDCreditCard, // 103
+  AuthorizePay, // 103
   OnlinePay, // 104
   DirectPay, // 105
   MerchantHost, // 110

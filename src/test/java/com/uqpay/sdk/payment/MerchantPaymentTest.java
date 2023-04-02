@@ -176,6 +176,36 @@ public class MerchantPaymentTest {
   }
 
   @Test
+  @DisplayName("Testing BankCard")
+  void BankCard3D() {
+    payOrder.setMethodId(PayMethod.VISA3D);
+    payOrder.setCurrency("SGD");
+    BankCardExtendDTO bankCard = new BankCardExtendDTO();
+    bankCard.setCardNum("4000000000001091");
+    bankCard.setCvv("555");
+    bankCard.setExpireMonth("12");
+    bankCard.setExpireYear("33");
+    bankCard.setFirstName("test");
+    bankCard.setLastName("test");
+    bankCard.setAddressCountry("SG");
+
+    payOrder.setBankCard(bankCard);
+    try {
+      ApiResponse<RedirectPostData> res = payment.credit3D(payOrder);
+      if (res.isSuccess()) {
+        assertEquals(res.getCode(), 10001);
+        assertNotNull(res.getData(), "Should get the payment result");
+        assertNotNull(res.getData().getApiURL());
+        assertTrue(res.getData().getPostData().size()>0);
+      } else {
+        System.out.println(res.getMessage());
+      }
+    } catch (IOException | UqpayRSAException | UqpayResultVerifyException | UqpayPayFailException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
   @DisplayName("Testing Online")
   void online() {
     OnlineTX onlineTX = new OnlineTX();

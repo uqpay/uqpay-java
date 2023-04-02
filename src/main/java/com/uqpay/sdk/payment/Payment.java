@@ -95,6 +95,28 @@ public class Payment {
     return result;
   }
 
+  public ApiResponse<RedirectPostData> credit3D(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+    order.setTradeType(UqpayTransType.pay);
+    switch (order.getMethodId()) {
+      case PayMethod.VISA3D:
+      case PayMethod.Master3D:
+        validatePayData(order.getBankCard());
+        break;
+      default:
+        validatePayData(BankCardDTO.valueOf(order.getBankCard()));
+    }
+    Map<String, String> paramsMap = PayUtil.params2Map(order, order.getBankCard());
+    uqPay.wrapParams(paramsMap);
+    RedirectPostData redirectPost = new RedirectPostData();
+    redirectPost.setApiURL(getUrl(Constants.PAYGATE_API_PAY));
+    redirectPost.setPostData(paramsMap);
+    ApiResponse<RedirectPostData> result = new ApiResponse<>();
+    result.setCode(10002);
+    result.setSuccess(true);
+    result.setData(redirectPost);
+    return result;
+  }
+
   public ApiResponse<OnlineResult> online(OnlineTX tx) throws UqpayRSAException, IOException, UqpayResultVerifyException, UqpayPayFailException {
     tx.setTransType(UqpayTransType.pay);
     if (tx.getCardNum() != null && tx.getCardNum().length() > 0) {
@@ -164,29 +186,29 @@ public class Payment {
     return uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), TransResult.class);
   }
 
-  public ApiResponse<ThreeDResult> threeD(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
-    order.setTradeType(UqpayTransType.pay);
-    if (order.getThreeDFinish() == null) {
-      validatePayData(order.getBankCard());
-    }
-    if (order.getPaResCbUrl() == null || order.getPaResCbUrl().equals(""))
-      throw new NullPointerException("uqpay 3D Credit Card Payment need url to handle the PaResponse");
-    Map<String, String> paramsMap = PayUtil.params2Map(order, order.getBankCard(), order.getThreeDFinish());
-    ApiResponse<ThreeDResult> response = uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), ThreeDResult.class);
-    ThreeDResult threeDResult = response.getData();
-    if (threeDResult != null && threeDResult.getState().equals(OrderStateEnum.Paying.name())) {
-      if (StringUtils.isNotBlank(threeDResult.getPaRequest()) && StringUtils.isNotBlank(threeDResult.getAscUrl())) {
-        Map<String, String> postData = new HashMap<>();
-        postData.put("PaReq", threeDResult.getPaRequest());
-        postData.put("TermUrl", order.getPaResCbUrl());
-        RedirectPostData redirectPostData = new RedirectPostData();
-        redirectPostData.setPostData(postData);
-        redirectPostData.setApiURL(threeDResult.getAscUrl());
-        threeDResult.setRedirectPostData(redirectPostData);
-      }
-    }
-    return response;
-  }
+//  public ApiResponse<ThreeDResult> threeD(PayOrder order) throws IOException, UqpayRSAException, UqpayResultVerifyException, UqpayPayFailException {
+//    order.setTradeType(UqpayTransType.pay);
+//    if (order.getThreeDFinish() == null) {
+//      validatePayData(order.getBankCard());
+//    }
+//    if (order.getPaResCbUrl() == null || order.getPaResCbUrl().equals(""))
+//      throw new NullPointerException("uqpay 3D Credit Card Payment need url to handle the PaResponse");
+//    Map<String, String> paramsMap = PayUtil.params2Map(order, order.getBankCard(), order.getThreeDFinish());
+//    ApiResponse<ThreeDResult> response = uqPay.request(paramsMap, getUrl(Constants.PAYGATE_API_PAY), ThreeDResult.class);
+//    ThreeDResult threeDResult = response.getData();
+//    if (threeDResult != null && threeDResult.getState().equals(OrderStateEnum.Paying.name())) {
+//      if (StringUtils.isNotBlank(threeDResult.getPaRequest()) && StringUtils.isNotBlank(threeDResult.getAscUrl())) {
+//        Map<String, String> postData = new HashMap<>();
+//        postData.put("PaReq", threeDResult.getPaRequest());
+//        postData.put("TermUrl", order.getPaResCbUrl());
+//        RedirectPostData redirectPostData = new RedirectPostData();
+//        redirectPostData.setPostData(postData);
+//        redirectPostData.setApiURL(threeDResult.getAscUrl());
+//        threeDResult.setRedirectPostData(redirectPostData);
+//      }
+//    }
+//    return response;
+//  }
 
   public ApiResponse<TransResult> hostByMerchant(PayOrder order) throws UqpayRSAException, UqpayResultVerifyException, IOException, UqpayPayFailException {
     order.setTradeType(UqpayTransType.pay);
