@@ -79,7 +79,7 @@ public class MerchantPaymentTest {
         .decipher(SignTypeEnum.RSA, mer_uq_pub_key, false)
         .encipher(SignTypeEnum.RSA, mer_prv_key, false)
         .httpClient(TestHttpClient.class)
-        .setApiUrl("paygate", "http://localhost:8686", "https://paygate.uqpay.net", "https://paygate.uqpay.com");
+        .setApiUrl("paygate", "http://localhost:8686", "https://paygate.uqpay.net", "https://paygate.uqpay.net");
     payment = new Payment(uqPay);
     emvco = new Emvco(uqPay);
 

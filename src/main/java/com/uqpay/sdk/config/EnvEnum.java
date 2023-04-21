@@ -10,6 +10,24 @@ public enum EnvEnum {
     this.value = value;
   }
 
+  public static EnvEnum nameOf(String name) {
+    for (EnvEnum val : EnvEnum.values()) {
+      if (val.name().equals(name)) {
+        return val;
+      }
+    }
+    return null;
+  }
+
+  public static EnvEnum valueOf(short value) {
+    for (EnvEnum val : EnvEnum.values()) {
+      if (value == val.getValue()) {
+        return val;
+      }
+    }
+    return null;
+  }
+
   public int getValue() {
     return value;
   }
