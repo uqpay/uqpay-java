@@ -12,7 +12,7 @@ add maven dependencies
 <dependency>
     <groupId>com.uqpay.sdk</groupId>
     <artifactId>uqpay-payment</artifactId>
-    <version>5.9.2</version>
+    <version>5.9.6</version>
 </dependency>
 ```
 
