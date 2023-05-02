@@ -58,6 +58,10 @@ public class Constants {
   public static final String BANK_CARD_EXPIRE_MONTH = "expiremonth";
   public static final String BANK_CARD_EXPIRE_YEAR = "expireyear";
   public static final String BANK_CARD_ADDRESS_COUNTRY = "addresscountry";
+  public static final String BANK_CARD_ADDRESS = "address";
+  public static final String BANK_CARD_ADDRESS_CITY = "addresscity";
+  public static final String BANK_CARD_ADDRESS_STATE = "addressstate";
+  public static final String BANK_CARD_ZIP = "zip";
   public static final String BANK_CARD_PHONE = "phone";
   public static final String BANK_CARD_EMAIL = "email";
   public static final String BANK_CARD_THREE_D_UQORDERID= "uqorderid";
