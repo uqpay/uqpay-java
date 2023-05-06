@@ -16,6 +16,7 @@ public class ApiResponse<T> {
   private boolean success; // It only indicates whether the request was successful or not. It has no business significance.
   private int code; // see https://developer.uqpay.com/api/#/appendix?id=_4-return-code
   private String message; // warning or error message
+  private String body; // 返回的body
   private T data; // business data
   private String signature; // Used to verify whether the result is from UQPAY
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -67,5 +68,13 @@ public class ApiResponse<T> {
 
   public void setTimestamp(Date timestamp) {
     this.timestamp = timestamp;
+  }
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
   }
 }

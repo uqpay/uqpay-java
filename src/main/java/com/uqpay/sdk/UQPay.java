@@ -118,6 +118,7 @@ public class UQPay {
     // verify
     Map<String, String> resultMap = Tools.json2map(rspBody);
     ApiResponse<T> response = new ApiResponse<T>();
+    response.setBody(rspBody);
     try {
       Object value = resultMap.get(Constants.RESULT_CODE);
       int code = Integer.parseInt(value.toString());
@@ -200,7 +201,7 @@ public class UQPay {
       return null;
     }
     ApiResponse<T> response = Tools.json2Rsp(rspBody, resultClass);
-
+    response.setBody(rspBody);
     // only when the request is success, need verify;
     if (response.isSuccess()) {
       // verify
